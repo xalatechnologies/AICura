@@ -1,20 +1,9 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { I18nextProvider } from 'react-i18next';
-import { ThemeProvider, useAppTheme } from './src/context/ThemeContext';
-import { RootNavigator } from './src/navigation/RootNavigator';
+import { ThemeProvider } from './src/theme/ThemeContext';
 import i18n from './src/i18n';
-
-function AppContent() {
-  const { theme } = useAppTheme();
-
-  return (
-    <NavigationContainer theme={theme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
-}
+import AppContent from './src/navigation/AppContent.js';
 
 export default function App() {
   return (

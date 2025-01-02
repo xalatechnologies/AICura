@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from '@theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { supabase } from '../lib/supabase';
-import { changeLanguage } from '../i18n';
+import { supabase } from '@lib/supabase';
+import { changeLanguage } from '@i18n/index';
 
 interface Language {
   code: string;

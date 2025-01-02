@@ -23,10 +23,10 @@ import Animated, {
   withSequence,
   withDelay,
 } from 'react-native-reanimated';
-import { useTheme } from '../context/ThemeContext';
-import { lightTheme, darkTheme } from '../styles/theme';
+import { useTheme } from '@theme/ThemeContext';
+import { lightTheme, darkTheme } from '@styles/theme';
 import { Moon, MessageCircle, Calendar, Activity, Send, Phone, RotateCcw } from 'react-native-feather';
-import { useSymptomAnalysis } from '../hooks/useSymptomAnalysis';
+import { useSymptomAnalysis } from '@hooks/useSymptomAnalysis';
 import { debounce } from 'lodash';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Svg, Circle } from 'react-native-svg';
@@ -687,7 +687,6 @@ const HomeScreen = () => {
   }, [resetAnalysis]);
 
   const handleAppointment = useCallback(() => {
-    // Navigate to appointments screen
     navigation.navigate('Appointments');
   }, [navigation]);
 

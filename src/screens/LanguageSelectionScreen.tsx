@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
-import { supabase } from '../lib/supabase';
-import { changeLanguage } from '../i18n';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { isSupabaseConfigured } from '@lib/supabase';
+import { useAuth } from '@contexts/AuthContext';
+import { changeLanguage } from '@i18n/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Language {
   code: string;
   name: string;
   nativeName: string;
-  flag: any;
+  icon: string;
 }
 
 const languages: Language[] = [
@@ -17,47 +20,44 @@ const languages: Language[] = [
     code: 'en',
     name: 'English',
     nativeName: 'English',
-    flag: require('../assets/flags/en.png')
+    icon: 'language-outline'
   },
   {
     code: 'es',
     name: 'Spanish',
     nativeName: 'Español',
-    flag: require('../assets/flags/es.png')
+    icon: 'language-outline'
   },
   {
     code: 'no',
     name: 'Norwegian',
     nativeName: 'Norsk',
-    flag: require('../assets/flags/no.png')
+    icon: 'language-outline'
   },
   {
     code: 'ar',
     name: 'Arabic',
     nativeName: 'العربية',
-    flag: require('../assets/flags/ar.png')
+    icon: 'language-outline'
   }
 ];
 
 export const LanguageSelectionScreen = ({ navigation }: any) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const { updateProfile } = useAuth();
 
   const handleLanguageSelect = async (language: Language) => {
     try {
       // Change app language
       await changeLanguage(language.code);
 
-      // Save to Supabase if user is logged in
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        await supabase
-          .from('profiles')
-          .upsert({
-            id: user.id,
-            language: language.code,
-            updated_at: new Date().toISOString(),
-          });
+      // Save language preference locally
+      await AsyncStorage.setItem('userLanguage', language.code);
+
+      // Update profile if Supabase is configured
+      if (isSupabaseConfigured()) {
+        await updateProfile({ language: language.code });
       }
 
       // Navigate to next screen
@@ -80,7 +80,7 @@ export const LanguageSelectionScreen = ({ navigation }: any) => {
             style={[styles.languageButton, { backgroundColor: colors.card }]}
             onPress={() => handleLanguageSelect(language)}
           >
-            <Image source={language.flag} style={styles.flag} />
+            <Icon name={language.icon} size={32} color={colors.primary} style={styles.icon} />
             <View style={styles.languageInfo}>
               <Text style={[styles.languageName, { color: colors.text }]}>
                 {language.name}
@@ -89,6 +89,7 @@ export const LanguageSelectionScreen = ({ navigation }: any) => {
                 {language.nativeName}
               </Text>
             </View>
+            <Icon name="chevron-forward" size={24} color={colors.text} />
           </TouchableOpacity>
         ))}
       </View>
@@ -124,10 +125,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  flag: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  icon: {
     marginRight: 15,
   },
   languageInfo: {

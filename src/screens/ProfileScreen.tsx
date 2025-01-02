@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { LanguageToggle } from '../components/LanguageToggle';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { LanguageToggle, ThemeToggle } from '@components/index';
 
 export const ProfileScreen = () => {
   const { colors } = useTheme();
