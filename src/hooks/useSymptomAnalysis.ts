@@ -31,6 +31,13 @@ export interface FollowUpRound {
   questions: FollowUpQuestion[];
 }
 
+export interface CTAOption {
+  id: string;
+  label: string;
+  action: 'new_check' | 'appointment' | 'contact_doctor';
+  icon: string;
+}
+
 const ROUND_QUESTIONS: FollowUpRound[] = [
   {
     round: 1,
@@ -106,7 +113,17 @@ export function useSymptomAnalysis() {
   const [roundAnswers, setRoundAnswers] = useState<FollowUpAnswer[]>([]);
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
   const [allAnswers, setAllAnswers] = useState<FollowUpAnswer[]>([]);
+  const [showCTAs, setShowCTAs] = useState(false);
   const abortController = useRef<AbortController | null>(null);
+
+  const resetAnalysis = useCallback(() => {
+    setMessages([]);
+    setSuggestions([]);
+    setCurrentRound(null);
+    setCurrentRoundNumber(0);
+    setAllAnswers([]);
+    setShowCTAs(false);
+  }, []);
 
   const getSymptomsInput = useCallback(async (input: string) => {
     if (input.length < 2) {
@@ -216,18 +233,13 @@ export function useSymptomAnalysis() {
   }, []);
 
   const submitRoundAnswers = useCallback(async (answers: FollowUpAnswer[]) => {
-    // Store answers without displaying them
     setAllAnswers(prev => [...prev, ...answers]);
-
-    // Clear current round answers
     setRoundAnswers([]);
 
-    // If there's another round, process it
     if (currentRoundNumber < 3) {
       processFollowUpRound(currentRoundNumber + 1);
     } else {
-      // Final analysis after all rounds
-      const initialSymptom = messages[messages.length - 2]?.content || '';
+      const initialSymptom = messages[0]?.content || '';
       const formattedAnswers = allAnswers
         .concat(answers)
         .map(a => {
@@ -239,20 +251,28 @@ export function useSymptomAnalysis() {
         })
         .join('\n');
       
-      // Reset states before final analysis
       setCurrentRound(null);
       setCurrentRoundNumber(0);
       setAllAnswers([]);
 
-      // Clear previous messages except the initial symptom
-      const initialMessages = messages.slice(0, 2);
-      setMessages(initialMessages);
+      try {
+        const finalAnalysis = await analyzeSymptoms(
+          `Based on the patient's initial report of: "${initialSymptom}"\n\nDetailed Information from Follow-up Questions:\n${formattedAnswers}\n\nPlease provide a comprehensive assessment and potential diagnoses.`,
+          true
+        );
 
-      // Send final assessment request
-      await submitSymptoms(
-        `Based on the patient's initial report of: "${initialSymptom}"\n\nDetailed Information from Follow-up Questions:\n${formattedAnswers}\n\nPlease provide a comprehensive assessment and potential diagnoses.`,
-        true
-      );
+        const aiMessage: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: finalAnalysis,
+          timestamp: Date.now(),
+        };
+
+        setMessages(prev => [prev[0], aiMessage]);
+        setShowCTAs(true); // Show CTA buttons after final assessment
+      } catch (error) {
+        console.error('Error in final assessment:', error);
+      }
     }
   }, [currentRoundNumber, allAnswers, messages]);
 
@@ -261,79 +281,48 @@ export function useSymptomAnalysis() {
     processFollowUpRound(1);
   }, []);
 
-  const submitSymptoms = useCallback(async (symptoms: string, isFinalAssessment = false) => {
+  const submitSymptoms = useCallback(async (symptoms: string) => {
     setIsAnalyzing(true);
     setSuggestions([]);
 
-    if (!isFinalAssessment) {
-      // For initial symptom submission
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        role: 'user',
-        content: symptoms,
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: symptoms,
+      timestamp: Date.now(),
+    };
+    setMessages([userMessage]); // Start fresh conversation
+
+    try {
+      if (abortController.current) {
+        abortController.current.abort();
+      }
+      abortController.current = new AbortController();
+
+      const analysisContent = await analyzeSymptoms(symptoms);
+
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: analysisContent,
         timestamp: Date.now(),
       };
-      setMessages([userMessage]); // Start fresh conversation
+      setMessages(prev => [...prev, aiMessage]);
 
-      try {
-        if (abortController.current) {
-          abortController.current.abort();
-        }
-        abortController.current = new AbortController();
+      // Start follow-up questions
+      setTimeout(() => {
+        setCurrentRound(ROUND_QUESTIONS[0]);
+        setCurrentRoundNumber(1);
+      }, 500);
 
-        const stream = await analyzeSymptoms(symptoms);
-        let analysisContent = '';
-
-        for await (const chunk of stream) {
-          const content = chunk.choices[0]?.delta?.content || '';
-          analysisContent += content;
-        }
-
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: analysisContent,
-          timestamp: Date.now(),
-        };
-        setMessages(prev => [...prev, aiMessage]);
-
-        // Start follow-up questions
-        setTimeout(() => {
-          setCurrentRound(ROUND_QUESTIONS[0]);
-          setCurrentRoundNumber(1);
-        }, 500);
-      } catch (error: unknown) {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Error analyzing symptoms:', error);
-        }
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Error analyzing symptoms:', error);
       }
-    } else {
-      // For final assessment
-      try {
-        const stream = await analyzeSymptoms(symptoms);
-        let analysisContent = '';
-
-        for await (const chunk of stream) {
-          const content = chunk.choices[0]?.delta?.content || '';
-          analysisContent += content;
-        }
-
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: analysisContent,
-          timestamp: Date.now(),
-        };
-        setMessages(prev => [...prev, aiMessage]);
-      } catch (error: unknown) {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Error in final assessment:', error);
-        }
-      }
+    } finally {
+      setIsAnalyzing(false);
+      abortController.current = null;
     }
-
-    setIsAnalyzing(false);
-    abortController.current = null;
   }, []);
 
   return {
@@ -341,11 +330,12 @@ export function useSymptomAnalysis() {
     messages,
     isAnalyzing,
     currentRound,
-    roundAnswers,
+    showCTAs,
     getSymptomsInput,
     submitSymptoms,
     handleFollowUpResponse,
     submitRoundAnswers,
-    setRoundAnswers,
+    resetAnalysis,
+    setMessages,
   };
 }

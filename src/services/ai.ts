@@ -1,19 +1,13 @@
 import OpenAI from 'openai';
 import { DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL, OPENAI_API_KEY } from './ai-config';
 
-const SYSTEM_PROMPT = `You are an advanced AI medical assistant. Provide responses in the following format:
+const SYSTEM_PROMPT = `You are an advanced AI medical assistant. Follow this response format:
 
-1. Initial Response:
-- Brief summary of the user's main symptoms (2-3 sentences)
-- Express empathy and acknowledge the impact
-- Do not include any diagnosis yet
+First, provide a brief 2-3 sentence summary of the user's symptoms and express empathy about their impact. Do not include any diagnosis yet.
 
-2. Follow-up Questions:
-- Ask only the current round's questions
-- Do not show future rounds
-- Do not include any analysis until all rounds are complete
+Then, gather information through three rounds of follow-up questions. Only show the current round's questions, and do not include any analysis until all rounds are complete.
 
-3. Final Analysis (only after completing all rounds):
+For the final analysis (only after all rounds), provide:
 - Comprehensive symptom analysis
 - Potential causes and conditions
 - Clear recommendations
@@ -169,26 +163,31 @@ export const getSuggestions = async (input: string): Promise<string[]> => {
     });
 };
 
-export async function analyzeSymptoms(symptoms: string, useOpenAI = false) {
+export async function analyzeSymptoms(symptoms: string, useOpenAI = true) {
   const client = useOpenAI ? openaiClient : deepseekClient;
   const model = useOpenAI ? 'gpt-4-turbo-preview' : 'deepseek-chat';
 
-  const response = await client.chat.completions.create({
-    model,
-    messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'user', content: `Analyze the following symptoms and provide insights: ${symptoms}` }
-    ],
-    temperature: 0.7,
-    max_tokens: 500,
-    stream: true,
-  });
+  try {
+    const response = await client.chat.completions.create({
+      model,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `Analyze the following symptoms and provide insights: ${symptoms}` }
+      ],
+      temperature: 0.7,
+      max_tokens: 500,
+      stream: false,
+    });
 
-  if (!response) {
-    throw new Error('No response from AI service');
+    if (!response) {
+      throw new Error('No response from AI service');
+    }
+
+    return response.choices[0].message.content || '';
+  } catch (error) {
+    console.error('Error in analyzeSymptoms:', error);
+    throw error;
   }
-
-  return response;
 }
 
 export async function getFollowUpQuestion(context: string, useOpenAI = false) {

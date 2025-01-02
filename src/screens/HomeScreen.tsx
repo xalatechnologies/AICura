@@ -8,6 +8,9 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
 import Animated, { 
   useSharedValue, 
@@ -22,14 +25,19 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useTheme } from '../context/ThemeContext';
 import { lightTheme, darkTheme } from '../styles/theme';
-import { Moon, MessageCircle, Calendar, Activity, Send } from 'react-native-feather';
+import { Moon, MessageCircle, Calendar, Activity, Send, Phone, RotateCcw } from 'react-native-feather';
 import { useSymptomAnalysis } from '../hooks/useSymptomAnalysis';
 import { debounce } from 'lodash';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Svg, Circle } from 'react-native-svg';
 import Markdown from 'react-native-markdown-display';
-import { FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
+import { Message, FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
 import Slider from '@react-native-community/slider';
+import { useNavigation } from '@react-navigation/native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { RootStackParamList } from '../navigation/RootNavigator';
+
+type HomeScreenNavigationProp = BottomTabNavigationProp<RootStackParamList>;
 
 const { width } = Dimensions.get('window');
 
@@ -157,71 +165,23 @@ const MessageItem = React.memo(({
 
   const isAI = item.role === 'assistant';
 
-  const markdownStyles = {
-    body: {
-      color: isAI ? currentTheme.colors.text : '#FFFFFF',
-      fontSize: 16,
-      lineHeight: 24,
-      letterSpacing: 0.3,
-    },
-    heading1: {
-      color: isAI ? currentTheme.colors.text : '#FFFFFF',
-      fontSize: 20,
-      fontWeight: '700',
-      marginVertical: 8,
-    },
-    heading2: {
-      color: isAI ? currentTheme.colors.text : '#FFFFFF',
-      fontSize: 18,
-      fontWeight: '600',
-      marginVertical: 6,
-    },
-    list_item: {
-      marginVertical: 4,
-    },
-    bullet_list: {
-      marginVertical: 8,
-    },
-    strong: {
-      color: isAI ? currentTheme.colors.primary : '#FFFFFF',
-      fontWeight: '700',
-    },
-    em: {
-      fontStyle: 'italic',
-    },
-    link: {
-      color: isAI ? currentTheme.colors.primary : '#FFFFFF',
-      textDecorationLine: 'underline',
-    },
-    code_inline: {
-      fontFamily: 'monospace',
-      backgroundColor: isAI ? `${currentTheme.colors.primary}20` : 'rgba(255, 255, 255, 0.2)',
-      paddingHorizontal: 4,
-      borderRadius: 4,
-    },
-    code_block: {
-      backgroundColor: isAI ? `${currentTheme.colors.primary}10` : 'rgba(255, 255, 255, 0.1)',
-      padding: 8,
-      borderRadius: 8,
-      marginVertical: 8,
-    },
-  } as const;
-
   return (
     <Animated.View style={[
       styles.messageBubble,
-      isAI ? styles.aiMessage : styles.userMessage,
+      isAI ? null : styles.userMessage,
       { 
         backgroundColor: isAI 
-          ? `${currentTheme.colors.card}CC`
+          ? currentTheme.colors.card
           : currentTheme.colors.primary,
+        borderColor: isAI ? currentTheme.colors.border : 'transparent',
+        borderWidth: isAI ? 1 : 0,
       },
       messageStyle,
     ]}>
       <LinearGradient
         colors={isAI 
-          ? [currentTheme.colors.card, `${currentTheme.colors.primary}20`]
-          : [`${currentTheme.colors.primary}`, `${currentTheme.colors.primary}CC`]
+          ? [currentTheme.colors.card, currentTheme.colors.card]
+          : [currentTheme.colors.primary, `${currentTheme.colors.primary}CC`]
         }
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -253,7 +213,55 @@ const MessageItem = React.memo(({
           </Text>
         )}
       </View>
-      <Markdown style={markdownStyles}>
+      <Markdown style={{
+        body: {
+          color: isAI ? currentTheme.colors.text : '#FFFFFF',
+          fontSize: 16,
+          lineHeight: 24,
+          letterSpacing: 0.3,
+        },
+        heading1: {
+          color: isAI ? currentTheme.colors.text : '#FFFFFF',
+          fontSize: 20,
+          fontWeight: '700',
+          marginVertical: 8,
+        },
+        heading2: {
+          color: isAI ? currentTheme.colors.text : '#FFFFFF',
+          fontSize: 18,
+          fontWeight: '600',
+          marginVertical: 6,
+        },
+        list_item: {
+          marginVertical: 4,
+        },
+        bullet_list: {
+          marginVertical: 8,
+        },
+        strong: {
+          color: isAI ? currentTheme.colors.primary : '#FFFFFF',
+          fontWeight: '700',
+        },
+        em: {
+          fontStyle: 'italic',
+        },
+        link: {
+          color: isAI ? currentTheme.colors.primary : '#FFFFFF',
+          textDecorationLine: 'underline',
+        },
+        code_inline: {
+          fontFamily: 'monospace',
+          backgroundColor: isAI ? `${currentTheme.colors.primary}20` : 'rgba(255, 255, 255, 0.2)',
+          paddingHorizontal: 4,
+          borderRadius: 4,
+        },
+        code_block: {
+          backgroundColor: isAI ? `${currentTheme.colors.primary}10` : 'rgba(255, 255, 255, 0.1)',
+          padding: 8,
+          borderRadius: 8,
+          marginVertical: 8,
+        },
+      }}>
         {item.content}
       </Markdown>
       {isAI && item.followUpOptions && item.followUpOptions.length > 0 && (
@@ -568,22 +576,81 @@ const FollowUpControls = React.memo(({
   );
 });
 
+const CTAButtons = ({ 
+  currentTheme,
+  onNewCheck,
+  onAppointment,
+  onContactDoctor 
+}: { 
+  currentTheme: any;
+  onNewCheck: () => void;
+  onAppointment: () => void;
+  onContactDoctor: () => void;
+}) => {
+  return (
+    <View style={styles.ctaContainer}>
+      <TouchableOpacity
+        style={[styles.ctaButton, { backgroundColor: currentTheme.colors.primary }]}
+        onPress={onNewCheck}
+      >
+        <MessageCircle stroke="#FFFFFF" width={24} height={24} />
+        <Text style={styles.ctaButtonText}>New Symptom Check</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={[styles.ctaButton, { backgroundColor: currentTheme.colors.primary }]}
+        onPress={onAppointment}
+      >
+        <Calendar stroke="#FFFFFF" width={24} height={24} />
+        <Text style={styles.ctaButtonText}>Get Appointment</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={[styles.ctaButton, { backgroundColor: currentTheme.colors.primary }]}
+        onPress={onContactDoctor}
+      >
+        <Phone stroke="#FFFFFF" width={24} height={24} />
+        <Text style={styles.ctaButtonText}>Contact Doctor</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const HomeScreen = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const currentTheme = theme === 'dark' ? darkTheme : lightTheme;
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const [symptoms, setSymptoms] = useState('');
   const flatListRef = useRef<FlatList>(null);
+  
+  // Add initial welcome message
+  const initialMessage: Message = {
+    id: 'welcome',
+    role: 'assistant',
+    content: "👋 Welcome! I'm your AI health assistant. You can describe any symptoms you're experiencing, and I'll help assess them.\n\nFor example, you could write:\n\"I have a mild headache and feeling dizzy\"\n\nYou can also select from the suggestions that appear as you type. I'm here to help you understand your symptoms better.",
+    timestamp: Date.now(),
+  };
   
   const {
     suggestions,
     messages,
     isAnalyzing,
     currentRound,
+    showCTAs,
     getSymptomsInput,
     submitSymptoms,
     handleFollowUpResponse,
     submitRoundAnswers,
+    resetAnalysis,
+    setMessages,
   } = useSymptomAnalysis();
+
+  // Set initial message if messages is empty
+  React.useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([initialMessage]);
+    }
+  }, [messages, setMessages, initialMessage]);
 
   const debouncedGetSuggestions = useCallback(
     debounce((text: string) => {
@@ -615,19 +682,49 @@ const HomeScreen = () => {
     );
   }, [currentTheme, handleFollowUpResponse]);
 
-  return (
-    <View style={[styles.container, { backgroundColor: currentTheme.colors.background }]}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: currentTheme.colors.card }]}>
-        <Text style={[styles.title, { color: currentTheme.colors.text }]}>
-          HealthCare AI
-        </Text>
-        <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
-          <Moon stroke={currentTheme.colors.text} width={24} height={24} />
-        </TouchableOpacity>
-      </View>
+  const handleNewCheck = useCallback(() => {
+    resetAnalysis();
+  }, [resetAnalysis]);
 
-      {/* Messages */}
+  const handleAppointment = useCallback(() => {
+    // Navigate to appointments screen
+    navigation.navigate('Appointments');
+  }, [navigation]);
+
+  const handleContactDoctor = useCallback(() => {
+    // Implement doctor contact functionality
+    // For now, just show an alert
+    Alert.alert(
+      'Contact Doctor',
+      'This feature will be available soon.',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
+  }, []);
+
+  const handleReset = useCallback(() => {
+    Alert.alert(
+      'Reset Symptom Assessment',
+      'This will clear the current chat session. Are you sure you want to continue?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: () => resetAnalysis()
+        }
+      ]
+    );
+  }, [resetAnalysis]);
+
+  return (
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={[styles.container, { backgroundColor: currentTheme.colors.background }]}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+    >
       <FlatList
         ref={flatListRef}
         data={messages}
@@ -646,57 +743,72 @@ const HomeScreen = () => {
               currentTheme={currentTheme}
               onSubmit={submitRoundAnswers}
             />
+          ) : showCTAs ? (
+            <CTAButtons
+              currentTheme={currentTheme}
+              onNewCheck={handleNewCheck}
+              onAppointment={handleAppointment}
+              onContactDoctor={handleContactDoctor}
+            />
           ) : null
         }
       />
 
-      {/* Input Area */}
-      <View style={[styles.inputArea, { backgroundColor: currentTheme.colors.card }]}>
-        {suggestions.length > 0 && (
-          <View style={[styles.suggestionsContainer, { backgroundColor: currentTheme.colors.background }]}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {suggestions.map((suggestion, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.suggestionChip, { backgroundColor: currentTheme.colors.primary + '20' }]}
-                  onPress={() => setSymptoms(suggestion)}
-                >
-                  <Text style={[styles.suggestionText, { color: currentTheme.colors.primary }]}>
-                    {suggestion}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+      {/* Input Area - Only show if not showing CTAs */}
+      {!showCTAs && (
+        <View style={[styles.inputArea, { backgroundColor: currentTheme.colors.card }]}>
+          {suggestions.length > 0 && (
+            <View style={[styles.suggestionsContainer, { backgroundColor: currentTheme.colors.background }]}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {suggestions.map((suggestion, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[styles.suggestionChip, { backgroundColor: currentTheme.colors.primary + '20' }]}
+                    onPress={() => setSymptoms(suggestion)}
+                  >
+                    <Text style={[styles.suggestionText, { color: currentTheme.colors.primary }]}>
+                      {suggestion}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+          <View style={[styles.inputContainer, { backgroundColor: currentTheme.colors.background }]}>
+            <TouchableOpacity
+              style={[styles.iconButton, { backgroundColor: currentTheme.colors.primary + '20' }]}
+              onPress={handleReset}
+            >
+              <RotateCcw stroke={currentTheme.colors.primary} width={20} height={20} />
+            </TouchableOpacity>
+            <TextInput
+              style={[styles.input, { color: currentTheme.colors.text }]}
+              value={symptoms}
+              onChangeText={handleSymptomChange}
+              placeholder="Describe your symptoms..."
+              placeholderTextColor={`${currentTheme.colors.text}80`}
+              multiline
+              numberOfLines={4}
+            />
+            <TouchableOpacity
+              style={[
+                styles.sendButton,
+                { backgroundColor: currentTheme.colors.primary },
+                isAnalyzing && styles.disabledButton
+              ]}
+              onPress={handleSubmit}
+              disabled={isAnalyzing || !symptoms.trim()}
+            >
+              {isAnalyzing ? (
+                <Activity stroke="#FFFFFF" width={20} height={20} />
+              ) : (
+                <Send stroke="#FFFFFF" width={20} height={20} />
+              )}
+            </TouchableOpacity>
           </View>
-        )}
-        <View style={[styles.inputContainer, { backgroundColor: currentTheme.colors.background }]}>
-          <TextInput
-            style={[styles.input, { color: currentTheme.colors.text }]}
-            value={symptoms}
-            onChangeText={handleSymptomChange}
-            placeholder="Describe your symptoms..."
-            placeholderTextColor={`${currentTheme.colors.text}80`}
-            multiline
-            numberOfLines={4}
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              { backgroundColor: currentTheme.colors.primary },
-              isAnalyzing && styles.disabledButton
-            ]}
-            onPress={handleSubmit}
-            disabled={isAnalyzing || !symptoms.trim()}
-          >
-            {isAnalyzing ? (
-              <Activity stroke="#FFFFFF" width={20} height={20} />
-            ) : (
-              <Send stroke="#FFFFFF" width={20} height={20} />
-            )}
-          </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      )}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -704,28 +816,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  themeToggle: {
-    padding: 8,
-    borderRadius: 12,
-  },
   messagesList: {
     flex: 1,
   },
   messagesContainer: {
     padding: 16,
     paddingBottom: 16,
+    gap: 8,
   },
   inputArea: {
     padding: 16,
@@ -737,6 +834,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     borderRadius: 24,
     padding: 8,
+    gap: 8,
   },
   input: {
     flex: 1,
@@ -745,10 +843,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
+  iconButton: {
+    padding: 12,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sendButton: {
     padding: 12,
     borderRadius: 20,
-    marginLeft: 8,
   },
   suggestionsContainer: {
     padding: 8,
@@ -766,19 +869,30 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   messageBubble: {
-    maxWidth: '80%',
+    width: '100%',
     padding: 16,
     marginBottom: 8,
     borderRadius: 20,
     overflow: 'hidden',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    minHeight: 60,
   },
   userMessage: {
+    maxWidth: '85%',
     alignSelf: 'flex-end',
     borderBottomRightRadius: 4,
+    backgroundColor: '#4FD1C5',
+    padding: 12,
   },
   aiMessage: {
-    alignSelf: 'flex-start',
+    width: '100%',
+    alignSelf: 'stretch',
     borderBottomLeftRadius: 4,
+    backgroundColor: '#1E293B',
   },
   messageHeader: {
     flexDirection: 'row',
@@ -807,19 +921,24 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    opacity: 0.8,
   },
   disabledButton: {
     opacity: 0.6,
   },
   followUpContainer: {
+    width: '100%',
     padding: 16,
     borderRadius: 20,
-    margin: 8,
+    marginTop: 2,
+    marginBottom: 16,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    alignSelf: 'stretch',
+    backgroundColor: '#1E293B',
   },
   followUpTitle: {
     fontSize: 18,
@@ -902,6 +1021,23 @@ const styles = StyleSheet.create({
   frequencyLabel: {
     fontSize: 14,
     fontWeight: '500',
+  },
+  ctaContainer: {
+    padding: 16,
+    gap: 12,
+  },
+  ctaButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    borderRadius: 12,
+    gap: 12,
+  },
+  ctaButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

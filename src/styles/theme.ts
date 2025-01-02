@@ -14,15 +14,19 @@ export const lightTheme: Theme = {
 };
 
 export const darkTheme: Theme = {
-  ...DarkTheme,
+  dark: true,
   colors: {
-    ...DarkTheme.colors,
-    primary: '#64FFDA',
-    background: '#0A192F',
-    card: '#172A45',
-    text: '#E6F1FF',
+    primary: '#4FD1C5',
+    background: '#0F172A',
+    card: '#1E293B',
+    text: '#E2E8F0',
     border: '#2D3748',
-    notification: '#FF453A',
+    notification: '#4FD1C5',
+    userMessage: '#4FD1C5',
+    aiMessage: '#1E293B',
+    aiMessageBorder: '#2D3748',
+    inputBackground: '#1E293B',
+    placeholder: '#64748B',
   },
 };
 
