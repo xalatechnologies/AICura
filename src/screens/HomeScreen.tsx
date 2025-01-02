@@ -32,6 +32,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Svg, Circle } from 'react-native-svg';
 import Markdown from 'react-native-markdown-display';
 import { Message, FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
+import { Message, FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   userMessage: {
+    maxWidth: '85%',
     alignSelf: 'flex-end',
   },
   aiMessage: {
