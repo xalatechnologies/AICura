@@ -1,0 +1,38 @@
+{
+  "onboarding": {
+    "welcome": "Bienvenido a HealthCare AI",
+    "selectLanguage": "Selecciona tu idioma preferido",
+    "continue": "Continuar",
+    "steps": {
+      "1": {
+        "title": "Tu Asistente de Salud",
+        "description": "Obtén recomendaciones y consejos de salud personalizados"
+      },
+      "2": {
+        "title": "Análisis de Síntomas",
+        "description": "Describe tus síntomas y obtén un análisis instantáneo con IA"
+      },
+      "3": {
+        "title": "Historial Médico",
+        "description": "Mantén un registro de tu historial médico y citas"
+      }
+    }
+  },
+  "profile": {
+    "settings": "Configuración",
+    "language": "Idioma",
+    "darkMode": "Modo Oscuro",
+    "notifications": "Notificaciones",
+    "privacy": "Configuración de Privacidad"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "done": "Listo",
+    "error": "Ha ocurrido un error",
+    "success": "Éxito",
+    "loading": "Cargando..."
+  }
+} 

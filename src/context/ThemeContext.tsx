@@ -1,38 +1,61 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-
-type Theme = 'light' | 'dark';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Theme, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
+  dark: boolean;
+  setTheme: (scheme: 'light' | 'dark') => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  theme: DefaultTheme,
+  dark: false,
+  setTheme: () => {},
+});
+
+export const useAppTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const colorScheme = useColorScheme();
-  const [theme, setTheme] = useState<Theme>(colorScheme || 'light');
+  const systemColorScheme = useColorScheme();
+  const [theme, setThemeState] = useState<Theme>(
+    systemColorScheme === 'dark' ? DarkTheme : DefaultTheme
+  );
 
   useEffect(() => {
-    setTheme(colorScheme || 'light');
-  }, [colorScheme]);
+    loadSavedTheme();
+  }, []);
 
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  const loadSavedTheme = async () => {
+    try {
+      const savedTheme = await AsyncStorage.getItem('theme');
+      if (savedTheme) {
+        setThemeState(savedTheme === 'dark' ? DarkTheme : DefaultTheme);
+      }
+    } catch (error) {
+      console.error('Error loading theme:', error);
+    }
+  };
+
+  const setTheme = async (scheme: 'light' | 'dark') => {
+    try {
+      await AsyncStorage.setItem('theme', scheme);
+      setThemeState(scheme === 'dark' ? DarkTheme : DefaultTheme);
+    } catch (error) {
+      console.error('Error saving theme:', error);
+    }
+  };
+
+  const value = {
+    theme,
+    dark: theme === DarkTheme,
+    setTheme,
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
 };

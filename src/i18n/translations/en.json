@@ -1,0 +1,38 @@
+{
+  "onboarding": {
+    "welcome": "Welcome to HealthCare AI",
+    "selectLanguage": "Select your preferred language",
+    "continue": "Continue",
+    "steps": {
+      "1": {
+        "title": "Your Health Assistant",
+        "description": "Get personalized health insights and recommendations"
+      },
+      "2": {
+        "title": "Symptom Analysis",
+        "description": "Describe your symptoms and get instant AI-powered analysis"
+      },
+      "3": {
+        "title": "Medical History",
+        "description": "Keep track of your health records and appointments"
+      }
+    }
+  },
+  "profile": {
+    "settings": "Settings",
+    "language": "Language",
+    "darkMode": "Dark Mode",
+    "notifications": "Notifications",
+    "privacy": "Privacy Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back",
+    "done": "Done",
+    "error": "An error occurred",
+    "success": "Success",
+    "loading": "Loading..."
+  }
+} 

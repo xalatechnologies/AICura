@@ -1,78 +1,134 @@
+import React, { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Calendar, MessageCircle, User, Moon } from 'react-native-feather';
-import { TouchableOpacity } from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
-import AppointmentsScreen from '../screens/AppointmentsScreen';
-import ChatScreen from '../screens/ChatScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import { useTheme } from '../context/ThemeContext';
-import { lightTheme, darkTheme } from '../styles/theme';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabase';
+import { LanguageSelectionScreen } from '../screens/LanguageSelectionScreen';
+import { HomeScreen } from '../screens/HomeScreen';
+import { AppointmentsScreen } from '../screens/AppointmentsScreen';
+import { ChatScreen } from '../screens/ChatScreen';
+import { ProfileScreen } from '../screens/ProfileScreen';
+import { OnboardingScreen } from '../screens/OnboardingScreen';
+import { useTheme } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-export type RootStackParamList = {
-  Home: undefined;
-  Appointments: undefined;
-  Chat: undefined;
-  Profile: undefined;
-};
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const Tab = createBottomTabNavigator<RootStackParamList>();
-
-export default function RootNavigator() {
-  const { theme, toggleTheme } = useTheme();
-  const currentTheme = theme === 'dark' ? darkTheme : lightTheme;
-
-  const screenOptions = {
-    headerRight: () => (
-      <TouchableOpacity 
-        onPress={toggleTheme} 
-        style={{ 
-          padding: 8, 
-          marginRight: 8,
-          borderRadius: 20,
-        }}
-      >
-        <Moon stroke={currentTheme.colors.text} width={24} height={24} />
-      </TouchableOpacity>
-    ),
-  };
+function TabNavigator() {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
           if (route.name === 'Home') {
-            return <Home stroke={color} width={size} height={size} />;
+            iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Appointments') {
-            return <Calendar stroke={color} width={size} height={size} />;
+            iconName = focused ? 'calendar' : 'calendar-outline';
           } else if (route.name === 'Chat') {
-            return <MessageCircle stroke={color} width={size} height={size} />;
+            iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
           } else if (route.name === 'Profile') {
-            return <User stroke={color} width={size} height={size} />;
+            iconName = focused ? 'person' : 'person-outline';
           }
+
+          return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: currentTheme.colors.primary,
-        tabBarInactiveTintColor: `${currentTheme.colors.text}80`,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.text,
         tabBarStyle: {
-          backgroundColor: currentTheme.colors.card,
-          borderTopColor: currentTheme.colors.border,
+          backgroundColor: colors.card,
+          borderTopColor: colors.border,
         },
-        headerStyle: {
-          backgroundColor: currentTheme.colors.card,
-        },
-        headerTintColor: currentTheme.colors.text,
-        ...screenOptions,
       })}
     >
       <Tab.Screen 
         name="Home" 
         component={HomeScreen} 
-        options={{
-          title: 'HealthCare AI'
-        }}
+        options={{ title: 'HealthCare AI' }}
       />
-      <Tab.Screen name="Appointments" component={AppointmentsScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen 
+        name="Appointments" 
+        component={AppointmentsScreen} 
+        options={{ title: t('appointments') }}
+      />
+      <Tab.Screen 
+        name="Chat" 
+        component={ChatScreen} 
+        options={{ title: t('chat') }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{ title: t('profile') }}
+      />
     </Tab.Navigator>
+  );
+}
+
+export function RootNavigator() {
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    checkFirstLaunch();
+  }, []);
+
+  const checkFirstLaunch = async () => {
+    try {
+      // Check if user has a language preference
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('language')
+          .eq('id', user.id)
+          .single();
+
+        if (profile?.language) {
+          await i18n.changeLanguage(profile.language);
+          setIsFirstLaunch(false);
+        } else {
+          setIsFirstLaunch(true);
+        }
+      } else {
+        setIsFirstLaunch(true);
+      }
+    } catch (error) {
+      console.error('Error checking first launch:', error);
+      setIsFirstLaunch(true);
+    }
+  };
+
+  if (isFirstLaunch === null) {
+    return null; // Or a loading screen
+  }
+
+  return (
+    <Stack.Navigator>
+      {isFirstLaunch ? (
+        <>
+          <Stack.Screen
+            name="LanguageSelection"
+            component={LanguageSelectionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      ) : (
+        <Stack.Screen
+          name="MainTabs"
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
+      )}
+    </Stack.Navigator>
   );
 }

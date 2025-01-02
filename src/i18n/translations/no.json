@@ -1,0 +1,38 @@
+{
+  "onboarding": {
+    "welcome": "Velkommen til HealthCare AI",
+    "selectLanguage": "Velg ditt foretrukne språk",
+    "continue": "Fortsett",
+    "steps": {
+      "1": {
+        "title": "Din Helseassistent",
+        "description": "Få personlige helseinnsikter og anbefalinger"
+      },
+      "2": {
+        "title": "Symptomanalyse",
+        "description": "Beskriv symptomene dine og få øyeblikkelig AI-drevet analyse"
+      },
+      "3": {
+        "title": "Medisinsk Historie",
+        "description": "Hold oversikt over helsejournal og avtaler"
+      }
+    }
+  },
+  "profile": {
+    "settings": "Innstillinger",
+    "language": "Språk",
+    "darkMode": "Mørk Modus",
+    "notifications": "Varsler",
+    "privacy": "Personverninnstillinger"
+  },
+  "common": {
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "next": "Neste",
+    "back": "Tilbake",
+    "done": "Ferdig",
+    "error": "En feil har oppstått",
+    "success": "Vellykket",
+    "loading": "Laster..."
+  }
+} 
