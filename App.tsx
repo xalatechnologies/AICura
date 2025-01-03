@@ -11,13 +11,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <I18nextProvider i18n={i18n}>
-        <ThemeProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <ThemeProvider>
             <NavigationContainer>
               <RootNavigator />
             </NavigationContainer>
-          </AuthProvider>
-        </ThemeProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </I18nextProvider>
     </SafeAreaProvider>
   );
