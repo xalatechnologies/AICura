@@ -8,10 +8,12 @@ import { ForgotPasswordScreen } from '@screens/auth/ForgotPasswordScreen';
 import { OnboardingScreen } from '@screens/OnboardingScreen';
 import HomeScreen from '@screens/HomeScreen';
 import { LoadingScreen } from '@screens/LoadingScreen';
+import SplashScreen from '@screens/SplashScreen';
 import { LanguageSelectionScreen } from '@screens/LanguageSelectionScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type RootStackParamList = {
+  Splash: undefined;
   Welcome: undefined;
   Login: undefined;
   Signup: undefined;
@@ -46,19 +48,6 @@ export const RootNavigator = () => {
     return <LoadingScreen />;
   }
 
-  if (!isLanguageSelected) {
-    return (
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      >
-        <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
-      </Stack.Navigator>
-    );
-  }
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -66,7 +55,14 @@ export const RootNavigator = () => {
         animation: 'slide_from_right',
       }}
     >
-      {session && user ? (
+      <Stack.Screen 
+        name="Splash" 
+        component={SplashScreen} 
+        options={{ animation: 'fade' }}
+      />
+      {!isLanguageSelected ? (
+        <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
+      ) : session && user ? (
         user.user_metadata?.onboarded ? (
           <Stack.Screen name="Home" component={HomeScreen} />
         ) : (

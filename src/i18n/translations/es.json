@@ -167,7 +167,7 @@
     "next": "Siguiente",
     "back": "Atrás",
     "done": "Hecho",
-    "error": "Ha ocurrido un error",
+    "error": "Error",
     "success": "Éxito",
     "loading": "Cargando...",
     "yes": "Sí",
@@ -179,7 +179,9 @@
     "search": "Buscar",
     "select": "Seleccionar",
     "submit": "Enviar",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "warning": "Advertencia",
+    "info": "Información"
   },
   "auth": {
     "welcome": {
@@ -252,6 +254,11 @@
       "emailSentTo": "Código enviado a {email}"
     },
     "errors": {
+      "allFieldsRequired": "Por favor complete todos los campos requeridos",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "invalidEmail": "Por favor ingrese un correo electrónico válido",
+      "weakPassword": "La contraseña es demasiado débil",
+      "emailInUse": "Este correo electrónico ya está registrado",
       "invalidEmail": "Por favor ingresa un correo válido",
       "invalidPassword": "La contraseña debe tener al menos 8 caracteres",
       "passwordMismatch": "Las contraseñas no coinciden",

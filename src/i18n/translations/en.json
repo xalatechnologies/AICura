@@ -167,7 +167,7 @@
     "next": "Next",
     "back": "Back",
     "done": "Done",
-    "error": "An error occurred",
+    "error": "Error",
     "success": "Success",
     "loading": "Loading...",
     "yes": "Yes",
@@ -179,11 +179,13 @@
     "search": "Search",
     "select": "Select",
     "submit": "Submit",
-    "retry": "Retry"
+    "retry": "Retry",
+    "warning": "Warning",
+    "info": "Information"
   },
   "auth": {
     "welcome": {
-      "title": "Welcome to AICura™",
+      "title": "Welcome to AICura",
       "description": "Your Intelligent Healthcare Companion",
       "subtitle": "Experience the Future of Healthcare",
       "login": "Sign In",
@@ -195,7 +197,7 @@
       "tagline": "Smart Health • Better Life"
     },
     "login": {
-      "title": "Welcome Back to AICura™",
+      "title": "Welcome Back to AICura",
       "description": "Your health journey continues here",
       "email": "Email Address",
       "emailPlaceholder": "Enter your email address",
@@ -214,7 +216,7 @@
       }
     },
     "signup": {
-      "title": "Join AICura™ Today",
+      "title": "Join AICura Today",
       "description": "Start your personalized health journey",
       "subtitle": "Your wellness, our priority",
       "name": "Full Name",
@@ -252,6 +254,11 @@
       "emailSentTo": "Code sent to {email}"
     },
     "errors": {
+      "allFieldsRequired": "Please fill in all required fields",
+      "passwordMismatch": "Passwords do not match",
+      "invalidEmail": "Please enter a valid email address",
+      "weakPassword": "Password is too weak",
+      "emailInUse": "This email is already registered",
       "invalidEmail": "Please enter a valid email",
       "invalidPassword": "Password must be at least 8 characters",
       "passwordMismatch": "Passwords do not match",

@@ -75,6 +75,13 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
         <Icon name="arrow-back" size={24} color={colors.text} />
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={[styles.languageButton, { backgroundColor: colors.card }]}
+        onPress={() => navigation.navigate('LanguageSelection')}
+      >
+        <Icon name="language" size={24} color={colors.primary} />
+      </TouchableOpacity>
+
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>
           {t('auth.signup.title')}
@@ -108,8 +115,8 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
             placeholderTextColor={colors.textSecondary}
             value={email}
             onChangeText={setEmail}
-            autoCapitalize="none"
             keyboardType="email-address"
+            autoCapitalize="none"
           />
         </View>
 
@@ -141,26 +148,23 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
           />
         </View>
 
-        <TouchableOpacity
-          style={[styles.signupButton, { backgroundColor: colors.primary }]}
+        <Button
+          title={t('auth.signup.signupButton')}
           onPress={handleSignup}
-          disabled={loading}
-        >
-          <Text style={styles.signupButtonText}>
-            {loading ? t('common.loading') : t('auth.signup.signupButton')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          loading={loading}
+          style={styles.button}
+        />
 
-      <View style={styles.footer}>
-        <Text style={[styles.footerText, { color: colors.textSecondary }]}>
-          {t('auth.signup.haveAccount')}
-        </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={[styles.footerLink, { color: colors.primary }]}>
-            {t('auth.signup.loginLink')}
+        <View style={styles.footer}>
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+            {t('auth.signup.haveAccount')}
           </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={[styles.footerLink, { color: colors.primary }]}>
+              {t('auth.signup.loginLink')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -170,6 +174,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginTop: 30
   },
   backButton: {
     width: 40,
@@ -207,12 +212,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
   },
-  signupButton: {
+  button: {
     height: 50,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+    marginBottom: 20
   },
   signupButtonText: {
     color: '#FFFFFF',
@@ -233,5 +239,16 @@ const styles = StyleSheet.create({
   footerLink: {
     fontSize: 14,
     fontWeight: '500',
+  },
+  languageButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
   },
 });

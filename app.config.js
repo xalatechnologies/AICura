@@ -5,10 +5,10 @@ module.exports = {
   slug: 'HealthcareApp',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/icon.png',
+  icon: './src/assets/images/app-icon.svg',
   userInterfaceStyle: 'automatic',
   splash: {
-    image: './assets/splash.png',
+    image: './src/assets/images/splash.svg',
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
@@ -19,13 +19,13 @@ module.exports = {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#ffffff',
+      foregroundImage: './src/assets/images/app-icon.svg',
+      backgroundColor: '#5AB19A',
     },
     package: 'com.ailege.healthcareapp',
   },
   web: {
-    favicon: './assets/favicon.png',
+    favicon: './src/assets/images/app-icon.svg',
   },
   plugins: [
     [
@@ -43,5 +43,6 @@ module.exports = {
         },
       },
     ],
+    'expo-localization'
   ],
-}; 
+};

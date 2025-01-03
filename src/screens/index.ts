@@ -9,3 +9,4 @@ export { SignupScreen } from './auth/SignupScreen';
 export { ForgotPasswordScreen } from './auth/ForgotPasswordScreen';
 export { WelcomeScreen } from './auth/WelcomeScreen';
 export { LoadingScreen } from './LoadingScreen'; 
+export { default as SplashScreen } from './SplashScreen';

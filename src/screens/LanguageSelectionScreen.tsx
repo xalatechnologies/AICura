@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
 import { LanguageSelector } from '@components/LanguageSelector';
 import { useTranslation } from 'react-i18next';
+import { StyledAppTitle } from '@components/StyledAppTitle';
 
 type LanguageSelectionScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'LanguageSelection'>;
@@ -24,13 +25,11 @@ export const LanguageSelectionScreen = ({ navigation }: LanguageSelectionScreenP
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Image
-        source={require('../assets/images/welcome.png')}
+        source={require('../assets/images/playstore.png')}
         style={styles.logo}
         resizeMode="contain"
       />
-      <Text style={[styles.title, { color: colors.text }]}>
-        {t('welcome.title', 'Welcome to AICura™')}
-      </Text>
+      <StyledAppTitle size="large" />
       <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
         {t('welcome.selectLanguage', 'Choose your preferred language')}
       </Text>
@@ -53,15 +52,9 @@ const styles = StyleSheet.create({
     height: 120,
     marginBottom: 24,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
   subtitle: {
     fontSize: 16,
     marginBottom: 32,
     textAlign: 'center',
   },
-}); 
+});

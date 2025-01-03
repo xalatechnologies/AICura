@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -47,25 +47,34 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
       </TouchableOpacity>
 
       {showLanguageSelector && (
-        <View style={[styles.languageSelectorContainer, { backgroundColor: colors.card }]}>
+        <View style={[styles.languageSelectorContainer, { backgroundColor: colors.card }]} >
           <LanguageSelector 
             onLanguageChange={() => setShowLanguageSelector(false)}
           />
         </View>
       )}
 
+      <View style={styles.content}>
+      <Image
+          source={require('@assets/images/playstore.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+
+    
       <View style={styles.header}>
+    
         <Text style={[styles.title, { color: colors.text }]}>
-          {t('auth.welcomeBack')}
+          {t('auth.login.title')}
         </Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          {t('auth.loginToContinue')}
+          {t('auth.login.description')}
         </Text>
       </View>
 
       <View style={styles.form}>
         <Input
-          placeholder={t('auth.email')}
+          placeholder={t('auth.login.emailPlaceholder')}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -74,7 +83,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
         />
 
         <Input
-          placeholder={t('auth.password')}
+          placeholder={t('auth.login.passwordPlaceholder')}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -86,12 +95,12 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
           style={styles.forgotPassword}
         >
           <Text style={[styles.forgotPasswordText, { color: colors.primary }]}>
-            {t('auth.forgotPassword')}
+            {t('auth.login.forgotPassword')}
           </Text>
         </TouchableOpacity>
 
         <Button
-          title={t('auth.login')}
+          title={t('auth.login.loginButton')}
           onPress={handleLogin}
           style={styles.button}
           loading={loading}
@@ -100,7 +109,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <View style={styles.divider}>
           <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
           <Text style={[styles.dividerText, { color: colors.textSecondary }]}>
-            {t('auth.or')}
+            {t('auth.login.or')}
           </Text>
           <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
         </View>
@@ -126,16 +135,17 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.signupContainer}>
-          <Text style={[styles.signupText, { color: colors.textSecondary }]}>
-            {t('auth.noAccount')}
+        <View style={styles.footer}>
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+            {t('auth.login.noAccount')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text style={[styles.signupLink, { color: colors.primary }]}>
-              {t('auth.signup')}
+            <Text style={[styles.footerLink, { color: colors.primary }]}>
+              {t('auth.login.signupLink')}
             </Text>
           </TouchableOpacity>
         </View>
+      </View>
       </View>
     </ScrollView>
   );
@@ -144,21 +154,36 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 40,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
-    padding: 20,
     paddingTop: 40,
   },
   header: {
-    marginBottom: 32,
+    marginTop: 40,
+    marginBottom: 40,
+  },
+  image: {
+    width: '80%',
+    height: 150,
+    marginBottom: 20,
+    textAlign: 'center',
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
+    textAlign: 'center',
   },
   form: {
     width: '100%',
@@ -225,16 +250,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  signupContainer: {
+  footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 4,
   },
-  signupText: {
+  footerText: {
     fontSize: 14,
   },
-  signupLink: {
+  footerLink: {
     fontSize: 14,
     fontWeight: '600',
   },

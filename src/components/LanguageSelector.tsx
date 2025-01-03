@@ -24,49 +24,49 @@ const languages: Language[] = [
     code: 'en',
     name: 'English',
     nativeName: 'English',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'ltr'
   },
   {
     code: 'es',
     name: 'Spanish',
     nativeName: 'Español',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'ltr'
   },
   {
     code: 'no',
     name: 'Norwegian',
     nativeName: 'Norsk',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'ltr'
   },
   {
     code: 'ar',
     name: 'Arabic',
     nativeName: 'العربية',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'rtl'
   },
   {
     code: 'fa-AF',
     name: 'Dari',
     nativeName: 'دری',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'rtl'
   },
   {
     code: 'ps',
     name: 'Pashto',
     nativeName: 'پښتو',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'rtl'
   },
   {
     code: 'ur',
     name: 'Urdu',
     nativeName: 'اردو',
-    icon: 'language-outline',
+    icon: 'language',
     direction: 'rtl'
   }
 ];
@@ -102,7 +102,7 @@ export const LanguageSelector = ({ onLanguageChange, showTitle = true }: Languag
             style={[styles.languageButton, { backgroundColor: colors.card }]}
             onPress={() => handleLanguageSelect(language)}
           >
-            <Icon name={language.icon} size={24} color={colors.primary} style={styles.icon} />
+            <Icon name="language" size={24} color={colors.primary} style={styles.icon} />
             <View style={styles.languageInfo}>
               <Text style={[styles.languageName, { color: colors.text }]}>
                 {language.name}
@@ -111,7 +111,7 @@ export const LanguageSelector = ({ onLanguageChange, showTitle = true }: Languag
                 {language.nativeName}
               </Text>
             </View>
-            <Icon name="chevron-forward" size={24} color={colors.primary} />
+            <Icon name="chevron-right" size={24} color={colors.primary} />
           </TouchableOpacity>
         ))}
       </View>
