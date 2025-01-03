@@ -1,0 +1,184 @@
+{
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "ہیلتھ کیئر ایپ میں خوش آمدید",
+        "description": "بہتر زندگی کے لیے آپ کا ذاتی صحت ساتھی"
+      },
+      "userDetails": {
+        "title": "ذاتی معلومات",
+        "description": "ہمیں اپنے بارے میں کچھ بتائیں"
+      },
+      "medicalHistory": {
+        "title": "طبی تاریخ",
+        "description": "آپ کی صحت کی پس منظر کو سمجھنے میں ہماری مدد کریں"
+      },
+      "lifestyle": {
+        "title": "طرز زندگی",
+        "description": "آئیے آپ کی روزمرہ کی عادات کو سمجھیں"
+      },
+      "review": {
+        "title": "جائزہ",
+        "description": "براہ کرم اپنی معلومات کا جائزہ لیں"
+      }
+    },
+    "welcome": {
+      "title": "آپ کا صحت کا سفر یہاں سے شروع ہوتا ہے",
+      "description": "اپنی صحت کی نگرانی کریں، ڈاکٹروں سے رابطہ کریں، اور تمام اپائنٹمنٹس کو ایک جگہ پر منظم کریں"
+    },
+    "userDetails": {
+      "name": "مکمل نام",
+      "namePlaceholder": "اپنا مکمل نام درج کریں",
+      "age": "عمر",
+      "agePlaceholder": "اپنی عمر درج کریں",
+      "gender": "جنس",
+      "genders": {
+        "male": "مرد",
+        "female": "عورت",
+        "other": "دیگر"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "ادویات",
+        "placeholder": "دوا کا نام درج کریں",
+        "dosage": "خوراک درج کریں",
+        "add": "دوا شامل کریں",
+        "frequencies": {
+          "daily": "روزانہ",
+          "weekly": "ہفتہ وار",
+          "asNeeded": "ضرورت کے مطابق"
+        }
+      },
+      "conditions": {
+        "diabetes": "ذیابیطس",
+        "hypertension": "ہائی بلڈ پریشر",
+        "asthma": "دمہ",
+        "heart_disease": "دل کی بیماری",
+        "arthritis": "جوڑوں کا درد",
+        "other": "دیگر"
+      },
+      "allergies": {
+        "title": "الرجیاں",
+        "placeholder": "الرجی درج کریں",
+        "common": {
+          "pollen": "پولن",
+          "dust": "دھول",
+          "nuts": "مغزیات",
+          "lactose": "دودھ",
+          "gluten": "گلوٹن",
+          "shellfish": "شیل فش"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "تمباکو نوشی کی حیثیت",
+      "smoker": "تمباکو نوش",
+      "nonSmoker": "غیر تمباکو نوش",
+      "activity": "جسمانی سرگرمی",
+      "activityLevels": {
+        "sedentary": "کم متحرک",
+        "light": "ہلکی",
+        "moderate": "معتدل",
+        "active": "متحرک",
+        "very_active": "بہت متحرک"
+      },
+      "alcohol": "شراب نوشی",
+      "alcoholFrequency": {
+        "none": "کوئی نہیں",
+        "occasional": "کبھی کبھار",
+        "moderate": "معتدل",
+        "frequent": "اکثر"
+      }
+    },
+    "review": {
+      "personalInfo": "ذاتی معلومات",
+      "medicalHistory": "طبی تاریخ",
+      "lifestyle": "طرز زندگی"
+    },
+    "navigation": {
+      "next": "اگلا",
+      "finish": "مکمل",
+      "back": "پیچھے"
+    },
+    "edit": {
+      "title": "ترمیم"
+    }
+  },
+  "profile": {
+    "settings": "ترتیبات",
+    "language": "زبان",
+    "darkMode": "ڈارک موڈ",
+    "notifications": "اطلاعات",
+    "privacy": "رازداری کی ترتیبات",
+    "logout": "لاگ آؤٹ",
+    "editProfile": "پروفائل میں ترمیم",
+    "deleteAccount": "اکاؤنٹ ڈیلیٹ کریں",
+    "version": "ورژن"
+  },
+  "home": {
+    "welcome": "خوش آمدید",
+    "checkSymptoms": "علامات چیک کریں",
+    "appointments": "اپائنٹمنٹس",
+    "chat": "چیٹ",
+    "journal": "طبی جریدہ",
+    "emergency": "ایمرجنسی",
+    "newCheck": "نئی چیک اپ",
+    "bookAppointment": "اپائنٹمنٹ بک کریں",
+    "contactDoctor": "ڈاکٹر سے رابطہ کریں",
+    "lastCheck": "آخری چیک اپ",
+    "symptomsInput": "اپنی علامات درج کریں...",
+    "analyzing": "آپ کی علامات کا تجزیہ کیا جا رہا ہے...",
+    "noSymptoms": "براہ کرم اپنی علامات درج کریں"
+  },
+  "appointments": {
+    "upcoming": "آنے والی اپائنٹمنٹس",
+    "past": "گزشتہ اپائنٹمنٹس",
+    "schedule": "نئی اپائنٹمنٹ",
+    "noUpcoming": "کوئی آنے والی اپائنٹمنٹ نہیں",
+    "noPast": "کوئی گزشتہ اپائنٹمنٹ نہیں",
+    "with": "{doctor} کے ساتھ",
+    "cancel": "اپائنٹمنٹ منسوخ کریں",
+    "reschedule": "اپائنٹمنٹ دوبارہ شیڈول کریں"
+  },
+  "chat": {
+    "startConversation": "ڈاکٹر سے بات چیت شروع کریں",
+    "typeMessage": "پیغام ٹائپ کریں...",
+    "send": "بھیجیں",
+    "connecting": "جڑ رہا ہے...",
+    "offline": "آف لائن",
+    "online": "آن لائن"
+  },
+  "journal": {
+    "title": "طبی جریدہ",
+    "newEntry": "نئی اندراج",
+    "symptoms": "علامات",
+    "medications": "ادویات",
+    "mood": "مزاج",
+    "notes": "نوٹس",
+    "date": "تاریخ",
+    "time": "وقت",
+    "save": "محفوظ کریں",
+    "delete": "حذف کریں"
+  },
+  "common": {
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "next": "اگلا",
+    "back": "پیچھے",
+    "done": "مکمل",
+    "error": "کوئی خرابی پیش آگئی",
+    "success": "کامیاب",
+    "loading": "لوڈ ہو رہا ہے...",
+    "yes": "ہاں",
+    "no": "نہیں",
+    "ok": "ٹھیک ہے",
+    "confirm": "تصدیق کریں",
+    "delete": "حذف کریں",
+    "edit": "ترمیم کریں",
+    "search": "تلاش کریں",
+    "select": "منتخب کریں",
+    "submit": "جمع کرائیں",
+    "retry": "دوبارہ کوشش کریں"
+  }
+}

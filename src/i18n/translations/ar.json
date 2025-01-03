@@ -15,15 +15,166 @@
       "3": {
         "title": "السجل الطبي",
         "description": "تتبع سجلاتك الصحية ومواعيدك"
+      },
+      "welcome": {
+        "title": "مرحباً بك في HealthcareApp",
+        "description": "رفيقك الصحي الشخصي لحياة أفضل"
+      },
+      "userDetails": {
+        "title": "المعلومات الشخصية",
+        "description": "أخبرنا قليلاً عن نفسك"
+      },
+      "medicalHistory": {
+        "title": "التاريخ الطبي",
+        "description": "ساعدنا في فهم خلفيتك الصحية"
+      },
+      "lifestyle": {
+        "title": "نمط الحياة",
+        "description": "دعنا نفهم عاداتك اليومية"
+      },
+      "review": {
+        "title": "مراجعة",
+        "description": "يرجى مراجعة معلوماتك"
       }
+    },
+    "welcome": {
+      "title": "رحلتك الصحية تبدأ هنا",
+      "description": "تتبع صحتك، تواصل مع الأطباء، وأدر مواعيدك في مكان واحد"
+    },
+    "userDetails": {
+      "name": "الاسم الكامل",
+      "namePlaceholder": "أدخل اسمك الكامل",
+      "age": "العمر",
+      "agePlaceholder": "أدخل عمرك",
+      "gender": "الجنس",
+      "genders": {
+        "male": "ذكر",
+        "female": "أنثى",
+        "other": "آخر"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "الأدوية",
+        "placeholder": "أدخل اسم الدواء",
+        "dosage": "أدخل الجرعة",
+        "add": "إضافة دواء",
+        "frequencies": {
+          "daily": "يومياً",
+          "weekly": "أسبوعياً",
+          "asNeeded": "عند الحاجة"
+        }
+      },
+      "conditions": {
+        "diabetes": "السكري",
+        "hypertension": "ارتفاع ضغط الدم",
+        "asthma": "الربو",
+        "heart_disease": "أمراض القلب",
+        "arthritis": "التهاب المفاصل",
+        "other": "أخرى"
+      },
+      "allergies": {
+        "title": "الحساسية",
+        "placeholder": "أدخل الحساسية",
+        "common": {
+          "pollen": "حبوب اللقاح",
+          "dust": "الغبار",
+          "nuts": "المكسرات",
+          "lactose": "اللاكتوز",
+          "gluten": "الغلوتين",
+          "shellfish": "المأكولات البحرية"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "حالة التدخين",
+      "smoker": "مدخن",
+      "nonSmoker": "غير مدخن",
+      "activity": "النشاط البدني",
+      "activityLevels": {
+        "sedentary": "قليل الحركة",
+        "light": "خفيف",
+        "moderate": "معتدل",
+        "active": "نشط",
+        "very_active": "نشط جداً"
+      },
+      "alcohol": "تناول الكحول",
+      "alcoholFrequency": {
+        "none": "لا يوجد",
+        "occasional": "أحياناً",
+        "moderate": "معتدل",
+        "frequent": "متكرر"
+      }
+    },
+    "review": {
+      "personalInfo": "المعلومات الشخصية",
+      "medicalHistory": "التاريخ الطبي",
+      "lifestyle": "نمط الحياة"
+    },
+    "navigation": {
+      "next": "التالي",
+      "finish": "إنهاء",
+      "back": "رجوع"
+    },
+    "edit": {
+      "title": "تعديل"
     }
   },
   "profile": {
     "settings": "الإعدادات",
     "language": "اللغة",
-    "darkMode": "الوضع الداكن",
+    "darkMode": "الوضع الليلي",
     "notifications": "الإشعارات",
-    "privacy": "إعدادات الخصوصية"
+    "privacy": "إعدادات الخصوصية",
+    "logout": "تسجيل الخروج",
+    "editProfile": "تعديل الملف الشخصي",
+    "deleteAccount": "حذف الحساب",
+    "version": "الإصدار"
+  },
+  "home": {
+    "welcome": "مرحباً",
+    "checkSymptoms": "فحص الأعراض",
+    "appointments": "المواعيد",
+    "chat": "المحادثة",
+    "journal": "السجل الطبي",
+    "emergency": "الطوارئ",
+    "newCheck": "فحص جديد",
+    "bookAppointment": "حجز موعد",
+    "contactDoctor": "التواصل مع الطبيب",
+    "lastCheck": "آخر فحص",
+    "symptomsInput": "أدخل أعراضك...",
+    "analyzing": "جاري تحليل أعراضك...",
+    "noSymptoms": "يرجى إدخال أعراضك"
+  },
+  "appointments": {
+    "upcoming": "المواعيد القادمة",
+    "past": "المواعيد السابقة",
+    "schedule": "حجز موعد جديد",
+    "noUpcoming": "لا توجد مواعيد قادمة",
+    "noPast": "لا توجد مواعيد سابقة",
+    "with": "مع {doctor}",
+    "cancel": "إلغاء الموعد",
+    "reschedule": "إعادة جدولة الموعد"
+  },
+  "chat": {
+    "startConversation": "بدء محادثة مع الطبيب",
+    "typeMessage": "اكتب رسالتك...",
+    "send": "إرسال",
+    "connecting": "جاري الاتصال...",
+    "offline": "غير متصل",
+    "online": "متصل"
+  },
+  "journal": {
+    "title": "السجل الطبي",
+    "newEntry": "إدخال جديد",
+    "symptoms": "الأعراض",
+    "medications": "الأدوية",
+    "mood": "المزاج",
+    "notes": "الملاحظات",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "save": "حفظ",
+    "delete": "حذف"
   },
   "common": {
     "save": "حفظ",
@@ -33,6 +184,16 @@
     "done": "تم",
     "error": "حدث خطأ",
     "success": "تم بنجاح",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "yes": "نعم",
+    "no": "لا",
+    "ok": "موافق",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "select": "اختيار",
+    "submit": "إرسال",
+    "retry": "إعادة المحاولة"
   }
-} 
+}

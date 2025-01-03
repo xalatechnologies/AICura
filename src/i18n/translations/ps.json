@@ -1,0 +1,184 @@
+{
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "روغتیایی اپلیکیشن ته ښه راغلاست",
+        "description": "ستاسو د غوره ژوند لپاره ستاسو شخصي روغتیایی ملګری"
+      },
+      "userDetails": {
+        "title": "شخصي معلومات",
+        "description": "موږ ته د ځان په اړه یو څه ووایاست"
+      },
+      "medicalHistory": {
+        "title": "طبي تاریخچه",
+        "description": "موږ سره مرسته وکړئ چې ستاسو د روغتیا شالید وپېژنو"
+      },
+      "lifestyle": {
+        "title": "د ژوند طرز",
+        "description": "راځئ ستاسو ورځنۍ عادتونه وپېژنو"
+      },
+      "review": {
+        "title": "کتنه",
+        "description": "مهرباني وکړئ خپل معلومات وګورئ"
+      }
+    },
+    "welcome": {
+      "title": "ستاسو د روغتیا سفر له دلته پیلیږي",
+      "description": "خپله روغتیا وڅارئ، له ډاکټرانو سره اړیکه ونیسئ، او ټولې لیدنې په یوه ځای کې تنظیم کړئ"
+    },
+    "userDetails": {
+      "name": "بشپړ نوم",
+      "namePlaceholder": "خپل بشپړ نوم ولیکئ",
+      "age": "عمر",
+      "agePlaceholder": "خپل عمر ولیکئ",
+      "gender": "جنسیت",
+      "genders": {
+        "male": "نارینه",
+        "female": "ښځینه",
+        "other": "نور"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "درمل",
+        "placeholder": "د درمل نوم ولیکئ",
+        "dosage": "اندازه ولیکئ",
+        "add": "درمل اضافه کړئ",
+        "frequencies": {
+          "daily": "ورځنی",
+          "weekly": "اونیز",
+          "asNeeded": "د اړتیا په وخت کې"
+        }
+      },
+      "conditions": {
+        "diabetes": "شکر",
+        "hypertension": "لوړ فشار",
+        "asthma": "سالنډی",
+        "heart_disease": "د زړه ناروغي",
+        "arthritis": "بند درد",
+        "other": "نور"
+      },
+      "allergies": {
+        "title": "حساسیتونه",
+        "placeholder": "حساسیت ولیکئ",
+        "common": {
+          "pollen": "ګرده",
+          "dust": "دوړې",
+          "nuts": "مغزیات",
+          "lactose": "شیدې",
+          "gluten": "غنم",
+          "shellfish": "سمندري خواړه"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "د سګرټ څکولو حالت",
+      "smoker": "سګرټ څکوونکی",
+      "nonSmoker": "سګرټ نه څکوونکی",
+      "activity": "فزیکي فعالیت",
+      "activityLevels": {
+        "sedentary": "کم خوځښت",
+        "light": "لږ",
+        "moderate": "منځنی",
+        "active": "فعال",
+        "very_active": "ډیر فعال"
+      },
+      "alcohol": "د الکولو کارول",
+      "alcoholFrequency": {
+        "none": "هیڅ",
+        "occasional": "کله کله",
+        "moderate": "منځنی",
+        "frequent": "مکرر"
+      }
+    },
+    "review": {
+      "personalInfo": "شخصي معلومات",
+      "medicalHistory": "طبي تاریخچه",
+      "lifestyle": "د ژوند طرز"
+    },
+    "navigation": {
+      "next": "راتلونکی",
+      "finish": "پای",
+      "back": "شاته"
+    },
+    "edit": {
+      "title": "سمول"
+    }
+  },
+  "profile": {
+    "settings": "تنظیمات",
+    "language": "ژبه",
+    "darkMode": "تیاره موډ",
+    "notifications": "خبرتیاوې",
+    "privacy": "د محرمیت تنظیمات",
+    "logout": "وتل",
+    "editProfile": "پروفایل سمول",
+    "deleteAccount": "حساب له منځه وړل",
+    "version": "نسخه"
+  },
+  "home": {
+    "welcome": "ښه راغلاست",
+    "checkSymptoms": "خپلې نښې وګورئ",
+    "appointments": "لیدنې",
+    "chat": "خبرې اترې",
+    "journal": "طبي یادداشت",
+    "emergency": "بیړني حالت",
+    "newCheck": "نوې معاینه",
+    "bookAppointment": "لیدنه تنظیم کړئ",
+    "contactDoctor": "له ډاکټر سره اړیکه ونیسئ",
+    "lastCheck": "وروستۍ معاینه",
+    "symptomsInput": "خپلې نښې ولیکئ...",
+    "analyzing": "ستاسو نښې تحلیلوي...",
+    "noSymptoms": "مهرباني وکړئ خپلې نښې ولیکئ"
+  },
+  "appointments": {
+    "upcoming": "راتلونکې لیدنې",
+    "past": "تېرې لیدنې",
+    "schedule": "نوې لیدنه",
+    "noUpcoming": "راتلونکې لیدنې نشته",
+    "noPast": "تېرې لیدنې نشته",
+    "with": "له {doctor} سره",
+    "cancel": "لیدنه لغوه کړئ",
+    "reschedule": "لیدنه بیا تنظیم کړئ"
+  },
+  "chat": {
+    "startConversation": "له ډاکټر سره خبرې پیل کړئ",
+    "typeMessage": "پیغام ولیکئ...",
+    "send": "لېږل",
+    "connecting": "اړیکه نیسي...",
+    "offline": "آفلاین",
+    "online": "آنلاین"
+  },
+  "journal": {
+    "title": "طبي یادداشت",
+    "newEntry": "نوی یادداشت",
+    "symptoms": "نښې",
+    "medications": "درمل",
+    "mood": "روحي حالت",
+    "notes": "یادداشتونه",
+    "date": "نېټه",
+    "time": "وخت",
+    "save": "ساتل",
+    "delete": "له منځه وړل"
+  },
+  "common": {
+    "save": "ساتل",
+    "cancel": "لغوه کول",
+    "next": "راتلونکی",
+    "back": "شاته",
+    "done": "ترسره شو",
+    "error": "تېروتنه رامنځته شوه",
+    "success": "بریالی شو",
+    "loading": "په حال کې...",
+    "yes": "هو",
+    "no": "نه",
+    "ok": "سمه ده",
+    "confirm": "تایید",
+    "delete": "له منځه وړل",
+    "edit": "سمول",
+    "search": "لټون",
+    "select": "غوره کول",
+    "submit": "لېږل",
+    "retry": "بیا هڅه وکړئ"
+  }
+}

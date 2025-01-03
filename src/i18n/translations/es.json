@@ -1,21 +1,108 @@
 {
   "onboarding": {
-    "welcome": "Bienvenido a HealthCare AI",
-    "selectLanguage": "Selecciona tu idioma preferido",
-    "continue": "Continuar",
     "steps": {
-      "1": {
-        "title": "Tu Asistente de Salud",
-        "description": "Obtén recomendaciones y consejos de salud personalizados"
+      "welcome": {
+        "title": "Bienvenido a HealthcareApp",
+        "description": "Tu compañero personal de salud para una vida mejor"
       },
-      "2": {
-        "title": "Análisis de Síntomas",
-        "description": "Describe tus síntomas y obtén un análisis instantáneo con IA"
+      "userDetails": {
+        "title": "Información Personal",
+        "description": "Cuéntanos un poco sobre ti"
       },
-      "3": {
+      "medicalHistory": {
         "title": "Historial Médico",
-        "description": "Mantén un registro de tu historial médico y citas"
+        "description": "Ayúdanos a entender tu historial de salud"
+      },
+      "lifestyle": {
+        "title": "Estilo de Vida",
+        "description": "Conozcamos tus hábitos diarios"
+      },
+      "review": {
+        "title": "Revisión",
+        "description": "Por favor revisa tu información"
       }
+    },
+    "welcome": {
+      "title": "Tu Viaje de Salud Comienza Aquí",
+      "description": "Rastrea tu salud, conéctate con médicos y gestiona citas en un solo lugar"
+    },
+    "userDetails": {
+      "name": "Nombre Completo",
+      "namePlaceholder": "Ingresa tu nombre completo",
+      "age": "Edad",
+      "agePlaceholder": "Ingresa tu edad",
+      "gender": "Género",
+      "genders": {
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "Medicamentos",
+        "placeholder": "Ingresa el nombre del medicamento",
+        "dosage": "Ingresa la dosis",
+        "add": "Agregar Medicamento",
+        "frequencies": {
+          "daily": "Diario",
+          "weekly": "Semanal",
+          "asNeeded": "Según sea necesario"
+        }
+      },
+      "conditions": {
+        "diabetes": "Diabetes",
+        "hypertension": "Hipertensión",
+        "asthma": "Asma",
+        "heart_disease": "Enfermedad Cardíaca",
+        "arthritis": "Artritis",
+        "other": "Otro"
+      },
+      "allergies": {
+        "title": "Alergias",
+        "placeholder": "Ingresa la alergia",
+        "common": {
+          "pollen": "Polen",
+          "dust": "Polvo",
+          "nuts": "Frutos Secos",
+          "lactose": "Lactosa",
+          "gluten": "Gluten",
+          "shellfish": "Mariscos"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "Estado de Fumador",
+      "smoker": "Fumador",
+      "nonSmoker": "No Fumador",
+      "activity": "Actividad Física",
+      "activityLevels": {
+        "sedentary": "Sedentario",
+        "light": "Ligero",
+        "moderate": "Moderado",
+        "active": "Activo",
+        "very_active": "Muy Activo"
+      },
+      "alcohol": "Consumo de Alcohol",
+      "alcoholFrequency": {
+        "none": "Ninguno",
+        "occasional": "Ocasional",
+        "moderate": "Moderado",
+        "frequent": "Frecuente"
+      }
+    },
+    "review": {
+      "personalInfo": "Información Personal",
+      "medicalHistory": "Historial Médico",
+      "lifestyle": "Estilo de Vida"
+    },
+    "navigation": {
+      "next": "Siguiente",
+      "finish": "Finalizar",
+      "back": "Atrás"
+    },
+    "edit": {
+      "title": "Editar"
     }
   },
   "profile": {
@@ -23,16 +110,75 @@
     "language": "Idioma",
     "darkMode": "Modo Oscuro",
     "notifications": "Notificaciones",
-    "privacy": "Configuración de Privacidad"
+    "privacy": "Configuración de Privacidad",
+    "logout": "Cerrar Sesión",
+    "editProfile": "Editar Perfil",
+    "deleteAccount": "Eliminar Cuenta",
+    "version": "Versión"
+  },
+  "home": {
+    "welcome": "Bienvenido",
+    "checkSymptoms": "Revisar Síntomas",
+    "appointments": "Citas",
+    "chat": "Chat",
+    "journal": "Diario Médico",
+    "emergency": "Emergencia",
+    "newCheck": "Nueva Revisión",
+    "bookAppointment": "Agendar Cita",
+    "contactDoctor": "Contactar Médico",
+    "lastCheck": "Última Revisión",
+    "symptomsInput": "Ingresa tus síntomas...",
+    "analyzing": "Analizando tus síntomas...",
+    "noSymptoms": "Por favor ingresa tus síntomas"
+  },
+  "appointments": {
+    "upcoming": "Próximas Citas",
+    "past": "Citas Pasadas",
+    "schedule": "Agendar Nueva",
+    "noUpcoming": "No hay citas próximas",
+    "noPast": "No hay citas pasadas",
+    "with": "Con {doctor}",
+    "cancel": "Cancelar Cita",
+    "reschedule": "Reprogramar Cita"
+  },
+  "chat": {
+    "startConversation": "Iniciar conversación con el médico",
+    "typeMessage": "Escribe tu mensaje...",
+    "send": "Enviar",
+    "connecting": "Conectando...",
+    "offline": "Desconectado",
+    "online": "En línea"
+  },
+  "journal": {
+    "title": "Diario Médico",
+    "newEntry": "Nueva Entrada",
+    "symptoms": "Síntomas",
+    "medications": "Medicamentos",
+    "mood": "Estado de Ánimo",
+    "notes": "Notas",
+    "date": "Fecha",
+    "time": "Hora",
+    "save": "Guardar",
+    "delete": "Eliminar"
   },
   "common": {
     "save": "Guardar",
     "cancel": "Cancelar",
     "next": "Siguiente",
     "back": "Atrás",
-    "done": "Listo",
+    "done": "Hecho",
     "error": "Ha ocurrido un error",
     "success": "Éxito",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "yes": "Sí",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "search": "Buscar",
+    "select": "Seleccionar",
+    "submit": "Enviar",
+    "retry": "Reintentar"
   }
-} 
+}

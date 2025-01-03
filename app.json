@@ -4,10 +4,10 @@
     "slug": "HealthcareApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/heart-rate.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/heart-rate.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,14 +21,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/heart-rate.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.ailege.healthcareapp",
       "newArchEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/heart-rate.png"
     },
     "plugins": [
       "expo-build-properties"

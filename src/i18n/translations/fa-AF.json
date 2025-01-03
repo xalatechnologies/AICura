@@ -1,0 +1,184 @@
+{
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "به برنامه صحی خوش آمدید",
+        "description": "همراه شخصی صحت شما برای زندگی بهتر"
+      },
+      "userDetails": {
+        "title": "معلومات شخصی",
+        "description": "کمی درباره خود به ما بگویید"
+      },
+      "medicalHistory": {
+        "title": "سابقه صحی",
+        "description": "به ما کمک کنید تا سابقه صحی شما را بفهمیم"
+      },
+      "lifestyle": {
+        "title": "سبک زندگی",
+        "description": "بیایید عادت های روزمره شما را بشناسیم"
+      },
+      "review": {
+        "title": "بررسی",
+        "description": "لطفاً معلومات خود را بررسی کنید"
+      }
+    },
+    "welcome": {
+      "title": "سفر صحی شما از اینجا آغاز می‌شود",
+      "description": "صحت خود را پیگیری کنید، با داکتران ارتباط برقرار کنید و همه ملاقات‌ها را در یک مکان مدیریت کنید"
+    },
+    "userDetails": {
+      "name": "نام مکمل",
+      "namePlaceholder": "نام مکمل خود را وارد کنید",
+      "age": "سن",
+      "agePlaceholder": "سن خود را وارد کنید",
+      "gender": "جنسیت",
+      "genders": {
+        "male": "مرد",
+        "female": "زن",
+        "other": "دیگر"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "دواها",
+        "placeholder": "نام دوا را وارد کنید",
+        "dosage": "مقدار مصرف را وارد کنید",
+        "add": "اضافه کردن دوا",
+        "frequencies": {
+          "daily": "روزانه",
+          "weekly": "هفته‌وار",
+          "asNeeded": "در صورت نیاز"
+        }
+      },
+      "conditions": {
+        "diabetes": "مرض شکر",
+        "hypertension": "فشار خون بلند",
+        "asthma": "آسم",
+        "heart_disease": "مریضی قلبی",
+        "arthritis": "التهاب مفاصل",
+        "other": "دیگر"
+      },
+      "allergies": {
+        "title": "حساسیت‌ها",
+        "placeholder": "حساسیت را وارد کنید",
+        "common": {
+          "pollen": "گرده",
+          "dust": "خاک",
+          "nuts": "مغزیات",
+          "lactose": "شیر",
+          "gluten": "گلوتن",
+          "shellfish": "غذاهای بحری"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "وضعیت سگرت کشیدن",
+      "smoker": "سگرتی",
+      "nonSmoker": "غیر سگرتی",
+      "activity": "فعالیت فزیکی",
+      "activityLevels": {
+        "sedentary": "کم تحرک",
+        "light": "سبک",
+        "moderate": "متوسط",
+        "active": "فعال",
+        "very_active": "بسیار فعال"
+      },
+      "alcohol": "مصرف الکول",
+      "alcoholFrequency": {
+        "none": "هیچ",
+        "occasional": "گاهگاهی",
+        "moderate": "متوسط",
+        "frequent": "مکرر"
+      }
+    },
+    "review": {
+      "personalInfo": "معلومات شخصی",
+      "medicalHistory": "سابقه صحی",
+      "lifestyle": "سبک زندگی"
+    },
+    "navigation": {
+      "next": "بعدی",
+      "finish": "پایان",
+      "back": "قبلی"
+    },
+    "edit": {
+      "title": "ویرایش"
+    }
+  },
+  "profile": {
+    "settings": "تنظیمات",
+    "language": "زبان",
+    "darkMode": "حالت تاریک",
+    "notifications": "اعلان‌ها",
+    "privacy": "تنظیمات حریم خصوصی",
+    "logout": "خروج",
+    "editProfile": "ویرایش پروفایل",
+    "deleteAccount": "حذف حساب کاربری",
+    "version": "نسخه"
+  },
+  "home": {
+    "welcome": "خوش آمدید",
+    "checkSymptoms": "بررسی علایم",
+    "appointments": "ملاقات‌ها",
+    "chat": "گفتگو",
+    "journal": "یادداشت صحی",
+    "emergency": "عاجل",
+    "newCheck": "معاینه جدید",
+    "bookAppointment": "تعیین وقت ملاقات",
+    "contactDoctor": "تماس با داکتر",
+    "lastCheck": "آخرین معاینه",
+    "symptomsInput": "علایم خود را وارد کنید...",
+    "analyzing": "در حال تحلیل علایم شما...",
+    "noSymptoms": "لطفاً علایم خود را وارد کنید"
+  },
+  "appointments": {
+    "upcoming": "ملاقات‌های پیش رو",
+    "past": "ملاقات‌های گذشته",
+    "schedule": "تعیین وقت جدید",
+    "noUpcoming": "ملاقات پیش رو ندارید",
+    "noPast": "ملاقات گذشته‌ای ندارید",
+    "with": "با {doctor}",
+    "cancel": "لغو ملاقات",
+    "reschedule": "تغییر زمان ملاقات"
+  },
+  "chat": {
+    "startConversation": "شروع گفتگو با داکتر",
+    "typeMessage": "پیام خود را بنویسید...",
+    "send": "ارسال",
+    "connecting": "در حال اتصال...",
+    "offline": "آفلاین",
+    "online": "آنلاین"
+  },
+  "journal": {
+    "title": "یادداشت صحی",
+    "newEntry": "یادداشت جدید",
+    "symptoms": "علایم",
+    "medications": "دواها",
+    "mood": "حالت روحی",
+    "notes": "یادداشت‌ها",
+    "date": "تاریخ",
+    "time": "زمان",
+    "save": "ذخیره",
+    "delete": "حذف"
+  },
+  "common": {
+    "save": "ذخیره",
+    "cancel": "لغو",
+    "next": "بعدی",
+    "back": "قبلی",
+    "done": "انجام شد",
+    "error": "خطایی رخ داد",
+    "success": "موفقیت‌آمیز",
+    "loading": "در حال بارگیری...",
+    "yes": "بلی",
+    "no": "نخیر",
+    "ok": "تایید",
+    "confirm": "تایید",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "search": "جستجو",
+    "select": "انتخاب",
+    "submit": "ارسال",
+    "retry": "تلاش مجدد"
+  }
+}

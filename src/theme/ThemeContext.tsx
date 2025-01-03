@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { lightTheme, darkTheme } from '@styles/theme';
-import type { CustomTheme } from '@styles/theme';
+import { CustomTheme, lightTheme, darkTheme } from '@styles/theme';
 
 interface ThemeContextType {
   theme: 'light' | 'dark';
@@ -9,10 +8,8 @@ interface ThemeContextType {
   colors: CustomTheme['colors'];
 }
 
-// Create the context
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// Create the provider component
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
@@ -34,14 +31,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
-// Create the hook
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
-  return {
-    ...context,
-    colors: context.isDark ? darkTheme.colors : lightTheme.colors,
-  };
+  return context;
 }; 

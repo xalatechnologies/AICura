@@ -2,11 +2,17 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { isSupabaseConfigured } from '@lib/supabase';
 import { useAuth } from '@contexts/AuthContext';
 import { changeLanguage } from '@i18n/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type LanguageSelectionScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'LanguageSelection'>;
+};
 
 interface Language {
   code: string;
@@ -42,26 +48,17 @@ const languages: Language[] = [
   }
 ];
 
-export const LanguageSelectionScreen = ({ navigation }: any) => {
+export const LanguageSelectionScreen = ({ navigation }: LanguageSelectionScreenProps) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { updateProfile } = useAuth();
 
   const handleLanguageSelect = async (language: Language) => {
     try {
-      // Change app language
       await changeLanguage(language.code);
-
-      // Save language preference locally
       await AsyncStorage.setItem('userLanguage', language.code);
-
-      // Update profile if Supabase is configured
-      if (isSupabaseConfigured()) {
-        await updateProfile({ language: language.code });
-      }
-
-      // Navigate to next screen
-      navigation.navigate('Onboarding');
+      await updateProfile({ language: language.code });
+      navigation.replace('Onboarding');
     } catch (error) {
       console.error('Error setting language:', error);
     }

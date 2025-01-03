@@ -1,21 +1,108 @@
 {
   "onboarding": {
-    "welcome": "Velkommen til HealthCare AI",
-    "selectLanguage": "Velg ditt foretrukne språk",
-    "continue": "Fortsett",
     "steps": {
-      "1": {
-        "title": "Din Helseassistent",
-        "description": "Få personlige helseinnsikter og anbefalinger"
+      "welcome": {
+        "title": "Velkommen til HealthcareApp",
+        "description": "Din personlige helsepartner for bedre liv"
       },
-      "2": {
-        "title": "Symptomanalyse",
-        "description": "Beskriv symptomene dine og få øyeblikkelig AI-drevet analyse"
+      "userDetails": {
+        "title": "Personlig Informasjon",
+        "description": "Fortell oss litt om deg selv"
       },
-      "3": {
+      "medicalHistory": {
         "title": "Medisinsk Historie",
-        "description": "Hold oversikt over helsejournal og avtaler"
+        "description": "Hjelp oss å forstå din helsebakgrunn"
+      },
+      "lifestyle": {
+        "title": "Livsstil",
+        "description": "La oss forstå dine daglige vaner"
+      },
+      "review": {
+        "title": "Gjennomgang",
+        "description": "Vennligst gjennomgå informasjonen din"
       }
+    },
+    "welcome": {
+      "title": "Din Helsereise Starter Her",
+      "description": "Spor helsen din, koble til leger og administrer avtaler på ett sted"
+    },
+    "userDetails": {
+      "name": "Fullt Navn",
+      "namePlaceholder": "Skriv inn fullt navn",
+      "age": "Alder",
+      "agePlaceholder": "Skriv inn alder",
+      "gender": "Kjønn",
+      "genders": {
+        "male": "Mann",
+        "female": "Kvinne",
+        "other": "Annet"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "Medisiner",
+        "placeholder": "Skriv inn medisinnavn",
+        "dosage": "Skriv inn dosering",
+        "add": "Legg til Medisin",
+        "frequencies": {
+          "daily": "Daglig",
+          "weekly": "Ukentlig",
+          "asNeeded": "Ved behov"
+        }
+      },
+      "conditions": {
+        "diabetes": "Diabetes",
+        "hypertension": "Høyt blodtrykk",
+        "asthma": "Astma",
+        "heart_disease": "Hjertesykdom",
+        "arthritis": "Leddgikt",
+        "other": "Annet"
+      },
+      "allergies": {
+        "title": "Allergier",
+        "placeholder": "Skriv inn allergi",
+        "common": {
+          "pollen": "Pollen",
+          "dust": "Støv",
+          "nuts": "Nøtter",
+          "lactose": "Laktose",
+          "gluten": "Gluten",
+          "shellfish": "Skalldyr"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "Røykestatus",
+      "smoker": "Røyker",
+      "nonSmoker": "Ikke-røyker",
+      "activity": "Fysisk Aktivitet",
+      "activityLevels": {
+        "sedentary": "Stillesittende",
+        "light": "Lett",
+        "moderate": "Moderat",
+        "active": "Aktiv",
+        "very_active": "Meget Aktiv"
+      },
+      "alcohol": "Alkoholforbruk",
+      "alcoholFrequency": {
+        "none": "Ingen",
+        "occasional": "Av og til",
+        "moderate": "Moderat",
+        "frequent": "Hyppig"
+      }
+    },
+    "review": {
+      "personalInfo": "Personlig Informasjon",
+      "medicalHistory": "Medisinsk Historie",
+      "lifestyle": "Livsstil"
+    },
+    "navigation": {
+      "next": "Neste",
+      "finish": "Fullfør",
+      "back": "Tilbake"
+    },
+    "edit": {
+      "title": "Rediger"
     }
   },
   "profile": {
@@ -23,7 +110,56 @@
     "language": "Språk",
     "darkMode": "Mørk Modus",
     "notifications": "Varsler",
-    "privacy": "Personverninnstillinger"
+    "privacy": "Personverninnstillinger",
+    "logout": "Logg ut",
+    "editProfile": "Rediger Profil",
+    "deleteAccount": "Slett Konto",
+    "version": "Versjon"
+  },
+  "home": {
+    "welcome": "Velkommen",
+    "checkSymptoms": "Sjekk Symptomer",
+    "appointments": "Avtaler",
+    "chat": "Chat",
+    "journal": "Medisinsk Journal",
+    "emergency": "Nødsituasjon",
+    "newCheck": "Ny Sjekk",
+    "bookAppointment": "Bestill Time",
+    "contactDoctor": "Kontakt Lege",
+    "lastCheck": "Siste Sjekk",
+    "symptomsInput": "Skriv inn dine symptomer...",
+    "analyzing": "Analyserer dine symptomer...",
+    "noSymptoms": "Vennligst skriv inn dine symptomer"
+  },
+  "appointments": {
+    "upcoming": "Kommende Avtaler",
+    "past": "Tidligere Avtaler",
+    "schedule": "Planlegg Ny",
+    "noUpcoming": "Ingen kommende avtaler",
+    "noPast": "Ingen tidligere avtaler",
+    "with": "Med {doctor}",
+    "cancel": "Avbryt Avtale",
+    "reschedule": "Endre Avtale"
+  },
+  "chat": {
+    "startConversation": "Start samtale med lege",
+    "typeMessage": "Skriv din melding...",
+    "send": "Send",
+    "connecting": "Kobler til...",
+    "offline": "Frakoblet",
+    "online": "Tilkoblet"
+  },
+  "journal": {
+    "title": "Medisinsk Journal",
+    "newEntry": "Ny Oppføring",
+    "symptoms": "Symptomer",
+    "medications": "Medisiner",
+    "mood": "Humør",
+    "notes": "Notater",
+    "date": "Dato",
+    "time": "Tid",
+    "save": "Lagre",
+    "delete": "Slett"
   },
   "common": {
     "save": "Lagre",
@@ -31,8 +167,18 @@
     "next": "Neste",
     "back": "Tilbake",
     "done": "Ferdig",
-    "error": "En feil har oppstått",
+    "error": "En feil oppstod",
     "success": "Vellykket",
-    "loading": "Laster..."
+    "loading": "Laster...",
+    "yes": "Ja",
+    "no": "Nei",
+    "ok": "OK",
+    "confirm": "Bekreft",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "search": "Søk",
+    "select": "Velg",
+    "submit": "Send inn",
+    "retry": "Prøv igjen"
   }
-} 
+}

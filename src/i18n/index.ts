@@ -8,12 +8,18 @@ import en from './translations/en.json';
 import es from './translations/es.json';
 import no from './translations/no.json';
 import ar from './translations/ar.json';
+import ps from './translations/ps.json';
+import faAF from './translations/fa-AF.json';
+import ur from './translations/ur.json';
 
 const resources = {
   en: { translation: en },
   es: { translation: es },
   no: { translation: no },
   ar: { translation: ar },
+  ps: { translation: ps },
+  'fa-AF': { translation: faAF },
+  ur: { translation: ur }
 };
 
 const fallbackLanguage = 'en';
@@ -59,7 +65,7 @@ const initializeI18n = async () => {
     const language = await getBestLanguage();
     
     // Configure RTL
-    const isRTL = language === 'ar';
+    const isRTL = language === 'ar' || language === 'fa-AF' || language === 'ur';
     if (I18nManager.isRTL !== isRTL) {
       I18nManager.allowRTL(isRTL);
       I18nManager.forceRTL(isRTL);
@@ -95,7 +101,7 @@ export const changeLanguage = async (language: string) => {
     await i18n.changeLanguage(language);
     await AsyncStorage.setItem('userLanguage', language);
     
-    const isRTL = language === 'ar';
+    const isRTL = language === 'ar' || language === 'fa-AF' || language === 'ur';
     if (I18nManager.isRTL !== isRTL) {
       I18nManager.allowRTL(isRTL);
       I18nManager.forceRTL(isRTL);
@@ -113,4 +119,4 @@ export const changeLanguage = async (language: string) => {
 // Initialize
 initializeI18n();
 
-export default i18n; 
+export default i18n;

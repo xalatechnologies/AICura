@@ -1,21 +1,108 @@
 {
   "onboarding": {
-    "welcome": "Welcome to HealthCare AI",
-    "selectLanguage": "Select your preferred language",
-    "continue": "Continue",
     "steps": {
-      "1": {
-        "title": "Your Health Assistant",
-        "description": "Get personalized health insights and recommendations"
+      "welcome": {
+        "title": "Welcome to HealthcareApp",
+        "description": "Your personal health companion for better living"
       },
-      "2": {
-        "title": "Symptom Analysis",
-        "description": "Describe your symptoms and get instant AI-powered analysis"
+      "userDetails": {
+        "title": "Personal Information",
+        "description": "Tell us a bit about yourself"
       },
-      "3": {
+      "medicalHistory": {
         "title": "Medical History",
-        "description": "Keep track of your health records and appointments"
+        "description": "Help us understand your health background"
+      },
+      "lifestyle": {
+        "title": "Lifestyle",
+        "description": "Let's understand your daily habits"
+      },
+      "review": {
+        "title": "Review",
+        "description": "Please review your information"
       }
+    },
+    "welcome": {
+      "title": "Your Health Journey Starts Here",
+      "description": "Track your health, connect with doctors, and manage appointments all in one place"
+    },
+    "userDetails": {
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "age": "Age",
+      "agePlaceholder": "Enter your age",
+      "gender": "Gender",
+      "genders": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "Medications",
+        "placeholder": "Enter medication name",
+        "dosage": "Enter dosage",
+        "add": "Add Medication",
+        "frequencies": {
+          "daily": "Daily",
+          "weekly": "Weekly",
+          "asNeeded": "As Needed"
+        }
+      },
+      "conditions": {
+        "diabetes": "Diabetes",
+        "hypertension": "Hypertension",
+        "asthma": "Asthma",
+        "heart_disease": "Heart Disease",
+        "arthritis": "Arthritis",
+        "other": "Other"
+      },
+      "allergies": {
+        "title": "Allergies",
+        "placeholder": "Enter allergy",
+        "common": {
+          "pollen": "Pollen",
+          "dust": "Dust",
+          "nuts": "Nuts",
+          "lactose": "Lactose",
+          "gluten": "Gluten",
+          "shellfish": "Shellfish"
+        }
+      }
+    },
+    "lifestyle": {
+      "smoking": "Smoking Status",
+      "smoker": "Smoker",
+      "nonSmoker": "Non-smoker",
+      "activity": "Physical Activity",
+      "activityLevels": {
+        "sedentary": "Sedentary",
+        "light": "Light",
+        "moderate": "Moderate",
+        "active": "Active",
+        "very_active": "Very Active"
+      },
+      "alcohol": "Alcohol Consumption",
+      "alcoholFrequency": {
+        "none": "None",
+        "occasional": "Occasional",
+        "moderate": "Moderate",
+        "frequent": "Frequent"
+      }
+    },
+    "review": {
+      "personalInfo": "Personal Information",
+      "medicalHistory": "Medical History",
+      "lifestyle": "Lifestyle"
+    },
+    "navigation": {
+      "next": "Next",
+      "finish": "Finish",
+      "back": "Back"
+    },
+    "edit": {
+      "title": "Edit"
     }
   },
   "profile": {
@@ -23,7 +110,56 @@
     "language": "Language",
     "darkMode": "Dark Mode",
     "notifications": "Notifications",
-    "privacy": "Privacy Settings"
+    "privacy": "Privacy Settings",
+    "logout": "Logout",
+    "editProfile": "Edit Profile",
+    "deleteAccount": "Delete Account",
+    "version": "Version"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "checkSymptoms": "Check Symptoms",
+    "appointments": "Appointments",
+    "chat": "Chat",
+    "journal": "Medical Journal",
+    "emergency": "Emergency",
+    "newCheck": "New Check-up",
+    "bookAppointment": "Book Appointment",
+    "contactDoctor": "Contact Doctor",
+    "lastCheck": "Last Check-up",
+    "symptomsInput": "Enter your symptoms...",
+    "analyzing": "Analyzing your symptoms...",
+    "noSymptoms": "Please enter your symptoms"
+  },
+  "appointments": {
+    "upcoming": "Upcoming Appointments",
+    "past": "Past Appointments",
+    "schedule": "Schedule New",
+    "noUpcoming": "No upcoming appointments",
+    "noPast": "No past appointments",
+    "with": "With {doctor}",
+    "cancel": "Cancel Appointment",
+    "reschedule": "Reschedule Appointment"
+  },
+  "chat": {
+    "startConversation": "Start conversation with doctor",
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "connecting": "Connecting...",
+    "offline": "Offline",
+    "online": "Online"
+  },
+  "journal": {
+    "title": "Medical Journal",
+    "newEntry": "New Entry",
+    "symptoms": "Symptoms",
+    "medications": "Medications",
+    "mood": "Mood",
+    "notes": "Notes",
+    "date": "Date",
+    "time": "Time",
+    "save": "Save",
+    "delete": "Delete"
   },
   "common": {
     "save": "Save",
@@ -33,6 +169,16 @@
     "done": "Done",
     "error": "An error occurred",
     "success": "Success",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "select": "Select",
+    "submit": "Submit",
+    "retry": "Retry"
   }
-} 
+}

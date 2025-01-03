@@ -174,7 +174,7 @@ export async function analyzeSymptoms(symptoms: string, useOpenAI = true) {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `Analyze the following symptoms and provide insights: ${symptoms}` }
       ],
-      temperature: 0.7,
+    temperature: 0.7,
       max_tokens: 500,
       stream: false,
     });
