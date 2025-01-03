@@ -1,64 +1,39 @@
 import React, { useEffect } from 'react';
-import { View, Image, StyleSheet, Dimensions, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@navigation/RootNavigator';
+import { StyledAppTitle } from '@components/StyledAppTitle';
 
-interface SplashScreenProps {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Splash'>;
-}
-
-const SplashScreen = ({ navigation }: SplashScreenProps) => {
+export const SplashScreen = () => {
   const { colors } = useTheme();
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
-  const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
+  const fadeAnim = new Animated.Value(0);
 
   useEffect(() => {
-    Animated.parallel([
+    Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
       }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        tension: 20,
-        friction: 7,
+      Animated.delay(1000),
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 1000,
         useNativeDriver: true,
       }),
     ]).start();
-
-    // Navigate to Welcome screen after 2.5 seconds
-    const timer = setTimeout(() => {
-      navigation.replace('Welcome');
-    }, 2500);
-
-    return () => clearTimeout(timer);
   }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Animated.View
-        style={[
-          styles.iconContainer,
-          {
-            opacity: fadeAnim,
-            transform: [{ scale: scaleAnim }],
-          },
-        ]}
-      >
-        <Image
-          source={require('@assets/playstore.png')}
-          style={styles.icon}
-          resizeMode="contain"
-        />
+      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+        <StyledAppTitle size="large" />
+        <Text style={[styles.tagline, { color: colors.textSecondary }]}>
+          The Future AI Doctor
+        </Text>
       </Animated.View>
     </View>
   );
 };
-
-const { width } = Dimensions.get('window');
-const ICON_SIZE = width * 0.6;
 
 const styles = StyleSheet.create({
   container: {
@@ -66,16 +41,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconContainer: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-    justifyContent: 'center',
+  content: {
     alignItems: 'center',
   },
-  icon: {
-    width: '100%',
-    height: '100%',
+  tagline: {
+    fontSize: 18,
+    marginTop: 8,
+    fontFamily: 'Roboto-Light',
   },
 });
-
-export default SplashScreen;

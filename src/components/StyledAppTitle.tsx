@@ -12,11 +12,11 @@ export const StyledAppTitle = ({ size = 'medium' }: StyledAppTitleProps) => {
   const getFontSize = () => {
     switch (size) {
       case 'small':
-        return 24;
-      case 'large':
-        return 36;
-      default:
         return 28;
+      case 'large':
+        return 48;
+      default:
+        return 36;
     }
   };
 
@@ -28,8 +28,8 @@ export const StyledAppTitle = ({ size = 'medium' }: StyledAppTitleProps) => {
           fontSize: getFontSize(),
           color: colors.primary,
           textShadowColor: colors.primary,
-          textShadowOffset: { width: 1, height: 1 },
-          textShadowRadius: 4,
+          textShadowOffset: { width: 2, height: 2 },
+          textShadowRadius: 6,
         }
       ]}>
         AI
@@ -38,7 +38,7 @@ export const StyledAppTitle = ({ size = 'medium' }: StyledAppTitleProps) => {
         styles.curaText,
         { 
           fontSize: getFontSize(),
-          color: colors.text,
+          color: colors.text 
         }
       ]}>
         Cura
@@ -51,14 +51,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 16,
   },
   aiText: {
-    fontWeight: '900',
-    fontFamily: 'Inter-Black',
+    fontFamily: 'Roboto-Bold',
+    letterSpacing: 2,
   },
   curaText: {
-    fontWeight: '600',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Roboto-Light',
+    letterSpacing: 1,
   },
-});
+}); 

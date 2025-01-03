@@ -185,7 +185,7 @@
   },
   "auth": {
     "welcome": {
-      "title": "Welcome to AICura",
+      "title": "Welcome to AICura™",
       "description": "Your Intelligent Healthcare Companion",
       "subtitle": "Experience the Future of Healthcare",
       "login": "Sign In",
@@ -197,7 +197,7 @@
       "tagline": "Smart Health • Better Life"
     },
     "login": {
-      "title": "Welcome Back to AICura",
+      "title": "Welcome Back to AICura™",
       "description": "Your health journey continues here",
       "email": "Email Address",
       "emailPlaceholder": "Enter your email address",
@@ -216,7 +216,7 @@
       }
     },
     "signup": {
-      "title": "Join AICura Today",
+      "title": "Join AICura™ Today",
       "description": "Start your personalized health journey",
       "subtitle": "Your wellness, our priority",
       "name": "Full Name",

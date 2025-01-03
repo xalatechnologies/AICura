@@ -1,63 +1,79 @@
-import React, { createContext, useContext } from 'react';
-
-export interface CustomColors {
-  primary: string;
-  primaryDark: string;
-  secondary: string;
-  secondaryDark: string;
-  background: string;
-  card: string;
-  text: string;
-  textSecondary: string;
-  border: string;
-}
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Appearance, ColorSchemeName } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Theme, ColorScheme } from './types';
+import { lightTheme, darkTheme } from './themes';
+import { useAuth } from '@contexts/AuthContext';
 
 interface ThemeContextType {
-  colors: CustomColors;
-  isDark: boolean;
-  toggleTheme: () => void;
+  theme: Theme;
+  colorScheme: ColorScheme;
+  setColorScheme: (scheme: ColorScheme) => Promise<void>;
+  toggleColorScheme: () => Promise<void>;
+  colors: Theme['colors'];
 }
-
-const lightColors: CustomColors = {
-  primary: '#FF6B6B',
-  primaryDark: '#FF5252',
-  secondary: '#4A90E2',
-  secondaryDark: '#357ABD',
-  background: '#F9FAFB',
-  card: '#FFFFFF',
-  text: '#1A1A1A',
-  textSecondary: '#666666',
-  border: '#E5E7EB',
-};
-
-const darkColors: CustomColors = {
-  primary: '#FF6B6B',
-  primaryDark: '#FF5252',
-  secondary: '#4A90E2',
-  secondaryDark: '#357ABD',
-  background: '#1A1A1A',
-  card: '#2D2D2D',
-  text: '#FFFFFF',
-  textSecondary: '#A0A0A0',
-  border: '#404040',
-};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDark, setIsDark] = React.useState(false);
+  const [colorScheme, setColorSchemeState] = useState<ColorScheme>(
+    Appearance.getColorScheme() || 'light'
+  );
+  const { userProfile, updateProfile } = useAuth();
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
+  useEffect(() => {
+    loadSavedTheme();
+    const subscription = Appearance.addChangeListener(({ colorScheme: newColorScheme }) => {
+      if (!userProfile?.theme) {
+        setColorSchemeState(newColorScheme as ColorScheme || 'light');
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  const loadSavedTheme = async () => {
+    try {
+      const savedTheme = userProfile?.theme as ColorScheme || 
+                        await AsyncStorage.getItem('theme') || 
+                        Appearance.getColorScheme() || 
+                        'light';
+      setColorSchemeState(savedTheme);
+    } catch (error) {
+      console.error('Error loading theme:', error);
+    }
+  };
+
+  const setColorScheme = async (newScheme: ColorScheme) => {
+    try {
+      setColorSchemeState(newScheme);
+      await AsyncStorage.setItem('theme', newScheme);
+      if (userProfile) {
+        await updateProfile({ theme: newScheme });
+      }
+    } catch (error) {
+      console.error('Error saving theme:', error);
+    }
+  };
+
+  const toggleColorScheme = async () => {
+    const newScheme = colorScheme === 'light' ? 'dark' : 'light';
+    await setColorScheme(newScheme);
   };
 
   const value = {
-    colors: isDark ? darkColors : lightColors,
-    isDark,
-    toggleTheme,
+    theme: colorScheme === 'light' ? lightTheme : darkTheme,
+    colorScheme,
+    setColorScheme,
+    toggleColorScheme,
+    colors: (colorScheme === 'light' ? lightTheme : darkTheme).colors,
   };
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
 
 export const useTheme = () => {

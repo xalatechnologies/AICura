@@ -4,9 +4,8 @@ import { useTheme } from '@theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
-import { Button } from '@components/Button';
 import { StyledAppTitle } from '@components/StyledAppTitle';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ThemeHeader } from '@components/ThemeHeader';
 
 type WelcomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -14,34 +13,29 @@ type WelcomeScreenProps = {
 
 export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <TouchableOpacity
-        style={[styles.languageButton, { backgroundColor: colors.card }]}
-        onPress={() => navigation.navigate('LanguageSelection')}
-      >
-        <Icon name="language" size={24} color={colors.primary} />
-      </TouchableOpacity>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <ThemeHeader showLanguage />
 
       <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          <Image
-            source={require('../../assets/images/playstore.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
+      <Image
+          source={require('@assets/images/playstore.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
 
-        <StyledAppTitle size="large" />
-        <Text style={[styles.description, { color: colors.textSecondary }]}>
-          {t('auth.welcome.description')}
-        </Text>
+        <View style={styles.header}>
+          <StyledAppTitle size="large" />
+          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
+            {t('auth.welcome.description')}
+          </Text>
+        </View>
 
         <View style={styles.buttons}>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: colors.primary }]}
+            style={[styles.button, { backgroundColor: theme.colors.primary }]}
             onPress={() => navigation.navigate('Signup')}
           >
             <Text style={styles.buttonText}>
@@ -50,10 +44,10 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: colors.card }]}
+            style={[styles.button, { backgroundColor: theme.colors.card }]}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={[styles.buttonText, { color: colors.text }]}>
+            <Text style={[styles.buttonText, { color: theme.colors.text }]}>
               {t('auth.welcome.login')}
             </Text>
           </TouchableOpacity>
@@ -80,15 +74,6 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: 40,
-  },
-  titleContainer: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  logo: {
-    width: 40,
-    height: 40,
-    marginBottom: 8,
   },
   title: {
     fontSize: 32,

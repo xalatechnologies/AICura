@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useAuth } from '@contexts/AuthContext';
+import { SplashScreen } from '@screens/SplashScreen';
 import { WelcomeScreen } from '@screens/auth/WelcomeScreen';
 import { LoginScreen } from '@screens/auth/LoginScreen';
 import { SignupScreen } from '@screens/auth/SignupScreen';
-import { ForgotPasswordScreen } from '@screens/auth/ForgotPasswordScreen';
 import { OnboardingScreen } from '@screens/OnboardingScreen';
-import HomeScreen from '@screens/HomeScreen';
-import { LoadingScreen } from '@screens/LoadingScreen';
-import SplashScreen from '@screens/SplashScreen';
-import { LanguageSelectionScreen } from '@screens/LanguageSelectionScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MainTabs } from '@navigation/MainTabs';
+import { useAuth } from '@contexts/AuthContext';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -19,63 +15,35 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPassword: undefined;
   Onboarding: undefined;
-  Home: undefined;
-  LanguageSelection: undefined;
   MainTabs: undefined;
-  Appointments: undefined;
+  LanguageSelection: undefined;
+  Settings: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = () => {
-  const { session, loading, user } = useAuth();
-  const [isLanguageSelected, setIsLanguageSelected] = useState<boolean | null>(null);
+  const { isLoading, isAuthenticated, hasCompletedOnboarding } = useAuth();
 
-  useEffect(() => {
-    checkLanguageSelection();
-  }, []);
-
-  const checkLanguageSelection = async () => {
-    try {
-      const selectedLanguage = await AsyncStorage.getItem('selectedLanguage');
-      setIsLanguageSelected(!!selectedLanguage);
-    } catch (error) {
-      setIsLanguageSelected(false);
-    }
-  };
-
-  if (loading || isLanguageSelected === null) {
-    return <LoadingScreen />;
+  if (isLoading) {
+    return <SplashScreen />;
   }
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'slide_from_right',
-      }}
-    >
-      <Stack.Screen 
-        name="Splash" 
-        component={SplashScreen} 
-        options={{ animation: 'fade' }}
-      />
-      {!isLanguageSelected ? (
-        <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
-      ) : session && user ? (
-        user.user_metadata?.onboarded ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
-        ) : (
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        )
-      ) : (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {!isAuthenticated ? (
+        // Auth Stack
         <>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
         </>
+      ) : !hasCompletedOnboarding ? (
+        // Onboarding Stack
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+      ) : (
+        // Main App Stack
+        <Stack.Screen name="MainTabs" component={MainTabs} />
       )}
     </Stack.Navigator>
   );

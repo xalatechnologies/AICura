@@ -26,6 +26,7 @@ import {
   UserProfile,
   OnboardingStep,
 } from './onboarding';
+import { useAuth } from '@contexts/AuthContext';
 
 type OnboardingScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
@@ -54,6 +55,7 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
   const [slideAnim] = useState(new Animated.Value(0));
   const [fadeAnim] = useState(new Animated.Value(1));
   const [buttonScale] = useState(new Animated.Value(1));
+  const { updateProfile } = useAuth();
 
   const steps: OnboardingStep[] = useMemo(() => [
     {
@@ -194,6 +196,16 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
     ]).start();
   }, [buttonScale]);
 
+  const mapActivityToExerciseFrequency = (activity: string): 'none' | 'occasional' | 'regular' | 'frequent' => {
+    const map: { [key: string]: 'none' | 'occasional' | 'regular' | 'frequent' } = {
+      'sedentary': 'none',
+      'moderate': 'regular',
+      'active': 'frequent',
+      'light': 'occasional'
+    };
+    return map[activity] || 'none';
+  };
+
   const handleNext = useCallback(async () => {
     animateButtonPress();
 
@@ -202,22 +214,26 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
     } else {
       try {
         setLoading(true);
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session?.user.id) {
-          Alert.alert('Error', 'No user session found');
-          return;
-        }
+        
+        const profileData = {
+          name: profile.name,
+          age: parseInt(profile.age),
+          gender: profile.gender,
+          preferred_language: 'en',
+          lifestyle_factors: {
+            smoking: profile.lifestyle.smoking,
+            alcohol: profile.lifestyle.alcohol !== 'none',
+            exercise_frequency: mapActivityToExerciseFrequency(profile.lifestyle.activity),
+            diet_restrictions: []
+          },
+          medical_conditions: profile.medicalHistory.conditions,
+          allergies: profile.medicalHistory.allergies,
+          medications: profile.medicalHistory.medications.map(med => med.name),
+          onboarding_completed: true
+        };
 
-        const { error } = await supabase
-          .from('profiles')
-          .upsert({
-            id: session.user.id,
-            ...profile,
-            updated_at: new Date().toISOString(),
-          });
-
-        if (error) throw error;
-
+        await updateProfile(profileData);
+        
         await AsyncStorage.setItem('onboardingComplete', 'true');
         navigation.navigate('MainTabs');
       } catch (error) {
@@ -227,7 +243,7 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
         setLoading(false);
       }
     }
-  }, [currentStep, steps.length, handleStepChange, animateButtonPress, profile, navigation]);
+  }, [currentStep, steps.length, handleStepChange, animateButtonPress, profile, navigation, updateProfile]);
 
   const handleBack = useCallback(() => {
     if (currentStep > 0) {

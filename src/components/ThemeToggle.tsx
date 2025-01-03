@@ -1,37 +1,49 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '@theme/ThemeContext';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export const ThemeToggle = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const { colorScheme, toggleColorScheme, theme } = useTheme();
+  const rotateAnim = new Animated.Value(colorScheme === 'light' ? 0 : 1);
+
+  const handlePress = async () => {
+    Animated.timing(rotateAnim, {
+      toValue: colorScheme === 'light' ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    await toggleColorScheme();
+  };
+
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
 
   return (
     <TouchableOpacity
-      style={styles.container}
-      onPress={toggleTheme}
+      style={[styles.button, { backgroundColor: theme.colors.card }]}
+      onPress={handlePress}
     >
-      <Icon 
-        name={isDark ? 'moon' : 'sunny'} 
-        size={24} 
-        color={isDark ? '#FDB813' : '#FDB813'} 
-      />
-      <Text style={styles.text}>
-        {isDark ? 'Dark Mode' : 'Light Mode'}
-      </Text>
+      <Animated.View style={{ transform: [{ rotate: spin }] }}>
+        <Icon
+          name={colorScheme === 'light' ? 'light-mode' : 'dark-mode'}
+          size={24}
+          color={theme.colors.primary}
+        />
+      </Animated.View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
+  button: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    gap: 12,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: '500',
   },
 }); 
