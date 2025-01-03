@@ -180,5 +180,76 @@
     "select": "Velg",
     "submit": "Send inn",
     "retry": "Prøv igjen"
+  },
+  "auth": {
+    "welcome": {
+      "title": "Velkommen til AICura™",
+      "description": "Din Intelligente Helsepartner",
+      "subtitle": "Opplev Fremtidens Helsevesen",
+      "login": "Logg Inn",
+      "signup": "Kom i Gang",
+      "terms": "Ved å fortsette godtar du våre",
+      "termsLink": "Vilkår og Betingelser",
+      "privacyLink": "Personvernregler",
+      "and": "og",
+      "tagline": "Smart Helse • Bedre Liv"
+    },
+    "login": {
+      "title": "Velkommen Tilbake til AICura™",
+      "description": "Din helsereise fortsetter her",
+      "email": "E-postadresse",
+      "emailPlaceholder": "Skriv inn din e-postadresse",
+      "password": "Passord",
+      "passwordPlaceholder": "Skriv inn ditt passord",
+      "forgotPassword": "Glemt Passord?",
+      "rememberMe": "Hold meg innlogget",
+      "loginButton": "Logg Inn",
+      "noAccount": "Ny hos AICura?",
+      "signupLink": "Opprett Konto",
+      "or": "eller fortsett med",
+      "socialLogin": {
+        "google": "Fortsett med Google",
+        "apple": "Fortsett med Apple",
+        "facebook": "Fortsett med Facebook"
+      }
+    },
+    "signup": {
+      "title": "Bli Med i AICura™ I Dag",
+      "description": "Start din personlige helsereise",
+      "subtitle": "Din velvære, vår prioritet",
+      "name": "Fullt Navn",
+      "namePlaceholder": "Skriv inn ditt fulle navn",
+      "email": "E-postadresse",
+      "emailPlaceholder": "Skriv inn din e-postadresse",
+      "password": "Opprett Passord",
+      "passwordPlaceholder": "Velg et sterkt passord",
+      "confirmPassword": "Bekreft Passord",
+      "confirmPasswordPlaceholder": "Skriv inn passordet på nytt",
+      "phone": "Telefonnummer",
+      "phonePlaceholder": "Skriv inn ditt telefonnummer",
+      "signupButton": "Opprett Din Konto",
+      "haveAccount": "Allerede en del av AICura?",
+      "loginLink": "Logg Inn",
+      "or": "eller bli med med"
+    },
+    "forgotPassword": {
+      "title": "Tilbakestill Passord",
+      "description": "Skriv inn din e-post for å tilbakestille passordet",
+      "email": "E-post",
+      "emailPlaceholder": "Skriv inn din e-post",
+      "sendButton": "Send Tilbakestillingslenke",
+      "backToLogin": "Tilbake til Innlogging",
+      "emailSent": "Lenke Sendt!",
+      "checkEmail": "Vennligst sjekk e-posten din for instruksjoner"
+    },
+    "otp": {
+      "title": "Bekreft E-post",
+      "description": "Skriv inn bekreftelseskoden sendt til din e-post",
+      "codePlaceholder": "Skriv inn bekreftelseskode",
+      "verifyButton": "Bekreft",
+      "resendCode": "Send Kode På Nytt",
+      "resendTimer": "Send kode på nytt om {seconds} sekunder",
+      "emailSentTo": "Kode sendt til {email}"
+    }
   }
 }

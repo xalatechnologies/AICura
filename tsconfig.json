@@ -14,13 +14,16 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@screens/*": ["src/screens/*"],
-      "@context/*": ["src/context/*"],
-      "@lib/*": ["src/lib/*"],
-      "@styles/*": ["src/styles/*"],
+      "@screens": ["src/screens"],
+      "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@theme/*": ["src/theme/*"],
+      "@styles/*": ["src/styles/*"],
+      "@lib/*": ["src/lib/*"],
       "@i18n/*": ["src/i18n/*"],
-      "@navigation/*": ["src/navigation/*"]
+      "@services/*": ["src/services/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@assets/*": ["src/assets/*"]
     },
     "lib": ["es2018", "dom"],
     "types": ["react-native"]

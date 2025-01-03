@@ -1,10 +1,11 @@
 import React from 'react';
-import { AppContent } from './src/navigation/AppContent';
-import { ThemeProvider } from './src/theme/ThemeContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './src/i18n';
+import { ThemeProvider } from './src/theme/ThemeContext';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { RootNavigator } from './src/navigation/RootNavigator';
+import i18n from './src/i18n';
 
 export default function App() {
   return (
@@ -12,7 +13,9 @@ export default function App() {
       <I18nextProvider i18n={i18n}>
         <ThemeProvider>
           <AuthProvider>
-            <AppContent />
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
           </AuthProvider>
         </ThemeProvider>
       </I18nextProvider>

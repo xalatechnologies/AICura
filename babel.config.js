@@ -9,16 +9,16 @@ module.exports = function(api) {
           root: ['./src'],
           extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
-            '@': './src',
-            '@services': './src/services',
             '@screens': './src/screens',
+            '@screens/*': './src/screens/*',
+            '@contexts': './src/contexts',
+            '@theme': './src/theme',
+            '@lib': './src/lib',
             '@navigation': './src/navigation',
-            '@context': './src/context',
-            '@styles': './src/styles',
-            '@hooks': './src/hooks'
-          }
-        }
-      ]
-    ]
+            '@assets': './src/assets'
+          },
+        },
+      ],
+    ],
   };
 }; 

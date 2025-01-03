@@ -183,18 +183,18 @@
   },
   "auth": {
     "welcome": {
-      "title": "سفر خود را امروز آغاز کنید!",
-      "description": "همراه شخصی سلامت شما برای زندگی بهتر",
+      "title": "به AICura خوش آمدید",
+      "description": "همراه سلامتی شما با هوش مصنوعی",
       "login": "ورود",
       "signup": "ثبت نام",
-      "terms": "با ادامه، شما موافقت می‌کنید با",
+      "terms": "با ادامه دادن، شما موافقت می‌کنید با",
       "termsLink": "شرایط و ضوابط",
-      "privacyLink": "سیاست حریم خصوصی",
+      "privacyLink": "سیاست حفظ حریم خصوصی",
       "and": "و"
     },
     "login": {
-      "title": "خوش آمدید",
-      "description": "برای ادامه وارد شوید",
+      "title": "خوش برگشتید",
+      "description": "به حساب AICura خود وارد شوید",
       "email": "ایمیل",
       "emailPlaceholder": "ایمیل خود را وارد کنید",
       "password": "رمز عبور",
@@ -212,8 +212,8 @@
       }
     },
     "signup": {
-      "title": "ایجاد حساب کاربری",
-      "description": "برای شروع ثبت نام کنید",
+      "title": "به AICura بپیوندید",
+      "description": "حساب سلامت شخصی خود را ایجاد کنید",
       "name": "نام کامل",
       "namePlaceholder": "نام کامل خود را وارد کنید",
       "email": "ایمیل",
@@ -221,27 +221,27 @@
       "password": "رمز عبور",
       "passwordPlaceholder": "یک رمز عبور ایجاد کنید",
       "confirmPassword": "تأیید رمز عبور",
-      "confirmPasswordPlaceholder": "رمز عبور خود را تأیید کنید",
+      "confirmPasswordPlaceholder": "رمز عبور را تأیید کنید",
       "phone": "شماره تلفن",
       "phonePlaceholder": "شماره تلفن خود را وارد کنید",
-      "signupButton": "ثبت نام",
-      "haveAccount": "قبلاً حساب کاربری دارید؟",
+      "signupButton": "ایجاد حساب",
+      "haveAccount": "قبلاً حساب دارید؟",
       "loginLink": "ورود",
       "or": "یا"
     },
     "forgotPassword": {
-      "title": "فراموشی رمز عبور",
-      "description": "برای بازنشانی رمز عبور ایمیل خود را وارد کنید",
+      "title": "بازنشانی رمز عبور",
+      "description": "برای بازنشانی رمز عبور، ایمیل خود را وارد کنید",
       "email": "ایمیل",
       "emailPlaceholder": "ایمیل خود را وارد کنید",
       "sendButton": "ارسال لینک بازنشانی",
       "backToLogin": "بازگشت به صفحه ورود",
-      "emailSent": "ایمیل بازنشانی رمز عبور ارسال شد!",
-      "checkEmail": "لطفاً ایمیل خود را برای دستورالعمل‌های بیشتر بررسی کنید"
+      "emailSent": "لینک ارسال شد!",
+      "checkEmail": "لطفاً ایمیل خود را برای دریافت دستورالعمل‌ها بررسی کنید"
     },
     "otp": {
       "title": "تأیید ایمیل",
-      "description": "کد ارسال شده به ایمیل خود را وارد کنید",
+      "description": "کد تأیید ارسال شده به ایمیل خود را وارد کنید",
       "codePlaceholder": "کد تأیید را وارد کنید",
       "verifyButton": "تأیید",
       "resendCode": "ارسال مجدد کد",

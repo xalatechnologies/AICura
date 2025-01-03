@@ -1,47 +1,28 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAppTheme } from '@context/ThemeContext';
-import { useAuth } from '@context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { RootStackParamList } from '@navigation/RootNavigator';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { supabase } from '@lib/supabase';
-import { AuthError } from '@supabase/supabase-js';
 
-type AuthStackParamList = {
-  Login: undefined;
-  ForgotPassword: undefined;
-  Signup: undefined;
+type LoginScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
 };
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList>;
-
-const LoginScreen = () => {
+export const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { t } = useTranslation();
-  const { colors } = useAppTheme();
-  const navigation = useNavigation<LoginScreenNavigationProp>();
-
+  const { colors } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert(
-        'Error',
-        t('auth.errors.emailRequired') + '\n' + t('auth.errors.passwordRequired')
+        t('common.error'),
+        t('auth.errors.allFieldsRequired')
       );
       return;
     }
@@ -54,258 +35,168 @@ const LoginScreen = () => {
       });
 
       if (error) throw error;
-
-      // Navigate to home screen or handle successful login
-    } catch (error) {
-      Alert.alert('Error', (error as AuthError).message);
+    } catch (error: any) {
+      Alert.alert(t('common.error'), error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'apple' | 'facebook') => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-      });
-
-      if (error) throw error;
-    } catch (error) {
-      Alert.alert('Error', (error as AuthError).message);
-    }
-  };
-
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {t('auth.login.title')}
-          </Text>
-          <Text style={[styles.description, { color: colors.text }]}>
-            {t('auth.login.description')}
-          </Text>
-        </View>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <TouchableOpacity
+        style={[styles.backButton, { backgroundColor: colors.card }]}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-back" size={24} color={colors.text} />
+      </TouchableOpacity>
 
-        <View style={styles.form}>
-          {/* Email Input */}
-          <View style={styles.inputContainer}>
-            <Icon name="email-outline" size={20} color={colors.text} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-              placeholder={t('auth.login.emailPlaceholder')}
-              placeholderTextColor={colors.text + '80'}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <Icon name="lock-outline" size={20} color={colors.text} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-              placeholder={t('auth.login.passwordPlaceholder')}
-              placeholderTextColor={colors.text + '80'}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.passwordToggle}>
-              <Icon
-                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                size={20}
-                color={colors.text}
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Remember Me & Forgot Password */}
-          <View style={styles.optionsContainer}>
-            <TouchableOpacity
-              style={styles.rememberMe}
-              onPress={() => setRememberMe(!rememberMe)}
-            >
-              <Icon
-                name={rememberMe ? 'checkbox-marked' : 'checkbox-blank-outline'}
-                size={20}
-                color={colors.primary}
-              />
-              <Text style={[styles.rememberMeText, { color: colors.text }]}>
-                {t('auth.login.rememberMe')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text style={[styles.forgotPassword, { color: colors.primary }]}>
-                {t('auth.login.forgotPassword')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Login Button */}
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: colors.primary }]}
-            onPress={handleLogin}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color={colors.text} />
-            ) : (
-              <Text style={[styles.buttonText, { color: colors.text }]}>
-                {t('auth.login.loginButton')}
-              </Text>
-            )}
-          </TouchableOpacity>
-
-          {/* Social Login */}
-          <View style={styles.socialContainer}>
-            <Text style={[styles.orText, { color: colors.text }]}>
-              {t('auth.login.or')}
-            </Text>
-
-            <TouchableOpacity
-              style={[styles.socialButton, { backgroundColor: colors.card }]}
-              onPress={() => handleSocialLogin('google')}
-            >
-              <Icon name="google" size={20} color={colors.text} />
-              <Text style={[styles.socialButtonText, { color: colors.text }]}>
-                {t('auth.login.socialLogin.google')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.socialButton, { backgroundColor: colors.card }]}
-              onPress={() => handleSocialLogin('apple')}
-            >
-              <Icon name="apple" size={20} color={colors.text} />
-              <Text style={[styles.socialButtonText, { color: colors.text }]}>
-                {t('auth.login.socialLogin.apple')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Sign Up Link */}
-        <View style={styles.footer}>
-          <Text style={[styles.footerText, { color: colors.text }]}>
-            {t('auth.login.noAccount')}{' '}
-            <Text
-              style={[styles.footerLink, { color: colors.primary }]}
-              onPress={() => navigation.navigate('Signup')}
-            >
-              {t('auth.login.signupLink')}
-            </Text>
-          </Text>
-        </View>
+      <View style={styles.header}>
+        <Text style={[styles.title, { color: colors.text }]}>
+          {t('auth.login.title')}
+        </Text>
+        <Text style={[styles.description, { color: colors.textSecondary }]}>
+          {t('auth.login.description')}
+        </Text>
       </View>
-    </SafeAreaView>
+
+      <View style={styles.form}>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label, { color: colors.text }]}>
+            {t('auth.login.email')}
+          </Text>
+          <TextInput
+            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+            placeholder={t('auth.login.emailPlaceholder')}
+            placeholderTextColor={colors.textSecondary}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label, { color: colors.text }]}>
+            {t('auth.login.password')}
+          </Text>
+          <TextInput
+            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+            placeholder={t('auth.login.passwordPlaceholder')}
+            placeholderTextColor={colors.textSecondary}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ForgotPassword')}
+          style={styles.forgotPassword}
+        >
+          <Text style={[styles.forgotPasswordText, { color: colors.primary }]}>
+            {t('auth.login.forgotPassword')}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.loginButton, { backgroundColor: colors.primary }]}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          <Text style={styles.loginButtonText}>
+            {loading ? t('common.loading') : t('auth.login.loginButton')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.footer}>
+        <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+          {t('auth.login.noAccount')}
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text style={[styles.footerLink, { color: colors.primary }]}>
+            {t('auth.login.signupLink')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
-  content: {
-    flex: 1,
-    padding: 24,
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
   header: {
-    marginBottom: 32,
+    marginTop: 40,
+    marginBottom: 40,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    opacity: 0.8,
   },
   form: {
-    flex: 1,
+    gap: 20,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 12,
+    gap: 8,
   },
-  inputIcon: {
-    marginRight: 8,
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   input: {
-    flex: 1,
-    height: 48,
+    height: 50,
+    borderRadius: 12,
+    paddingHorizontal: 16,
     fontSize: 16,
   },
-  passwordToggle: {
-    padding: 8,
-  },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  rememberMe: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rememberMeText: {
-    marginLeft: 8,
-    fontSize: 14,
-  },
   forgotPassword: {
+    alignSelf: 'flex-end',
+  },
+  forgotPasswordText: {
     fontSize: 14,
+    fontWeight: '500',
   },
-  button: {
+  loginButton: {
+    height: 50,
     borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 24,
+    alignItems: 'center',
+    marginTop: 20,
   },
-  buttonText: {
+  loginButtonText: {
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-  socialContainer: {
-    alignItems: 'center',
-  },
-  orText: {
-    fontSize: 14,
-    marginVertical: 16,
-  },
-  socialButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    width: '100%',
-  },
-  socialButtonText: {
-    fontSize: 14,
-    marginLeft: 8,
-  },
   footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
+    gap: 8,
     marginTop: 'auto',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   footerText: {
     fontSize: 14,
   },
   footerLink: {
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
-
-export default LoginScreen;

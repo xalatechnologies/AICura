@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from '@theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { isSupabaseConfigured } from '@lib/supabase';
-import { useAuth } from '@contexts/AuthContext';
-import { changeLanguage } from '@i18n/index';
+import { isSupabaseConfigured } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
+import { changeLanguage } from '../i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LanguageSelectionScreenProps = {

@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "HealthcareApp",
-    "slug": "HealthcareApp",
+    "name": "AICura",
+    "slug": "aicura",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/heart-rate.png",
+    "icon": "./src/assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/heart-rate.png",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,22 +16,21 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ailege.healthcareapp",
-      "newArchEnabled": true
+      "bundleIdentifier": "com.aicura.app"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/heart-rate.png",
+        "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ailege.healthcareapp",
-      "newArchEnabled": true
+      "package": "com.aicura.app"
     },
+    "scheme": "aicura",
     "web": {
-      "favicon": "./assets/heart-rate.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
-      "expo-build-properties"
+      "expo-localization"
     ]
   }
 }

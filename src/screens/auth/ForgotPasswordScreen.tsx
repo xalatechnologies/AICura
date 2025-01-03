@@ -1,200 +1,176 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAppTheme } from '@context/ThemeContext';
-import { useAuth } from '@context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@navigation/types';
+import { RootStackParamList } from '@navigation/RootNavigator';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { supabase } from '@lib/supabase';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ForgotPasswordScreen = () => {
+type ForgotPasswordScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;
+};
+
+export const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
   const { t } = useTranslation();
-  const { colors } = useAppTheme();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+  const { colors } = useTheme();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
 
   const handleResetPassword = async () => {
     if (!email) {
-      Alert.alert('Error', t('auth.errors.emailRequired'));
+      Alert.alert(
+        t('common.error'),
+        t('auth.errors.emailRequired')
+      );
       return;
     }
 
     try {
       setLoading(true);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'myapp://reset-password',
+        redirectTo: 'healthcareapp://reset-password',
       });
 
       if (error) throw error;
 
-      setEmailSent(true);
+      Alert.alert(
+        t('common.success'),
+        t('auth.forgotPassword.resetSent'),
+        [{ text: t('common.ok'), onPress: () => navigation.navigate('Login') }]
+      );
     } catch (error: any) {
-      Alert.alert('Error', error?.message || 'An error occurred');
+      Alert.alert(t('common.error'), error.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            {t('auth.forgotPassword.title')}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <TouchableOpacity
+        style={[styles.backButton, { backgroundColor: colors.card }]}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-back" size={24} color={colors.text} />
+      </TouchableOpacity>
+
+      <View style={styles.header}>
+        <Text style={[styles.title, { color: colors.text }]}>
+          {t('auth.forgotPassword.title')}
+        </Text>
+        <Text style={[styles.description, { color: colors.textSecondary }]}>
+          {t('auth.forgotPassword.description')}
+        </Text>
+      </View>
+
+      <View style={styles.form}>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label, { color: colors.text }]}>
+            {t('auth.forgotPassword.email')}
           </Text>
-          <Text style={[styles.description, { color: colors.text }]}>
-            {t('auth.forgotPassword.description')}
-          </Text>
+          <TextInput
+            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+            placeholder={t('auth.forgotPassword.emailPlaceholder')}
+            placeholderTextColor={colors.textSecondary}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
         </View>
 
-        {emailSent ? (
-          <View style={styles.successContainer}>
-            <Icon name="email-check" size={64} color={colors.primary} />
-            <Text style={[styles.successTitle, { color: colors.text }]}>
-              {t('auth.forgotPassword.emailSent')}
-            </Text>
-            <Text style={[styles.successDescription, { color: colors.text }]}>
-              {t('auth.forgotPassword.checkEmail')}
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.form}>
-            {/* Email Input */}
-            <View style={styles.inputContainer}>
-              <Icon name="email-outline" size={20} color={colors.text} style={styles.inputIcon} />
-              <TextInput
-                style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-                placeholder={t('auth.forgotPassword.emailPlaceholder')}
-                placeholderTextColor={colors.text + '80'}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
-
-            {/* Send Reset Link Button */}
-            <TouchableOpacity
-              style={[styles.button, { backgroundColor: colors.primary }]}
-              onPress={handleResetPassword}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator color={colors.text} />
-              ) : (
-                <Text style={[styles.buttonText, { color: colors.text }]}>
-                  {t('auth.forgotPassword.sendButton')}
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        )}
-
-        {/* Back to Login */}
         <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.navigate('Login')}
+          style={[styles.resetButton, { backgroundColor: colors.primary }]}
+          onPress={handleResetPassword}
+          disabled={loading}
         >
-          <Icon name="arrow-left" size={20} color={colors.text} />
-          <Text style={[styles.backButtonText, { color: colors.text }]}>
-            {t('auth.forgotPassword.backToLogin')}
+          <Text style={styles.resetButtonText}>
+            {loading ? t('common.loading') : t('auth.forgotPassword.resetButton')}
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+
+      <View style={styles.footer}>
+        <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+          {t('auth.forgotPassword.rememberPassword')}
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={[styles.footerLink, { color: colors.primary }]}>
+            {t('auth.forgotPassword.loginLink')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
-  content: {
-    flex: 1,
-    padding: 24,
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
   header: {
-    marginBottom: 32,
+    marginTop: 40,
+    marginBottom: 40,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    opacity: 0.8,
   },
   form: {
-    flex: 1,
+    gap: 20,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 12,
+    gap: 8,
   },
-  inputIcon: {
-    marginRight: 8,
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   input: {
-    flex: 1,
-    height: 48,
+    height: 50,
+    borderRadius: 12,
+    paddingHorizontal: 16,
     fontSize: 16,
   },
-  button: {
+  resetButton: {
+    height: 50,
     borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
-  buttonText: {
+  resetButtonText: {
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-  successContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  successTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 24,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  successDescription: {
-    fontSize: 16,
-    opacity: 0.8,
-    textAlign: 'center',
-  },
-  backButton: {
+  footer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
     marginTop: 'auto',
+    marginBottom: 20,
   },
-  backButtonText: {
-    fontSize: 16,
-    marginLeft: 8,
+  footerText: {
+    fontSize: 14,
+  },
+  footerLink: {
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
-
-export default ForgotPasswordScreen;
