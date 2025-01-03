@@ -180,5 +180,87 @@
     "select": "انتخاب",
     "submit": "ارسال",
     "retry": "تلاش مجدد"
+  },
+  "auth": {
+    "welcome": {
+      "title": "سفر خود را امروز آغاز کنید!",
+      "description": "همراه شخصی سلامت شما برای زندگی بهتر",
+      "login": "ورود",
+      "signup": "ثبت نام",
+      "terms": "با ادامه، شما موافقت می‌کنید با",
+      "termsLink": "شرایط و ضوابط",
+      "privacyLink": "سیاست حریم خصوصی",
+      "and": "و"
+    },
+    "login": {
+      "title": "خوش آمدید",
+      "description": "برای ادامه وارد شوید",
+      "email": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+      "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+      "rememberMe": "مرا به خاطر بسپار",
+      "loginButton": "ورود",
+      "noAccount": "حساب کاربری ندارید؟",
+      "signupLink": "ثبت نام",
+      "or": "یا",
+      "socialLogin": {
+        "google": "ادامه با Google",
+        "apple": "ادامه با Apple",
+        "facebook": "ادامه با Facebook"
+      }
+    },
+    "signup": {
+      "title": "ایجاد حساب کاربری",
+      "description": "برای شروع ثبت نام کنید",
+      "name": "نام کامل",
+      "namePlaceholder": "نام کامل خود را وارد کنید",
+      "email": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "یک رمز عبور ایجاد کنید",
+      "confirmPassword": "تأیید رمز عبور",
+      "confirmPasswordPlaceholder": "رمز عبور خود را تأیید کنید",
+      "phone": "شماره تلفن",
+      "phonePlaceholder": "شماره تلفن خود را وارد کنید",
+      "signupButton": "ثبت نام",
+      "haveAccount": "قبلاً حساب کاربری دارید؟",
+      "loginLink": "ورود",
+      "or": "یا"
+    },
+    "forgotPassword": {
+      "title": "فراموشی رمز عبور",
+      "description": "برای بازنشانی رمز عبور ایمیل خود را وارد کنید",
+      "email": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "sendButton": "ارسال لینک بازنشانی",
+      "backToLogin": "بازگشت به صفحه ورود",
+      "emailSent": "ایمیل بازنشانی رمز عبور ارسال شد!",
+      "checkEmail": "لطفاً ایمیل خود را برای دستورالعمل‌های بیشتر بررسی کنید"
+    },
+    "otp": {
+      "title": "تأیید ایمیل",
+      "description": "کد ارسال شده به ایمیل خود را وارد کنید",
+      "codePlaceholder": "کد تأیید را وارد کنید",
+      "verifyButton": "تأیید",
+      "resendCode": "ارسال مجدد کد",
+      "resendTimer": "ارسال مجدد کد در {seconds} ثانیه",
+      "emailSentTo": "کد به {email} ارسال شد"
+    },
+    "errors": {
+      "invalidEmail": "لطفاً یک ایمیل معتبر وارد کنید",
+      "invalidPassword": "رمز عبور باید حداقل 8 کاراکتر باشد",
+      "passwordMismatch": "رمزهای عبور مطابقت ندارند",
+      "invalidCode": "کد تأیید نامعتبر است",
+      "emailRequired": "ایمیل الزامی است",
+      "passwordRequired": "رمز عبور الزامی است",
+      "nameRequired": "نام الزامی است",
+      "phoneRequired": "شماره تلفن الزامی است",
+      "invalidPhone": "لطفاً یک شماره تلفن معتبر وارد کنید",
+      "loginFailed": "ورود ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "signupFailed": "ثبت نام ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "networkError": "خطای شبکه. لطفاً اتصال خود را بررسی کنید."
+    }
   }
 }

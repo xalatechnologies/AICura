@@ -25,6 +25,10 @@ export type RootStackParamList = {
   Appointments: undefined;
   Chat: undefined;
   Profile: undefined;
+  Login: undefined;
+  Signup: undefined;
+  ForgotPassword: undefined;
+  Welcome: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

@@ -180,5 +180,87 @@
     "select": "غوره کول",
     "submit": "لېږل",
     "retry": "بیا هڅه وکړئ"
+  },
+  "auth": {
+    "welcome": {
+      "title": "نن خپل سفر پیل کړئ!",
+      "description": "ستاسو د غوره ژوند لپاره ستاسو شخصي روغتیایي ملګری",
+      "login": "ننوتل",
+      "signup": "نوم لیکنه",
+      "terms": "د دوام سره، تاسو زموږ سره موافق یاست",
+      "termsLink": "شرایط او ضوابط",
+      "privacyLink": "د محرمیت تګلاره",
+      "and": "او"
+    },
+    "login": {
+      "title": "بیرته ښه راغلاست",
+      "description": "د دوام لپاره ننوځئ",
+      "email": "بریښنالیک",
+      "emailPlaceholder": "خپل بریښنالیک ولیکئ",
+      "password": "پټ نوم",
+      "passwordPlaceholder": "خپل پټ نوم ولیکئ",
+      "forgotPassword": "پټ نوم مو هیر شوی؟",
+      "rememberMe": "ما په یاد ولره",
+      "loginButton": "ننوتل",
+      "noAccount": "حساب نلرئ؟",
+      "signupLink": "نوم لیکنه",
+      "or": "یا",
+      "socialLogin": {
+        "google": "د Google سره دوام ورکړئ",
+        "apple": "د Apple سره دوام ورکړئ",
+        "facebook": "د Facebook سره دوام ورکړئ"
+      }
+    },
+    "signup": {
+      "title": "حساب جوړ کړئ",
+      "description": "د پیل لپاره نوم لیکنه وکړئ",
+      "name": "بشپړ نوم",
+      "namePlaceholder": "خپل بشپړ نوم ولیکئ",
+      "email": "بریښنالیک",
+      "emailPlaceholder": "خپل بریښنالیک ولیکئ",
+      "password": "پټ نوم",
+      "passwordPlaceholder": "پټ نوم جوړ کړئ",
+      "confirmPassword": "پټ نوم تایید کړئ",
+      "confirmPasswordPlaceholder": "خپل پټ نوم تایید کړئ",
+      "phone": "د تلیفون شمیره",
+      "phonePlaceholder": "خپله د تلیفون شمیره ولیکئ",
+      "signupButton": "نوم لیکنه",
+      "haveAccount": "له مخکې حساب لرئ؟",
+      "loginLink": "ننوتل",
+      "or": "یا"
+    },
+    "forgotPassword": {
+      "title": "پټ نوم هیر شوی",
+      "description": "د پټ نوم بیا تنظیم لپاره خپل بریښنالیک ولیکئ",
+      "email": "بریښنالیک",
+      "emailPlaceholder": "خپل بریښنالیک ولیکئ",
+      "sendButton": "د بیا تنظیم لینک ولیږئ",
+      "backToLogin": "ننوتلو ته بیرته",
+      "emailSent": "د پټ نوم بیا تنظیم بریښنالیک ولیږل شو!",
+      "checkEmail": "د لارښوونو لپاره مهرباني وکړئ خپل بریښنالیک وګورئ"
+    },
+    "otp": {
+      "title": "بریښنالیک تایید کړئ",
+      "description": "ستاسو بریښنالیک ته لیږل شوی کوډ ولیکئ",
+      "codePlaceholder": "د تایید کوډ ولیکئ",
+      "verifyButton": "تایید",
+      "resendCode": "کوډ بیا ولیږئ",
+      "resendTimer": "کوډ په {seconds} ثانیو کې بیا ولیږئ",
+      "emailSentTo": "کوډ {email} ته ولیږل شو"
+    },
+    "errors": {
+      "invalidEmail": "مهرباني وکړئ یو معتبر بریښنالیک ولیکئ",
+      "invalidPassword": "پټ نوم باید لږترلږه 8 توري ولري",
+      "passwordMismatch": "پټ نومونه سره برابر نه دي",
+      "invalidCode": "ناسم تایید کوډ",
+      "emailRequired": "بریښنالیک اړین دی",
+      "passwordRequired": "پټ نوم اړین دی",
+      "nameRequired": "نوم اړین دی",
+      "loginFailed": "ننوتل ناکام شول. مهرباني وکړئ بیا هڅه وکړئ.",
+      "signupFailed": "نوم لیکنه ناکامه شوه. مهرباني وکړئ بیا هڅه وکړئ.",
+      "networkError": "د شبکې تیروتنه. مهرباني وکړئ خپل اتصال وګورئ.",
+      "phoneRequired": "د تلیفون شمیره اړینه ده",
+      "invalidPhone": "مهرباني وکړئ یوه سمه د تلیفون شمیره ولیکئ"
+    }
   }
 }

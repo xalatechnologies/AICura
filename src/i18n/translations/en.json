@@ -180,5 +180,87 @@
     "select": "Select",
     "submit": "Submit",
     "retry": "Retry"
+  },
+  "auth": {
+    "welcome": {
+      "title": "Start Your Journey Today!",
+      "description": "Your personal healthcare companion for a better life",
+      "login": "Login",
+      "signup": "Sign Up",
+      "terms": "By continuing, you agree to our",
+      "termsLink": "Terms & Conditions",
+      "privacyLink": "Privacy Policy",
+      "and": "and"
+    },
+    "login": {
+      "title": "Welcome Back",
+      "description": "Sign in to continue",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot Password?",
+      "rememberMe": "Remember Me",
+      "loginButton": "Login",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign Up",
+      "or": "or",
+      "socialLogin": {
+        "google": "Continue with Google",
+        "apple": "Continue with Apple",
+        "facebook": "Continue with Facebook"
+      }
+    },
+    "signup": {
+      "title": "Create Account",
+      "description": "Sign up to get started",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "signupButton": "Sign Up",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Login",
+      "or": "or"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "Enter your email to reset password",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "sendButton": "Send Reset Link",
+      "backToLogin": "Back to Login",
+      "emailSent": "Password reset email sent!",
+      "checkEmail": "Please check your email for further instructions"
+    },
+    "otp": {
+      "title": "Verify Email",
+      "description": "Enter the code sent to your email",
+      "codePlaceholder": "Enter verification code",
+      "verifyButton": "Verify",
+      "resendCode": "Resend Code",
+      "resendTimer": "Resend code in {seconds} seconds",
+      "emailSentTo": "Code sent to {email}"
+    },
+    "errors": {
+      "invalidEmail": "Please enter a valid email",
+      "invalidPassword": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "invalidCode": "Invalid verification code",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "nameRequired": "Name is required",
+      "phoneRequired": "Phone number is required",
+      "invalidPhone": "Please enter a valid phone number",
+      "loginFailed": "Login failed. Please try again.",
+      "signupFailed": "Sign up failed. Please try again.",
+      "networkError": "Network error. Please check your connection."
+    }
   }
 }

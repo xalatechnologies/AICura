@@ -14,12 +14,13 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@screens/*": ["src/screens/*"],
-      "@contexts/*": ["src/contexts/*"],
+      "@context/*": ["src/context/*"],
       "@lib/*": ["src/lib/*"],
       "@styles/*": ["src/styles/*"],
       "@hooks/*": ["src/hooks/*"],
       "@theme/*": ["src/theme/*"],
-      "@i18n/*": ["src/i18n/*"]
+      "@i18n/*": ["src/i18n/*"],
+      "@navigation/*": ["src/navigation/*"]
     },
     "lib": ["es2018", "dom"],
     "types": ["react-native"]
@@ -30,4 +31,4 @@
     "metro.config.js",
     "jest.config.js"
   ]
-} 
+}

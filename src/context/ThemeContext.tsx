@@ -7,12 +7,14 @@ interface ThemeContextType {
   theme: Theme;
   dark: boolean;
   setTheme: (scheme: 'light' | 'dark') => void;
+  colors: Theme['colors'];
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: DefaultTheme,
   dark: false,
   setTheme: () => {},
+  colors: DefaultTheme.colors,
 });
 
 export const useAppTheme = () => useContext(ThemeContext);
@@ -51,6 +53,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     theme,
     dark: theme === DarkTheme,
     setTheme,
+    colors: theme.colors,
   };
 
   return (

@@ -180,5 +180,87 @@
     "select": "Seleccionar",
     "submit": "Enviar",
     "retry": "Reintentar"
+  },
+  "auth": {
+    "welcome": {
+      "title": "¡Comienza tu viaje hoy!",
+      "description": "Tu compañero personal de salud para una vida mejor",
+      "login": "Iniciar Sesión",
+      "signup": "Registrarse",
+      "terms": "Al continuar, aceptas nuestros",
+      "termsLink": "Términos y Condiciones",
+      "privacyLink": "Política de Privacidad",
+      "and": "y"
+    },
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "description": "Inicia sesión para continuar",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Ingresa tu correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "rememberMe": "Recordarme",
+      "loginButton": "Iniciar Sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "signupLink": "Regístrate",
+      "or": "o",
+      "socialLogin": {
+        "google": "Continuar con Google",
+        "apple": "Continuar con Apple",
+        "facebook": "Continuar con Facebook"
+      }
+    },
+    "signup": {
+      "title": "Crear Cuenta",
+      "description": "Regístrate para comenzar",
+      "name": "Nombre completo",
+      "namePlaceholder": "Ingresa tu nombre completo",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Ingresa tu correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Crea una contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "confirmPasswordPlaceholder": "Confirma tu contraseña",
+      "phone": "Número de teléfono",
+      "phonePlaceholder": "Ingresa tu número de teléfono",
+      "signupButton": "Registrarse",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Iniciar Sesión",
+      "or": "o"
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi Contraseña",
+      "description": "Ingresa tu correo para restablecer la contraseña",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Ingresa tu correo electrónico",
+      "sendButton": "Enviar enlace de restablecimiento",
+      "backToLogin": "Volver a Iniciar Sesión",
+      "emailSent": "¡Correo de restablecimiento enviado!",
+      "checkEmail": "Por favor revisa tu correo para más instrucciones"
+    },
+    "otp": {
+      "title": "Verificar Correo",
+      "description": "Ingresa el código enviado a tu correo",
+      "codePlaceholder": "Ingresa el código de verificación",
+      "verifyButton": "Verificar",
+      "resendCode": "Reenviar Código",
+      "resendTimer": "Reenviar código en {seconds} segundos",
+      "emailSentTo": "Código enviado a {email}"
+    },
+    "errors": {
+      "invalidEmail": "Por favor ingresa un correo válido",
+      "invalidPassword": "La contraseña debe tener al menos 8 caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "invalidCode": "Código de verificación inválido",
+      "emailRequired": "El correo electrónico es requerido",
+      "passwordRequired": "La contraseña es requerida",
+      "nameRequired": "El nombre es requerido",
+      "phoneRequired": "El número de teléfono es requerido",
+      "invalidPhone": "Por favor ingresa un número de teléfono válido",
+      "loginFailed": "Error al iniciar sesión. Por favor intenta de nuevo.",
+      "signupFailed": "Error al registrarse. Por favor intenta de nuevo.",
+      "networkError": "Error de red. Por favor verifica tu conexión."
+    }
   }
 }

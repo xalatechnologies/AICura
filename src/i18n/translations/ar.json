@@ -195,5 +195,87 @@
     "select": "اختيار",
     "submit": "إرسال",
     "retry": "إعادة المحاولة"
+  },
+  "auth": {
+    "welcome": {
+      "title": "ابدأ رحلتك اليوم!",
+      "description": "رفيقك الصحي الشخصي لحياة أفضل",
+      "login": "تسجيل الدخول",
+      "signup": "إنشاء حساب",
+      "terms": "بالمتابعة، فإنك توافق على",
+      "termsLink": "الشروط والأحكام",
+      "privacyLink": "سياسة الخصوصية",
+      "and": "و"
+    },
+    "login": {
+      "title": "مرحباً بعودتك",
+      "description": "سجل دخولك للمتابعة",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "rememberMe": "تذكرني",
+      "loginButton": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "signupLink": "إنشاء حساب",
+      "or": "أو",
+      "socialLogin": {
+        "google": "المتابعة باستخدام Google",
+        "apple": "المتابعة باستخدام Apple",
+        "facebook": "المتابعة باستخدام Facebook"
+      }
+    },
+    "signup": {
+      "title": "إنشاء حساب",
+      "description": "سجل للبدء",
+      "name": "الاسم الكامل",
+      "namePlaceholder": "أدخل اسمك الكامل",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أنشئ كلمة مرور",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "أكد كلمة المرور",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "أدخل رقم هاتفك",
+      "signupButton": "إنشاء حساب",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول",
+      "or": "أو"
+    },
+    "forgotPassword": {
+      "title": "نسيت كلمة المرور",
+      "description": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "sendButton": "إرسال رابط إعادة التعيين",
+      "backToLogin": "العودة لتسجيل الدخول",
+      "emailSent": "تم إرسال رابط إعادة تعيين كلمة المرور!",
+      "checkEmail": "يرجى التحقق من بريدك الإلكتروني للحصول على التعليمات"
+    },
+    "otp": {
+      "title": "تحقق من البريد الإلكتروني",
+      "description": "أدخل الرمز المرسل إلى بريدك الإلكتروني",
+      "codePlaceholder": "أدخل رمز التحقق",
+      "verifyButton": "تحقق",
+      "resendCode": "إعادة إرسال الرمز",
+      "resendTimer": "إعادة إرسال الرمز خلال {seconds} ثانية",
+      "emailSentTo": "تم إرسال الرمز إلى {email}"
+    },
+    "errors": {
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+      "invalidPassword": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+      "passwordMismatch": "كلمات المرور غير متطابقة",
+      "invalidCode": "رمز التحقق غير صحيح",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "nameRequired": "الاسم مطلوب",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "invalidPhone": "الرجاء إدخال رقم هاتف صحيح",
+      "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+      "signupFailed": "فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.",
+      "networkError": "خطأ في الشبكة. يرجى التحقق من اتصالك."
+    }
   }
 }

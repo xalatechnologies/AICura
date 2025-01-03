@@ -180,5 +180,87 @@
     "select": "منتخب کریں",
     "submit": "جمع کرائیں",
     "retry": "دوبارہ کوشش کریں"
+  },
+  "auth": {
+    "welcome": {
+      "title": "آج ہی اپنا سفر شروع کریں!",
+      "description": "بہتر زندگی کے لیے آپ کا ذاتی صحت ساتھی",
+      "login": "لاگ ان",
+      "signup": "سائن اپ",
+      "terms": "جاری رکھ کر، آپ ہماری",
+      "termsLink": "شرائط و ضوابط",
+      "privacyLink": "رازداری کی پالیسی",
+      "and": "اور"
+    },
+    "login": {
+      "title": "خوش آمدید",
+      "description": "جاری رکھنے کے لیے لاگ ان کریں",
+      "email": "ای میل",
+      "emailPlaceholder": "اپنی ای میل درج کریں",
+      "password": "پاس ورڈ",
+      "passwordPlaceholder": "اپنا پاس ورڈ درج کریں",
+      "forgotPassword": "پاس ورڈ بھول گئے؟",
+      "rememberMe": "مجھے یاد رکھیں",
+      "loginButton": "لاگ ان",
+      "noAccount": "اکاؤنٹ نہیں ہے؟",
+      "signupLink": "سائن اپ",
+      "or": "یا",
+      "socialLogin": {
+        "google": "Google کے ساتھ جاری رکھیں",
+        "apple": "Apple کے ساتھ جاری رکھیں",
+        "facebook": "Facebook کے ساتھ جاری رکھیں"
+      }
+    },
+    "signup": {
+      "title": "اکاؤنٹ بنائیں",
+      "description": "شروع کرنے کے لیے سائن اپ کریں",
+      "name": "پورا نام",
+      "namePlaceholder": "اپنا پورا نام درج کریں",
+      "email": "ای میل",
+      "emailPlaceholder": "اپنی ای میل درج کریں",
+      "password": "پاس ورڈ",
+      "passwordPlaceholder": "پاس ورڈ بنائیں",
+      "confirmPassword": "پاس ورڈ کی تصدیق",
+      "confirmPasswordPlaceholder": "اپنے پاس ورڈ کی تصدیق کریں",
+      "phone": "فون نمبر",
+      "phonePlaceholder": "اپنا فون نمبر درج کریں",
+      "signupButton": "سائن اپ",
+      "haveAccount": "پہلے سے اکاؤنٹ ہے؟",
+      "loginLink": "لاگ ان",
+      "or": "یا"
+    },
+    "forgotPassword": {
+      "title": "پاس ورڈ بھول گئے",
+      "description": "پاس ورڈ دوبارہ ترتیب دینے کے لیے اپنی ای میل درج کریں",
+      "email": "ای میل",
+      "emailPlaceholder": "اپنی ای میل درج کریں",
+      "sendButton": "دوبارہ ترتیب کا لنک بھیجیں",
+      "backToLogin": "لاگ ان پر واپس جائیں",
+      "emailSent": "پاس ورڈ دوبارہ ترتیب کی ای میل بھیج دی گئی!",
+      "checkEmail": "مزید ہدایات کے لیے اپنی ای میل چیک کریں"
+    },
+    "otp": {
+      "title": "ای میل کی تصدیق",
+      "description": "اپنی ای میل پر بھیجا گیا کوڈ درج کریں",
+      "codePlaceholder": "تصدیقی کوڈ درج کریں",
+      "verifyButton": "تصدیق کریں",
+      "resendCode": "کوڈ دوبارہ بھیجیں",
+      "resendTimer": "کوڈ {seconds} سیکنڈ میں دوبارہ بھیجیں",
+      "emailSentTo": "کوڈ {email} پر بھیج دیا گیا"
+    },
+    "errors": {
+      "invalidEmail": "براہ کرم درست ای میل درج کریں",
+      "invalidPassword": "پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے",
+      "passwordMismatch": "پاس ورڈ مماثل نہیں ہیں",
+      "invalidCode": "غلط تصدیقی کوڈ",
+      "emailRequired": "ای میل درکار ہے",
+      "passwordRequired": "پاس ورڈ درکار ہے",
+      "nameRequired": "نام درکار ہے",
+      "loginFailed": "لاگ ان ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
+      "signupFailed": "سائن اپ ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
+      "networkError": "نیٹ ورک کی خرابی۔ براہ کرم اپنا کنکشن چیک کریں۔",
+      "phoneRequired": "فون نمبر درکار ہے",
+      "invalidPhone": "براہ کرم درست فون نمبر درج کریں"
+    }
   }
 }
