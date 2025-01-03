@@ -1,202 +1,241 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { supabase } from '@lib/supabase';
+import { Input } from '@components/Input';
+import { Button } from '@components/Button';
+import { useAuth } from '@contexts/AuthContext';
+import { LanguageSelector } from '@components/LanguageSelector';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type LoginScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
 };
 
 export const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  const { t } = useTranslation();
   const { colors } = useTheme();
+  const { t } = useTranslation();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showLanguageSelector, setShowLanguageSelector] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert(
-        t('common.error'),
-        t('auth.errors.allFieldsRequired')
-      );
-      return;
-    }
-
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) throw error;
-    } catch (error: any) {
-      Alert.alert(t('common.error'), error.message);
+      await signIn(email, password);
+    } catch (error) {
+      console.error('Login error:', error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <TouchableOpacity
-        style={[styles.backButton, { backgroundColor: colors.card }]}
-        onPress={() => navigation.goBack()}
+    <ScrollView 
+      style={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <TouchableOpacity 
+        style={styles.languageButton}
+        onPress={() => setShowLanguageSelector(!showLanguageSelector)}
       >
-        <Icon name="arrow-back" size={24} color={colors.text} />
+        <Icon name="language" size={24} color={colors.primary} />
       </TouchableOpacity>
+
+      {showLanguageSelector && (
+        <View style={[styles.languageSelectorContainer, { backgroundColor: colors.card }]}>
+          <LanguageSelector 
+            onLanguageChange={() => setShowLanguageSelector(false)}
+          />
+        </View>
+      )}
 
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>
-          {t('auth.login.title')}
+          {t('auth.welcomeBack')}
         </Text>
-        <Text style={[styles.description, { color: colors.textSecondary }]}>
-          {t('auth.login.description')}
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+          {t('auth.loginToContinue')}
         </Text>
       </View>
 
       <View style={styles.form}>
-        <View style={styles.inputContainer}>
-          <Text style={[styles.label, { color: colors.text }]}>
-            {t('auth.login.email')}
-          </Text>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            placeholder={t('auth.login.emailPlaceholder')}
-            placeholderTextColor={colors.textSecondary}
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
-        </View>
+        <Input
+          placeholder={t('auth.email')}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          icon="email"
+        />
 
-        <View style={styles.inputContainer}>
-          <Text style={[styles.label, { color: colors.text }]}>
-            {t('auth.login.password')}
-          </Text>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            placeholder={t('auth.login.passwordPlaceholder')}
-            placeholderTextColor={colors.textSecondary}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </View>
+        <Input
+          placeholder={t('auth.password')}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          icon="lock"
+        />
 
         <TouchableOpacity
           onPress={() => navigation.navigate('ForgotPassword')}
           style={styles.forgotPassword}
         >
           <Text style={[styles.forgotPasswordText, { color: colors.primary }]}>
-            {t('auth.login.forgotPassword')}
+            {t('auth.forgotPassword')}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.loginButton, { backgroundColor: colors.primary }]}
+        <Button
+          title={t('auth.login')}
           onPress={handleLogin}
-          disabled={loading}
-        >
-          <Text style={styles.loginButtonText}>
-            {loading ? t('common.loading') : t('auth.login.loginButton')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          style={styles.button}
+          loading={loading}
+        />
 
-      <View style={styles.footer}>
-        <Text style={[styles.footerText, { color: colors.textSecondary }]}>
-          {t('auth.login.noAccount')}
-        </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={[styles.footerLink, { color: colors.primary }]}>
-            {t('auth.login.signupLink')}
+        <View style={styles.divider}>
+          <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+          <Text style={[styles.dividerText, { color: colors.textSecondary }]}>
+            {t('auth.or')}
           </Text>
-        </TouchableOpacity>
+          <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
+        </View>
+
+        <View style={styles.socialButtons}>
+          <TouchableOpacity 
+            style={[styles.socialButton, { backgroundColor: colors.card }]}
+            onPress={() => {}}
+          >
+            <Icon name="google" size={24} color="#DB4437" />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.socialButton, { backgroundColor: colors.card }]}
+            onPress={() => {}}
+          >
+            <Icon name="facebook" size={24} color="#4267B2" />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.socialButton, { backgroundColor: colors.card }]}
+            onPress={() => {}}
+          >
+            <Icon name="apple" size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.signupContainer}>
+          <Text style={[styles.signupText, { color: colors.textSecondary }]}>
+            {t('auth.noAccount')}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text style={[styles.signupLink, { color: colors.primary }]}>
+              {t('auth.signup')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
+  contentContainer: {
+    padding: 20,
+    paddingTop: 40,
   },
   header: {
-    marginTop: 40,
-    marginBottom: 40,
+    marginBottom: 32,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 8,
   },
-  description: {
+  subtitle: {
     fontSize: 16,
   },
   form: {
-    gap: 20,
+    width: '100%',
   },
-  inputContainer: {
-    gap: 8,
+  languageButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 1,
   },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  input: {
-    height: 50,
+  languageSelectorContainer: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    width: '80%',
+    maxWidth: 300,
     borderRadius: 12,
-    paddingHorizontal: 16,
-    fontSize: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    zIndex: 2,
+  },
+  button: {
+    marginTop: 16,
   },
   forgotPassword: {
     alignSelf: 'flex-end',
+    marginTop: 8,
+    marginBottom: 24,
   },
   forgotPasswordText: {
     fontSize: 14,
-    fontWeight: '500',
   },
-  loginButton: {
-    height: 50,
-    borderRadius: 12,
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 32,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    fontSize: 14,
+  },
+  socialButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 16,
+    marginBottom: 32,
+  },
+  socialButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  footer: {
+  signupContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
-    marginTop: 'auto',
-    marginBottom: 20,
+    gap: 4,
   },
-  footerText: {
+  signupText: {
     fontSize: 14,
   },
-  footerLink: {
+  signupLink: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });

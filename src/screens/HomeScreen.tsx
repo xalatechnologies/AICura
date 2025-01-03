@@ -23,8 +23,7 @@ import Animated, {
   withSequence,
   withDelay,
 } from 'react-native-reanimated';
-import { useTheme } from '@theme/ThemeContext';
-import { lightTheme, darkTheme } from '@styles/theme';
+import { useTheme, lightTheme, darkTheme } from '@theme';
 import { Moon, MessageCircle, Calendar, Activity, Send, Phone, RotateCcw } from 'react-native-feather';
 import { useSymptomAnalysis } from '@hooks/useSymptomAnalysis';
 import { debounce } from 'lodash';
@@ -617,8 +616,8 @@ const CTAButtons = ({
 };
 
 const HomeScreen = () => {
-  const { theme } = useTheme();
-  const currentTheme = theme === 'dark' ? darkTheme : lightTheme;
+  const { colors, isDark } = useTheme();
+  const currentTheme = isDark ? darkTheme : lightTheme;
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [symptoms, setSymptoms] = useState('');
   const flatListRef = useRef<FlatList>(null);

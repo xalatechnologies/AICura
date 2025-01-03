@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
+import { Button } from '@components/Button';
 
 type WelcomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Welcome'>;

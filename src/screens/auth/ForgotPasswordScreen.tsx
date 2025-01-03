@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { supabase } from '@lib/supabase';
+import { Input } from '@components/Input';
+import { Button } from '@components/Button';
+import { useAuth } from '@contexts/AuthContext';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { supabase } from '@/lib/supabase';
 
 type ForgotPasswordScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;

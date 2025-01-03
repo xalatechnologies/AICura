@@ -1,95 +1,43 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootNavigator';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { isSupabaseConfigured } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
-import { changeLanguage } from '../i18n';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackParamList } from '@navigation/RootNavigator';
+import { LanguageSelector } from '@components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 type LanguageSelectionScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'LanguageSelection'>;
 };
 
-interface Language {
-  code: string;
-  name: string;
-  nativeName: string;
-  icon: string;
-}
-
-const languages: Language[] = [
-  { 
-    code: 'en',
-    name: 'English',
-    nativeName: 'English',
-    icon: 'language-outline'
-  },
-  {
-    code: 'es',
-    name: 'Spanish',
-    nativeName: 'Español',
-    icon: 'language-outline'
-  },
-  {
-    code: 'no',
-    name: 'Norwegian',
-    nativeName: 'Norsk',
-    icon: 'language-outline'
-  },
-  {
-    code: 'ar',
-    name: 'Arabic',
-    nativeName: 'العربية',
-    icon: 'language-outline'
-  }
-];
-
 export const LanguageSelectionScreen = ({ navigation }: LanguageSelectionScreenProps) => {
-  const { t } = useTranslation();
   const { colors } = useTheme();
-  const { updateProfile } = useAuth();
+  const { t } = useTranslation();
 
-  const handleLanguageSelect = async (language: Language) => {
-    try {
-      await changeLanguage(language.code);
-      await AsyncStorage.setItem('userLanguage', language.code);
-      await updateProfile({ language: language.code });
-      navigation.replace('Onboarding');
-    } catch (error) {
-      console.error('Error setting language:', error);
-    }
+  const handleLanguageChange = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Welcome' }],
+    });
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Image
+        source={require('../assets/images/welcome.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <Text style={[styles.title, { color: colors.text }]}>
-        {t('onboarding.selectLanguage')}
+        {t('welcome.title', 'Welcome to AICura™')}
       </Text>
-      
-      <View style={styles.languageList}>
-        {languages.map((language) => (
-          <TouchableOpacity
-            key={language.code}
-            style={[styles.languageButton, { backgroundColor: colors.card }]}
-            onPress={() => handleLanguageSelect(language)}
-          >
-            <Icon name={language.icon} size={32} color={colors.primary} style={styles.icon} />
-            <View style={styles.languageInfo}>
-              <Text style={[styles.languageName, { color: colors.text }]}>
-                {language.name}
-              </Text>
-              <Text style={[styles.nativeName, { color: colors.text }]}>
-                {language.nativeName}
-              </Text>
-            </View>
-            <Icon name="chevron-forward" size={24} color={colors.text} />
-          </TouchableOpacity>
-        ))}
-      </View>
+      <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+        {t('welcome.selectLanguage', 'Choose your preferred language')}
+      </Text>
+      <LanguageSelector 
+        onLanguageChange={handleLanguageChange}
+        showTitle={false}
+      />
     </View>
   );
 };
@@ -99,41 +47,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 24,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 8,
     textAlign: 'center',
   },
-  languageList: {
-    width: '100%',
-  },
-  languageButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    marginVertical: 8,
-    borderRadius: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  icon: {
-    marginRight: 15,
-  },
-  languageInfo: {
-    flex: 1,
-  },
-  languageName: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  nativeName: {
-    fontSize: 14,
-    opacity: 0.8,
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 32,
+    textAlign: 'center',
   },
 }); 
