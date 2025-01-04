@@ -27,7 +27,7 @@ import {
   OnboardingStep,
 } from '../screens';
 import { useAuth } from '@/context/AuthContext';
-import { Header } from '@/features/home/components';
+import { Header } from '@/components/shared/Header';
 
 type OnboardingScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
@@ -303,7 +303,7 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <Header showBack={currentStep > 0} onBack={handleBack} hideGreeting />
+      <Header showBack={currentStep > 0} onBack={handleBack} />
       
       <View style={[styles.header, { paddingTop: Platform.OS === 'ios' ? 20 : 10 }]}>
         <Icon name={steps[currentStep].icon} size={60} color={colors.primary} />

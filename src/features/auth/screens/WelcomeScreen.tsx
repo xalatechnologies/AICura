@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
 import { StyledAppTitle } from '@components/StyledAppTitle';
 import { StyledTagline } from '@components/StyledTagline';
-import { Header } from '@home/components';
+import { Header } from '@components/shared/Header';
 
 type WelcomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -18,7 +18,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header hideGreeting />
+      <Header />
 
       <View style={styles.content}>
         <Image
