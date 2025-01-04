@@ -1,0 +1,1 @@
+export { MedicalJournalScreen } from './screens/MedicalJournalScreen'; 

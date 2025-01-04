@@ -1,19 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { lightTheme, darkTheme } from '../styles/theme';
+import { useTheme } from '@/theme/ThemeContext';
+import type { Message } from '../types';
 
-interface Message {
-  id: string;
-  text: string;
-  isUser: boolean;
-}
-
-const ChatScreen = () => {
+export const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
-  const { theme } = useTheme();
-  const currentTheme = theme === 'dark' ? darkTheme : lightTheme;
+  const { colors } = useTheme();
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -48,9 +41,9 @@ const ChatScreen = () => {
     <View style={[
       styles.messageBubble,
       item.isUser ? styles.userBubble : styles.aiBubble,
-      { backgroundColor: item.isUser ? currentTheme.colors.primary : currentTheme.colors.card }
+      { backgroundColor: item.isUser ? colors.primary : colors.card }
     ]}>
-      <Text style={[styles.messageText, { color: item.isUser ? '#FFFFFF' : currentTheme.colors.text }]}>
+      <Text style={[styles.messageText, { color: item.isUser ? '#FFFFFF' : colors.text }]}>
         {item.text}
       </Text>
     </View>
@@ -59,7 +52,7 @@ const ChatScreen = () => {
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={[styles.container, { backgroundColor: currentTheme.colors.background }]}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <FlatList
         ref={flatListRef}
@@ -70,14 +63,14 @@ const ChatScreen = () => {
       />
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.input, { backgroundColor: currentTheme.colors.card, color: currentTheme.colors.text }]}
+          style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
           value={inputText}
           onChangeText={setInputText}
           placeholder="Type a message..."
-          placeholderTextColor={currentTheme.colors.text}
+          placeholderTextColor={colors.text}
         />
         <TouchableOpacity 
-          style={[styles.sendButton, { backgroundColor: currentTheme.colors.primary }]} 
+          style={[styles.sendButton, { backgroundColor: colors.primary }]} 
           onPress={handleSend}
         >
           <Text style={styles.sendButtonText}>Send</Text>
@@ -133,7 +126,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-});
-
-export default ChatScreen;
-
+}); 
