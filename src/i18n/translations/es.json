@@ -289,55 +289,56 @@
       },
       "context": {
         "title": "Factores Contextuales",
-        "description": "Ayúdenos a entender su entorno y estilo de vida"
+        "description": "Información sobre su estilo de vida y entorno"
       },
       "complications": {
         "title": "Complicaciones",
-        "description": "Síntomas adicionales o complicaciones"
+        "description": "Síntomas adicionales o preocupaciones"
       },
       "summary": {
         "title": "Resumen",
-        "description": "Revise su informe de síntomas"
+        "description": "Revise la información proporcionada"
       }
     },
-    "selectBodyPart": "Seleccione la parte del cuerpo afectada",
-    "describeSymptoms": "Describa sus síntomas",
-    "analyzer": {
-      "inputPlaceholder": "Escriba sus síntomas aquí..."
+    "bodyPart": {
+      "head": "Cabeza",
+      "neck": "Cuello",
+      "chest": "Pecho",
+      "back": "Espalda",
+      "abdomen": "Abdomen",
+      "arms": "Brazos",
+      "legs": "Piernas"
     },
-    "onset": {
+    "severity": {
+      "mild": "Leve",
+      "moderate": "Moderado",
+      "severe": "Severo"
+    },
+    "duration": {
       "hours": "Horas",
       "days": "Días",
       "weeks": "Semanas",
       "months": "Meses"
     },
-    "severity": {
-      "mild": "Leve",
-      "moderate": "Moderado",
-      "severe": "Grave"
-    },
-    "duration": {
+    "frequency": {
       "constant": "Constante",
-      "intermittent": "Intermitente"
+      "intermittent": "Intermitente",
+      "occasional": "Ocasional"
     },
     "triggers": {
+      "title": "Desencadenantes",
       "movement": "Movimiento",
-      "rest": "Descanso",
-      "food": "Comida",
+      "food": "Alimentos",
       "stress": "Estrés",
       "weather": "Clima",
-      "other": "Otro"
+      "other": "Otros"
     },
-    "details": {
-      "onset": "¿Cuándo comenzó?",
-      "severity": "¿Qué tan grave es?",
-      "duration": "¿Con qué frecuencia ocurre?",
-      "triggers": "¿Qué lo desencadena o empeora?"
-    },
-    "additionalSymptoms": {
-      "title": "Síntomas Adicionales",
-      "namePlaceholder": "Ingrese el nombre del síntoma",
-      "descriptionPlaceholder": "Describa el síntoma (opcional)"
+    "relief": {
+      "title": "Factores de Alivio",
+      "rest": "Descanso",
+      "medication": "Medicación",
+      "position": "Cambio de Posición",
+      "other": "Otros"
     }
   }
 }

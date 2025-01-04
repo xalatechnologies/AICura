@@ -267,39 +267,37 @@
     "steps": {
       "location": {
         "title": "د نښو ځای",
-        "description": "د اغیزمن شوي بدن برخه وټاکئ او خپلې نښې تشریح کړئ"
+        "description": "د بدن اغیزمن شوی برخه وټاکئ او خپلې نښې تشریح کړئ"
       },
       "details": {
         "title": "د نښو تفصیلات",
-        "description": "موږ ته د خپلو نښو په اړه نور معلومات راکړئ"
+        "description": "د خپلو نښو په اړه نور معلومات راکړئ"
       },
       "history": {
         "title": "طبي تاریخچه",
         "description": "اړوند طبي تاریخچه شریکه کړئ"
       },
       "context": {
-        "title": "چاپیریالي عوامل",
-        "description": "موږ سره مرسته وکړئ چې ستاسو چاپیریال او د ژوند طرز وپیژنو"
+        "title": "شاوخوا عوامل",
+        "description": "ستاسو د ژوند طرز او چاپیریال په اړه معلومات"
       },
       "complications": {
-        "title": "اختلاطات",
-        "description": "اضافي نښې یا اختلاطات"
+        "title": "اضافي ستونزې",
+        "description": "اضافي نښې یا اندیښنې"
       },
       "summary": {
         "title": "لنډیز",
-        "description": "د خپلو نښو راپور وګورئ"
+        "description": "ورکړل شوي معلومات وګورئ"
       }
     },
-    "selectBodyPart": "د اغیزمن شوي بدن برخه وټاکئ",
-    "describeSymptoms": "خپلې نښې تشریح کړئ",
-    "analyzer": {
-      "inputPlaceholder": "خپلې نښې دلته ولیکئ..."
-    },
-    "onset": {
-      "hours": "ساعتونه",
-      "days": "ورځې",
-      "weeks": "اونۍ",
-      "months": "میاشتې"
+    "bodyPart": {
+      "head": "سر",
+      "neck": "غاړه",
+      "chest": "سینه",
+      "back": "شا",
+      "abdomen": "خیټه",
+      "arms": "لاسونه",
+      "legs": "پښې"
     },
     "severity": {
       "mild": "خفیف",
@@ -307,27 +305,30 @@
       "severe": "شدید"
     },
     "duration": {
+      "hours": "ساعتونه",
+      "days": "ورځې",
+      "weeks": "اونۍ",
+      "months": "میاشتې"
+    },
+    "frequency": {
       "constant": "دوامداره",
-      "intermittent": "متناوب"
+      "intermittent": "متناوب",
+      "occasional": "کله کله"
     },
     "triggers": {
+      "title": "پارونکي عوامل",
       "movement": "حرکت",
-      "rest": "استراحت",
       "food": "خواړه",
       "stress": "فشار",
       "weather": "هوا",
       "other": "نور"
     },
-    "details": {
-      "onset": "کله پیل شوې؟",
-      "severity": "څومره شدید دی؟",
-      "duration": "څومره وخت کیږي؟",
-      "triggers": "څه یې خرابوي یا زیاتوي؟"
-    },
-    "additionalSymptoms": {
-      "title": "اضافي نښې",
-      "namePlaceholder": "د نښې نوم ولیکئ",
-      "descriptionPlaceholder": "نښه تشریح کړئ (اختیاري)"
+    "relief": {
+      "title": "د آرامۍ عوامل",
+      "rest": "استراحت",
+      "medication": "درمل",
+      "position": "د حالت بدلون",
+      "other": "نور"
     }
   }
 }

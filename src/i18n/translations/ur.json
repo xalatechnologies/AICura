@@ -266,40 +266,38 @@
   "symptoms": {
     "steps": {
       "location": {
-        "title": "علامات کی جگہ",
+        "title": "علامت کا مقام",
         "description": "متاثرہ جسمانی حصہ منتخب کریں اور اپنی علامات بیان کریں"
       },
       "details": {
-        "title": "علامات کی تفصیلات",
-        "description": "ہمیں اپنی علامات کے بارے میں مزید بتائیں"
+        "title": "علامت کی تفصیلات",
+        "description": "اپنی علامات کے بارے میں مزید بتائیں"
       },
       "history": {
         "title": "طبی تاریخ",
         "description": "متعلقہ طبی تاریخ شیئر کریں"
       },
       "context": {
-        "title": "ماحولیاتی عوامل",
-        "description": "ہمیں اپنے ماحول اور طرز زندگی کو سمجھنے میں مدد کریں"
+        "title": "متعلقہ عوامل",
+        "description": "آپ کے طرز زندگی اور ماحول کے بارے میں معلومات"
       },
       "complications": {
         "title": "پیچیدگیاں",
-        "description": "اضافی علامات یا پیچیدگیاں"
+        "description": "اضافی علامات یا تشویشات"
       },
       "summary": {
         "title": "خلاصہ",
-        "description": "اپنی علامات کی رپورٹ کا جائزہ لیں"
+        "description": "فراہم کردہ معلومات کا جائزہ لیں"
       }
     },
-    "selectBodyPart": "متاثرہ جسمانی حصہ منتخب کریں",
-    "describeSymptoms": "اپنی علامات بیان کریں",
-    "analyzer": {
-      "inputPlaceholder": "اپنی علامات یہاں لکھیں..."
-    },
-    "onset": {
-      "hours": "گھنٹے",
-      "days": "دن",
-      "weeks": "ہفتے",
-      "months": "مہینے"
+    "bodyPart": {
+      "head": "سر",
+      "neck": "گردن",
+      "chest": "سینہ",
+      "back": "پیٹھ",
+      "abdomen": "پیٹ",
+      "arms": "بازو",
+      "legs": "ٹانگیں"
     },
     "severity": {
       "mild": "معمولی",
@@ -307,27 +305,30 @@
       "severe": "شدید"
     },
     "duration": {
+      "hours": "گھنٹے",
+      "days": "دن",
+      "weeks": "ہفتے",
+      "months": "مہینے"
+    },
+    "frequency": {
       "constant": "مستقل",
-      "intermittent": "وقفہ وقفہ سے"
+      "intermittent": "وقفہ وقفہ سے",
+      "occasional": "کبھی کبھار"
     },
     "triggers": {
+      "title": "محرک عوامل",
       "movement": "حرکت",
-      "rest": "آرام",
       "food": "کھانا",
       "stress": "تناؤ",
       "weather": "موسم",
       "other": "دیگر"
     },
-    "details": {
-      "onset": "یہ کب شروع ہوا؟",
-      "severity": "یہ کتنا شدید ہے؟",
-      "duration": "یہ کتنی دیر سے ہے؟",
-      "triggers": "کیا اسے بڑھاتا یا خراب کرتا ہے؟"
-    },
-    "additionalSymptoms": {
-      "title": "اضافی علامات",
-      "namePlaceholder": "علامت کا نام درج کریں",
-      "descriptionPlaceholder": "علامت کی تفصیل لکھیں (اختیاری)"
+    "relief": {
+      "title": "آرام دہ عوامل",
+      "rest": "آرام",
+      "medication": "دوائیں",
+      "position": "پوزیشن تبدیلی",
+      "other": "دیگر"
     }
   }
 }

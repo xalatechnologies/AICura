@@ -267,39 +267,37 @@
     "steps": {
       "location": {
         "title": "محل علایم",
-        "description": "قسمت متاثر شده بدن را انتخاب کنید و علایم خود را توضیح دهید"
+        "description": "قسمت متاثر بدن را انتخاب کنید و علایم خود را توضیح دهید"
       },
       "details": {
         "title": "جزئیات علایم",
-        "description": "در مورد علایم خود بیشتر به ما بگویید"
+        "description": "در مورد علایم خود بیشتر توضیح دهید"
       },
       "history": {
-        "title": "سابقه صحی",
-        "description": "سابقه صحی مرتبط را به اشتراک بگذارید"
+        "title": "سابقه طبی",
+        "description": "سابقه طبی مرتبط را به اشتراک بگذارید"
       },
       "context": {
         "title": "عوامل محیطی",
-        "description": "به ما کمک کنید تا محیط و سبک زندگی شما را درک کنیم"
+        "description": "اطلاعات در مورد سبک زندگی و محیط شما"
       },
       "complications": {
         "title": "عوارض",
-        "description": "علایم اضافی یا عوارض"
+        "description": "علایم اضافی یا نگرانی‌ها"
       },
       "summary": {
         "title": "خلاصه",
-        "description": "گزارش علایم خود را مرور کنید"
+        "description": "اطلاعات ارائه شده را مرور کنید"
       }
     },
-    "selectBodyPart": "قسمت متاثر شده بدن را انتخاب کنید",
-    "describeSymptoms": "علایم خود را توضیح دهید",
-    "analyzer": {
-      "inputPlaceholder": "علایم خود را اینجا بنویسید..."
-    },
-    "onset": {
-      "hours": "ساعت",
-      "days": "روز",
-      "weeks": "هفته",
-      "months": "ماه"
+    "bodyPart": {
+      "head": "سر",
+      "neck": "گردن",
+      "chest": "سینه",
+      "back": "پشت",
+      "abdomen": "شکم",
+      "arms": "بازوها",
+      "legs": "پاها"
     },
     "severity": {
       "mild": "خفیف",
@@ -307,27 +305,30 @@
       "severe": "شدید"
     },
     "duration": {
+      "hours": "ساعت",
+      "days": "روز",
+      "weeks": "هفته",
+      "months": "ماه"
+    },
+    "frequency": {
       "constant": "مداوم",
-      "intermittent": "متناوب"
+      "intermittent": "متناوب",
+      "occasional": "گاه‌گاهی"
     },
     "triggers": {
+      "title": "عوامل تشدید کننده",
       "movement": "حرکت",
-      "rest": "استراحت",
       "food": "غذا",
       "stress": "استرس",
       "weather": "آب و هوا",
-      "other": "دیگر"
+      "other": "سایر"
     },
-    "details": {
-      "onset": "چه وقت شروع شد؟",
-      "severity": "چقدر شدید است؟",
-      "duration": "چقدر طول می‌کشد؟",
-      "triggers": "چه چیزی آن را بدتر می‌کند؟"
-    },
-    "additionalSymptoms": {
-      "title": "علایم اضافی",
-      "namePlaceholder": "نام علامت را وارد کنید",
-      "descriptionPlaceholder": "علامت را توضیح دهید (اختیاری)"
+    "relief": {
+      "title": "عوامل تسکین دهنده",
+      "rest": "استراحت",
+      "medication": "دارو",
+      "position": "تغییر وضعیت",
+      "other": "سایر"
     }
   }
 }

@@ -268,27 +268,25 @@
       },
       "context": {
         "title": "Kontekstuelle Faktorer",
-        "description": "Hjelp oss å forstå ditt miljø og livsstil"
+        "description": "Informasjon om din livsstil og miljø"
       },
       "complications": {
         "title": "Komplikasjoner",
-        "description": "Eventuelle tilleggssymptomer eller komplikasjoner"
+        "description": "Ytterligere symptomer eller bekymringer"
       },
       "summary": {
-        "title": "Sammendrag",
-        "description": "Gjennomgå din symptomrapport"
+        "title": "Oppsummering",
+        "description": "Gjennomgå oppgitt informasjon"
       }
     },
-    "selectBodyPart": "Velg berørt kroppsdel",
-    "describeSymptoms": "Beskriv symptomene dine",
-    "analyzer": {
-      "inputPlaceholder": "Skriv inn symptomene dine her..."
-    },
-    "onset": {
-      "hours": "Timer",
-      "days": "Dager",
-      "weeks": "Uker",
-      "months": "Måneder"
+    "bodyPart": {
+      "head": "Hode",
+      "neck": "Nakke",
+      "chest": "Bryst",
+      "back": "Rygg",
+      "abdomen": "Mage",
+      "arms": "Armer",
+      "legs": "Ben"
     },
     "severity": {
       "mild": "Mild",
@@ -296,27 +294,30 @@
       "severe": "Alvorlig"
     },
     "duration": {
+      "hours": "Timer",
+      "days": "Dager",
+      "weeks": "Uker",
+      "months": "Måneder"
+    },
+    "frequency": {
       "constant": "Konstant",
-      "intermittent": "Periodisk"
+      "intermittent": "Periodisk",
+      "occasional": "Av og til"
     },
     "triggers": {
+      "title": "Utløsende Faktorer",
       "movement": "Bevegelse",
-      "rest": "Hvile",
       "food": "Mat",
       "stress": "Stress",
       "weather": "Vær",
       "other": "Annet"
     },
-    "details": {
-      "onset": "Når startet det?",
-      "severity": "Hvor alvorlig er det?",
-      "duration": "Hvor ofte forekommer det?",
-      "triggers": "Hva utløser eller forverrer det?"
-    },
-    "additionalSymptoms": {
-      "title": "Tilleggssymptomer",
-      "namePlaceholder": "Skriv inn symptomets navn",
-      "descriptionPlaceholder": "Beskriv symptomet (valgfritt)"
+    "relief": {
+      "title": "Lindrende Faktorer",
+      "rest": "Hvile",
+      "medication": "Medisinering",
+      "position": "Stillingsendring",
+      "other": "Annet"
     }
   }
 }
