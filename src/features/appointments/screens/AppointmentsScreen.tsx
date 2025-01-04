@@ -10,13 +10,7 @@ export const AppointmentsScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header 
-        title={t('appointments.title')}
-        rightAction={{
-          icon: 'add',
-          onPress: () => {/* Handle new appointment */}
-        }}
-      />
+      <Header />
       <View style={styles.content}>
         <Text style={[styles.text, { color: colors.text }]}>
           {t('appointments.emptyState')}

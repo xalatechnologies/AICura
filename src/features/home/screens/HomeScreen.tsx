@@ -10,8 +10,8 @@ import {
   HealthStatusWidget,
   StepsTrackerWidget,
   RecentSymptoms,
-  Header,
 } from '../components';
+import { Header } from '@/components/shared/Header';
 
 export const HomeScreen: React.FC = () => {
   const { colors } = useTheme();

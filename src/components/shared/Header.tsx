@@ -1,84 +1,111 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTheme } from '@theme/ThemeContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from '@/theme/ThemeContext';
-import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   title?: string;
   showBack?: boolean;
+  onBack?: () => void;
+  hideGreeting?: boolean;
   rightAction?: {
     icon: string;
     onPress: () => void;
   };
-  hideTitle?: boolean;
 }
 
-export const Header = ({ title, showBack = false, rightAction, hideTitle = false }: HeaderProps) => {
+export const Header: React.FC<HeaderProps> = ({ showBack = false, onBack, hideGreeting = false }) => {
+  const { colors, toggleTheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const { colors } = useTheme();
-  const { t } = useTranslation();
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigation.goBack();
+    }
+  };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <LinearGradient
+      colors={[colors.card, colors.background]}
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top,
+          shadowColor: '#000',
+        },
+      ]}
+    >
       <View style={styles.content}>
-        {showBack && (
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Icon name="arrow-back" size={24} color={colors.text} />
-          </TouchableOpacity>
-        )}
-        
-        {!hideTitle && (
-          <Text style={[styles.title, { color: colors.text }]}>
-            {title || t('common.appName')}
-          </Text>
-        )}
+        <View style={styles.leftSection}>
+          {showBack ? (
+            <TouchableOpacity 
+              style={styles.iconButton}
+              onPress={handleBack}
+            >
+              <Icon name="arrow-left" size={24} color={colors.primary} />
+            </TouchableOpacity>
+          ) : !hideGreeting && (
+            <Text style={[styles.greeting, { color: colors.text }]}>
+              Hi, John!
+            </Text>
+          )}
+        </View>
 
-        {rightAction ? (
-          <TouchableOpacity
-            onPress={rightAction.onPress}
-            style={styles.rightAction}
-          >
-            <Icon name={rightAction.icon} size={24} color={colors.text} />
+        <View style={styles.rightSection}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Icon name="web" size={24} color={colors.primary} />
           </TouchableOpacity>
-        ) : <View style={styles.rightPlaceholder} />}
+          
+          <TouchableOpacity 
+            style={styles.iconButton}
+            onPress={toggleTheme}
+          >
+            <Icon 
+              name="theme-light-dark" 
+              size={24} 
+              color={colors.primary} 
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'ios' ? 44 : 0,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    elevation: 4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   content: {
-    height: 56,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
+    paddingVertical: 12,
   },
-  title: {
+  leftSection: {
+    flex: 1,
+  },
+  rightSection: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'center',
+  },
+  greeting: {
     fontSize: 20,
     fontWeight: '600',
-    flex: 1,
-    textAlign: 'center',
   },
-  backButton: {
+  iconButton: {
     padding: 8,
-    marginLeft: -8,
-  },
-  rightAction: {
-    padding: 8,
-    marginRight: -8,
-  },
-  rightPlaceholder: {
-    width: 40,
+    borderRadius: 20,
   },
 }); 
