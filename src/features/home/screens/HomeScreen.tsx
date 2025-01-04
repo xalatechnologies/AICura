@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@theme/ThemeContext';
 import { SymptomInput } from '@symptoms/components';
@@ -30,31 +30,29 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.content}>
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Health Widgets Section */}
-        <View style={styles.widgetsSection}>
-          <HealthStatusWidget />
-          <StepsTrackerWidget />
-        </View>
+        <HealthStatusWidget />
+        <StepsTrackerWidget />
 
         {/* Symptom Input Section */}
-        <View style={styles.inputSection}>
-          <SymptomInput
-            value={symptomText}
-            onChangeText={setSymptomText}
-            isRecording={isRecording}
-            onStartRecording={startRecording}
-            onStopRecording={stopRecording}
-            placeholder="Describe your symptoms..."
-          />
-          <StartAnalysisButton onPress={handleStartAnalysis} />
-        </View>
+        <SymptomInput
+          value={symptomText}
+          onChangeText={setSymptomText}
+          isRecording={isRecording}
+          onStartRecording={startRecording}
+          onStopRecording={stopRecording}
+          placeholder="Describe your symptoms..."
+        />
+        <StartAnalysisButton onPress={handleStartAnalysis} />
 
         {/* Recent Symptoms Section */}
-        <View style={styles.recentSection}>
-          <RecentSymptoms />
-        </View>
-      </View>
+        <RecentSymptoms />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -63,20 +61,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  scrollView: {
+    flex: 1,
+  },
   content: {
-    flex: 1,
     padding: 16,
-    gap: 24,
-  },
-  widgetsSection: {
     gap: 16,
-  },
-  inputSection: {
-    gap: 16,
-    paddingVertical: 8,
-  },
-  recentSection: {
-    flex: 1,
   },
 });
 
