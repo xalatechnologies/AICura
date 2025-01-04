@@ -8,6 +8,7 @@ const SymptomsScreen: React.FC = () => {
   const { colors } = useTheme();
   const [symptoms, setSymptoms] = useState<Symptom[]>([]);
   const [isRecording, setIsRecording] = useState(false);
+  const [inputText, setInputText] = useState('');
 
   const handleAddSymptom = (symptom: Omit<Symptom, 'id'>) => {
     setSymptoms((prevSymptoms) => [
@@ -29,6 +30,8 @@ const SymptomsScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <SymptomInput
+        value={inputText}
+        onChangeText={setInputText}
         suggestions={[]}
         onAddSymptom={handleAddSymptom}
         isRecording={isRecording}

@@ -1,166 +1,85 @@
-import React, { useState, useCallback } from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import React from 'react';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
-import { VoiceRecorder } from './VoiceRecorder';
-import { SeveritySlider } from './SeveritySlider';
-import { Symptom, FREQUENCIES } from '../types';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Symptom } from '@symptoms/types';
 
 interface SymptomInputProps {
-  suggestions: string[];
-  onAddSymptom: (symptom: Omit<Symptom, 'id'>) => void;
+  value: string;
+  onChangeText: (text: string) => void;
   isRecording: boolean;
   onStartRecording: () => void;
   onStopRecording: () => void;
+  placeholder?: string;
+  suggestions?: string[];
+  onAddSymptom?: (symptom: Omit<Symptom, "id">) => void;
 }
 
 export const SymptomInput: React.FC<SymptomInputProps> = ({
-  suggestions,
-  onAddSymptom,
+  value,
+  onChangeText,
   isRecording,
   onStartRecording,
   onStopRecording,
+  placeholder,
 }) => {
   const { colors } = useTheme();
-  const [text, setText] = useState('');
-  const [selectedFrequency, setSelectedFrequency] = useState<Symptom['frequency']>('Never');
-  const [severity, setSeverity] = useState(0);
-
-  const handleAddSymptom = useCallback(() => {
-    if (text.trim()) {
-      onAddSymptom({
-        name: text.trim(),
-        frequency: selectedFrequency,
-        severity,
-      });
-      setText('');
-      setSeverity(0);
-      setSelectedFrequency(FREQUENCIES[0]);
-    }
-  }, [text, selectedFrequency, severity, onAddSymptom]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={[styles.textInput, { borderColor: colors.border }]}
-            placeholder="Enter symptom"
-            value={text}
-            onChangeText={setText}
-          />
-          {/* Suggestion List */}
-          {suggestions.length > 0 && (
-            <ScrollView style={styles.suggestionsContainer}>
-              {suggestions.map((suggestion, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => setText(suggestion)}
-                >
-                  <Text style={styles.suggestionText}>{suggestion}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          )}
-          {/* Frequency Selector */}
-          <View style={styles.frequencyContainer}>
-            {FREQUENCIES.map((frequency) => (
-              <TouchableOpacity
-                key={frequency}
-                style={[
-                  styles.frequencyButton,
-                  selectedFrequency === frequency && {
-                    backgroundColor: colors.primary,
-                  },
-                ]}
-                onPress={() => setSelectedFrequency(frequency)}
-              >
-                <Text style={styles.frequencyButtonText}>{frequency}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          {/* Severity Slider */}
-          <SeveritySlider severity={severity} onValueChange={setSeverity} />
-          {/* Voice Recorder */}
-          <VoiceRecorder
-            isRecording={isRecording}
-            onStartRecording={onStartRecording}
-            onStopRecording={onStopRecording}
-          />
-          {/* Add Symptom Button */}
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddSymptom}
-          >
-            <Text style={styles.addButtonText}>Add Symptom</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <View style={[styles.container, { backgroundColor: colors.card }]}>
+      <TextInput
+        style={[
+          styles.input,
+          { color: colors.text, backgroundColor: colors.background },
+        ]}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textSecondary}
+        multiline
+        numberOfLines={4}
+        textAlignVertical="top"
+      />
+      <TouchableOpacity
+        style={[styles.micButton, { backgroundColor: colors.primary }]}
+        onPress={isRecording ? onStopRecording : onStartRecording}
+      >
+        <MaterialCommunityIcons
+          name={isRecording ? 'microphone-off' : 'microphone'}
+          size={24}
+          color="#FFFFFF"
+        />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  contentContainer: {
-    paddingBottom: 16,
-  },
-  inputContainer: {
-    padding: 16,
-  },
-  textInput: {
-    borderWidth: 1,
+    borderRadius: 12,
     padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  suggestionsContainer: {
-    maxHeight: 100,
-    marginBottom: 8,
-  },
-  suggestionText: {
-    padding: 8,
-    borderBottomWidth: 0.5,
-    borderColor: '#ccc',
-  },
-  frequencyContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 8,
+    gap: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
-  frequencyButton: {
+  input: {
     flex: 1,
+    borderRadius: 8,
     padding: 12,
-    borderRadius: 8,
-    marginHorizontal: 4,
+    fontSize: 16,
+    minHeight: 120,
+    textAlignVertical: 'top',
+  },
+  micButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  frequencyButtonText: {
-    color: '#000',
-  },
-  addButton: {
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    alignSelf: 'flex-start',
   },
 }); 

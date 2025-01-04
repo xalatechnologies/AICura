@@ -1,7 +1,6 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -10,19 +9,19 @@
       "@symptoms/*": ["src/features/symptoms/*"],
       "@symptoms/components/*": ["src/features/symptoms/components/*"],
       "@symptoms/hooks/*": ["src/features/symptoms/hooks/*"],
-      "@symptoms/types": ["src/features/symptoms/types"],
-      "@symptoms/constants": ["src/features/symptoms/constants"],
-      "@navigation/*": ["src/navigation/*"],
-      "@context/*": ["src/context/*"],
+      "@symptoms/types/*": ["src/features/symptoms/types/*"],
+      "@symptoms/constants/*": ["src/features/symptoms/constants/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@screens/*": ["src/screens/*"],
       "@theme/*": ["src/theme/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
       "@lib/*": ["src/lib/*"],
-      "@utils/*": ["src/utils/*"],
-      "@hooks/*": ["src/hooks/*"],
       "@i18n/*": ["src/i18n/*"],
       "@styles/*": ["src/styles/*"],
-      "@services/*": ["src/services/*"],
-      "@screens/*": ["src/screens/*"]
+      "@context/*": ["src/context/*"],
+      "@navigation/*": ["src/navigation/*"]
     }
   }
 }
