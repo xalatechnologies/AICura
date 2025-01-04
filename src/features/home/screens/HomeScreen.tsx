@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '@theme/ThemeContext';
-import { SymptomInput } from '@symptoms/components';
-import { useSymptomAnalysis } from '@symptoms/hooks/useSymptomAnalysis';
+import { useTheme } from '@/theme/ThemeContext';
+import { SymptomInput } from '@/features/symptoms/components/SymptomInput';
+import { useSymptomAnalysis } from '@/features/symptoms/hooks/useSymptomAnalysis';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/navigation/RootNavigator';
 import {
   StartAnalysisButton,
   HealthStatusWidget,
@@ -13,9 +14,11 @@ import {
 } from '../components';
 import { Header } from '@/components/shared/Header';
 
-export const HomeScreen: React.FC = () => {
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+export const HomeScreen = () => {
   const { colors } = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [symptomText, setSymptomText] = useState('');
   const {
     isRecording,
@@ -24,9 +27,7 @@ export const HomeScreen: React.FC = () => {
   } = useSymptomAnalysis();
 
   const handleStartAnalysis = () => {
-    if (symptomText.trim()) {
-      navigation.navigate('SymptomAnalyzer', { initialSymptom: symptomText });
-    }
+      navigation.navigate('Symptoms');
   };
 
   return (
@@ -43,20 +44,20 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         <View style={styles.inputSection}>
-          <SymptomInput
+          {/* <SymptomInput
             value={symptomText}
             onChangeText={setSymptomText}
             isRecording={isRecording}
             onStartRecording={startRecording}
             onStopRecording={stopRecording}
             placeholder="Describe your symptoms..."
-          />
+          /> */}
           <StartAnalysisButton onPress={handleStartAnalysis} />
         </View>
 
         <View style={styles.recentSection}>
           <RecentSymptoms />
-      </View>
+        </View>
       </ScrollView>
     </View>
   );

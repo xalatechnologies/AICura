@@ -1,85 +1,68 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Symptom } from '@symptoms/types';
+import { View, TextInput, StyleSheet } from 'react-native';
+import { useTheme } from '@/theme/ThemeContext';
+import { VoiceRecorder } from './VoiceRecorder';
+import type { Symptom } from '../types';
 
 interface SymptomInputProps {
   value: string;
   onChangeText: (text: string) => void;
-  isRecording: boolean;
-  onStartRecording: () => void;
-  onStopRecording: () => void;
   placeholder?: string;
   suggestions?: string[];
   onAddSymptom?: (symptom: Omit<Symptom, "id">) => void;
+  isRecording: boolean;
+  onStartRecording: () => Promise<void>;
+  onStopRecording: () => Promise<void>;
 }
 
-export const SymptomInput: React.FC<SymptomInputProps> = ({
+export const SymptomInput = ({
   value,
   onChangeText,
+  placeholder,
+  suggestions = [],
+  onAddSymptom,
   isRecording,
   onStartRecording,
   onStopRecording,
-  placeholder,
-}) => {
+}: SymptomInputProps) => {
   const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.card }]}>
-      <TextInput
-        style={[
-          styles.input,
-          { color: colors.text, backgroundColor: colors.background },
-        ]}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        placeholderTextColor={colors.textSecondary}
-        multiline
-        numberOfLines={4}
-        textAlignVertical="top"
-      />
-      <TouchableOpacity
-        style={[styles.micButton, { backgroundColor: colors.primary }]}
-        onPress={isRecording ? onStopRecording : onStartRecording}
-      >
-        <MaterialCommunityIcons
-          name={isRecording ? 'microphone-off' : 'microphone'}
-          size={24}
-          color="#FFFFFF"
+    <View style={styles.container}>
+      <View style={[styles.inputContainer, { backgroundColor: colors.card }]}>
+        <TextInput
+          style={[styles.input, { color: colors.text }]}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor={colors.textSecondary}
+          multiline
         />
-      </TouchableOpacity>
+        <VoiceRecorder 
+          isRecording={isRecording}
+          onTextChange={(text) => onChangeText(value + ' ' + text)}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
-    padding: 12,
-    flexDirection: 'row',
     gap: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 2, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderRadius: 12,
+    padding: 8,
   },
   input: {
     flex: 1,
-    borderRadius: 8,
-    padding: 12,
     fontSize: 16,
-    minHeight: 120,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    minHeight: 100,
     textAlignVertical: 'top',
-  },
-  micButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
   },
 }); 

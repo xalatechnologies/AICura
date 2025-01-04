@@ -11,6 +11,7 @@ import {
   SignupScreen,
   ForgotPasswordScreen,
 } from '@/features/auth';
+import { SymptomsScreen } from '@/features/symptoms';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -23,6 +24,7 @@ export type RootStackParamList = {
   LanguageSelection: undefined;
   Chat: undefined;
   MedicalJournal: undefined;
+  Symptoms: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -55,6 +57,7 @@ export const RootNavigator = () => {
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
+          <Stack.Screen name="Symptoms" component={SymptomsScreen} />
         </Stack.Group>
       )}
     </Stack.Navigator>

@@ -1,45 +1,35 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from '@/theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 interface StartAnalysisButtonProps {
   onPress: () => void;
-  disabled?: boolean;
 }
 
-export const StartAnalysisButton: React.FC<StartAnalysisButtonProps> = ({ onPress, disabled }) => {
+export const StartAnalysisButton = ({ onPress }: StartAnalysisButtonProps) => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        { backgroundColor: disabled ? colors.buttonDisabled : colors.buttonPrimary },
-      ]}
+      style={[styles.button, { backgroundColor: colors.primary }]}
       onPress={onPress}
-      disabled={disabled}
     >
-      <Icon name="stethoscope" size={24} color={colors.textInverted} style={styles.icon} />
-      <Text style={[styles.text, { color: colors.textInverted }]}>Start New Symptom Analysis</Text>
+      <Text style={styles.text}>{t('symptoms.startAnalysis')}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 16,
     borderRadius: 12,
-    gap: 8,
-  },
-  icon: {
-    marginRight: 8,
+    alignItems: 'center',
   },
   text: {
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-}); 
+});
