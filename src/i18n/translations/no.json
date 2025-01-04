@@ -129,7 +129,47 @@
     "lastCheck": "Siste Sjekk",
     "symptomsInput": "Skriv inn dine symptomer...",
     "analyzing": "Analyserer dine symptomer...",
-    "noSymptoms": "Vennligst skriv inn dine symptomer"
+    "noSymptoms": "Vennligst skriv inn dine symptomer",
+    "header": {
+      "title": "Hjem"
+    },
+    "widgets": {
+      "healthStatus": {
+        "title": "Helsetilstand",
+        "excellent": "Utmerket",
+        "excellentDesc": "Dine helsemålinger er optimale",
+        "good": "God",
+        "goodDesc": "Din helse er i god stand",
+        "fair": "Middels",
+        "fairDesc": "Noen målinger trenger oppmerksomhet",
+        "poor": "Dårlig",
+        "poorDesc": "Flere målinger trenger oppmerksomhet",
+        "heartRate": "Hjertefrekvens",
+        "bloodPressure": "Blodtrykk",
+        "sleep": "Søvn",
+        "bpm": "bpm",
+        "mmHg": "mmHg",
+        "hrs": "timer"
+      },
+      "stepsTracker": {
+        "title": "Daglige Skritt",
+        "history": "Historikk",
+        "steps": "skritt",
+        "goal": "Mål: {{goal}} skritt",
+        "distance": "Avstand",
+        "calories": "Kalorier",
+        "progress": "Fremgang",
+        "km": "km",
+        "kcal": "kcal"
+      }
+    },
+    "actions": {
+      "startAnalysis": "Start Ny Symptomanalyse"
+    },
+    "recentSymptoms": {
+      "title": "Nylige Symptomer",
+      "empty": "Ingen nylige symptomer registrert"
+    }
   },
   "appointments": {
     "upcoming": "Kommende Avtaler",
@@ -167,7 +207,7 @@
     "next": "Neste",
     "back": "Tilbake",
     "done": "Ferdig",
-    "error": "En feil oppstod",
+    "error": "Feil",
     "success": "Vellykket",
     "loading": "Laster...",
     "yes": "Ja",
@@ -179,7 +219,10 @@
     "search": "Søk",
     "select": "Velg",
     "submit": "Send inn",
-    "retry": "Prøv igjen"
+    "retry": "Prøv igjen",
+    "warning": "Advarsel",
+    "info": "Informasjon",
+    "details": "Detaljer"
   },
   "auth": {
     "welcome": {
@@ -319,5 +362,10 @@
       "position": "Stillingsendring",
       "other": "Annet"
     }
+  },
+  "splash": {
+    "appTitle": "AICura™",
+    "tagline": "Din Intelligente Helsepartner",
+    "loading": "Laster..."
   }
 }

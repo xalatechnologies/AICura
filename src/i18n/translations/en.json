@@ -129,7 +129,47 @@
     "lastCheck": "Last Check-up",
     "symptomsInput": "Enter your symptoms...",
     "analyzing": "Analyzing your symptoms...",
-    "noSymptoms": "Please enter your symptoms"
+    "noSymptoms": "Please enter your symptoms",
+    "header": {
+      "title": "Home"
+    },
+    "widgets": {
+      "healthStatus": {
+        "title": "Health Status",
+        "excellent": "Excellent",
+        "excellentDesc": "Your health metrics are optimal",
+        "good": "Good",
+        "goodDesc": "Your health is in good condition",
+        "fair": "Fair",
+        "fairDesc": "Some metrics need attention",
+        "poor": "Poor",
+        "poorDesc": "Multiple metrics need attention",
+        "heartRate": "Heart Rate",
+        "bloodPressure": "Blood Pressure",
+        "sleep": "Sleep",
+        "bpm": "bpm",
+        "mmHg": "mmHg",
+        "hrs": "hrs"
+      },
+      "stepsTracker": {
+        "title": "Daily Steps",
+        "history": "History",
+        "steps": "steps",
+        "goal": "Goal: {{goal}} steps",
+        "distance": "Distance",
+        "calories": "Calories",
+        "progress": "Progress",
+        "km": "km",
+        "kcal": "kcal"
+      }
+    },
+    "actions": {
+      "startAnalysis": "Start New Symptom Analysis"
+    },
+    "recentSymptoms": {
+      "title": "Recent Symptoms",
+      "empty": "No recent symptoms recorded"
+    }
   },
   "appointments": {
     "upcoming": "Upcoming Appointments",
@@ -182,6 +222,7 @@
     "retry": "Retry",
     "warning": "Warning",
     "info": "Information",
+    "details": "Details",
     "tagline": "The Future AI Doctor at your fingertips"
   },
   "auth": {
@@ -339,6 +380,25 @@
       "title": "Additional Symptoms",
       "namePlaceholder": "Enter symptom name",
       "descriptionPlaceholder": "Describe the symptom (optional)"
+    }
+  },
+  "splash": {
+    "appTitle": "AICura™",
+    "tagline": "Your Intelligent Healthcare Companion",
+    "loading": "Loading..."
+  },
+  "language": {
+    "selection": {
+      "title": "Select Language",
+      "instruction": "Choose your preferred language",
+      "languages": {
+        "en": "English",
+        "es": "Español",
+        "no": "Norsk",
+        "ps": "پښتو",
+        "ur": "اردو",
+        "fa-AF": "دری"
+      }
     }
   }
 }

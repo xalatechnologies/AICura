@@ -1,22 +1,21 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
-import { useTranslation } from 'react-i18next';
 
 interface StartAnalysisButtonProps {
   onPress: () => void;
+  text: string;
 }
 
-export const StartAnalysisButton = ({ onPress }: StartAnalysisButtonProps) => {
+export const StartAnalysisButton: React.FC<StartAnalysisButtonProps> = ({ onPress, text }) => {
   const { colors } = useTheme();
-  const { t } = useTranslation();
 
   return (
     <TouchableOpacity
       style={[styles.button, { backgroundColor: colors.primary }]}
       onPress={onPress}
     >
-      <Text style={styles.text}>{t('symptoms.startAnalysis')}</Text>
+      <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -26,10 +25,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
 });

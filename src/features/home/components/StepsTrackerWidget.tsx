@@ -1,10 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const StepsTrackerWidget: React.FC = () => {
+interface StepsTrackerWidgetProps {
+  title: string;
+}
+
+export const StepsTrackerWidget: React.FC<StepsTrackerWidgetProps> = ({ title }) => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const steps = 6500; // This would come from your health tracking service
   const goal = 10000;
   const progress = Math.min(steps / goal, 1);
@@ -16,13 +22,13 @@ export const StepsTrackerWidget: React.FC = () => {
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Icon name="walk" size={24} color={colors.primary} />
-          <Text style={[styles.title, { color: colors.text }]}>Daily Steps</Text>
+          <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
         </View>
         <TouchableOpacity
           style={[styles.detailsButton, { borderColor: colors.border }]}
         >
           <Text style={[styles.detailsText, { color: colors.primary }]}>
-            History
+            {t('home.widgets.stepsTracker.history')}
           </Text>
           <Icon name="chevron-right" size={20} color={colors.primary} />
         </TouchableOpacity>
@@ -34,7 +40,7 @@ export const StepsTrackerWidget: React.FC = () => {
             {steps.toLocaleString()}
           </Text>
           <Text style={[styles.stepsLabel, { color: colors.textSecondary }]}>
-            steps
+            {t('home.widgets.stepsTracker.steps')}
           </Text>
         </View>
 
@@ -56,7 +62,7 @@ export const StepsTrackerWidget: React.FC = () => {
             />
           </View>
           <Text style={[styles.goalText, { color: colors.textSecondary }]}>
-            Goal: {goal.toLocaleString()} steps
+            {t('home.widgets.stepsTracker.goal', { goal: goal.toLocaleString() })}
           </Text>
         </View>
       </View>
@@ -66,43 +72,41 @@ export const StepsTrackerWidget: React.FC = () => {
       <View style={styles.metricsContainer}>
         <View style={styles.metricItem}>
           <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
-            Distance
+            {t('home.widgets.stepsTracker.distance')}
           </Text>
           <View style={styles.metricValueContainer}>
             <Text style={[styles.metricValue, { color: colors.text }]}>
               {distance.toFixed(2)}
             </Text>
             <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
-              km
+              {t('home.widgets.stepsTracker.km')}
             </Text>
           </View>
         </View>
 
         <View style={styles.metricItem}>
           <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
-            Calories
+            {t('home.widgets.stepsTracker.calories')}
           </Text>
           <View style={styles.metricValueContainer}>
             <Text style={[styles.metricValue, { color: colors.text }]}>
               {calories}
             </Text>
             <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
-              kcal
+              {t('home.widgets.stepsTracker.kcal')}
             </Text>
           </View>
         </View>
 
         <View style={styles.metricItem}>
           <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
-            Progress
+            {t('home.widgets.stepsTracker.progress')}
           </Text>
           <View style={styles.metricValueContainer}>
             <Text style={[styles.metricValue, { color: colors.text }]}>
               {Math.round(progress * 100)}
             </Text>
-            <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
-              %
-            </Text>
+            <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>%</Text>
           </View>
         </View>
       </View>

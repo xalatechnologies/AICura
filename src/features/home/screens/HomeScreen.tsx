@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import { SymptomInput } from '@/features/symptoms/components/SymptomInput';
 import { useSymptomAnalysis } from '@/features/symptoms/hooks/useSymptomAnalysis';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +19,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const HomeScreen = () => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const [symptomText, setSymptomText] = useState('');
   const {
@@ -27,36 +29,38 @@ export const HomeScreen = () => {
   } = useSymptomAnalysis();
 
   const handleStartAnalysis = () => {
-      navigation.navigate('Symptoms');
+    navigation.navigate('Symptoms');
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header />
+      <Header title={t('home.header.title')} />
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.widgetsSection}>
-          <HealthStatusWidget />
-          <StepsTrackerWidget />
+          <HealthStatusWidget 
+            title={t('home.widgets.healthStatus.title')}
+          />
+          <StepsTrackerWidget 
+            title={t('home.widgets.stepsTracker.title')}
+          />
         </View>
 
         <View style={styles.inputSection}>
-          {/* <SymptomInput
-            value={symptomText}
-            onChangeText={setSymptomText}
-            isRecording={isRecording}
-            onStartRecording={startRecording}
-            onStopRecording={stopRecording}
-            placeholder="Describe your symptoms..."
-          /> */}
-          <StartAnalysisButton onPress={handleStartAnalysis} />
+          <StartAnalysisButton 
+            onPress={handleStartAnalysis}
+            text={t('home.actions.startAnalysis')}
+          />
         </View>
 
         <View style={styles.recentSection}>
-          <RecentSymptoms />
+          <RecentSymptoms 
+            title={t('home.recentSymptoms.title')}
+            emptyText={t('home.recentSymptoms.empty')}
+          />
         </View>
       </ScrollView>
     </View>

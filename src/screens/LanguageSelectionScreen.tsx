@@ -1,16 +1,24 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
-import { ThemeHeader } from '@components/ThemeHeader';
+import { useTranslation } from 'react-i18next';
+import { Header } from '@components/shared/Header';
 import { LanguageSelector } from '@components/LanguageSelector';
 
 export const LanguageSelectionScreen = () => {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ThemeHeader showBack />
+      <Header 
+        title={t('language.selection.title')} 
+        showBack 
+      />
       <View style={styles.content}>
+        <Text style={[styles.instruction, { color: colors.textSecondary }]}>
+          {t('language.selection.instruction')}
+        </Text>
         <LanguageSelector />
       </View>
     </View>
@@ -27,5 +35,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  instruction: {
+    fontSize: 16,
+    marginBottom: 24,
+    textAlign: 'center',
   },
 }); 

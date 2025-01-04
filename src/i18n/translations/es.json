@@ -129,7 +129,47 @@
     "lastCheck": "Última Revisión",
     "symptomsInput": "Ingresa tus síntomas...",
     "analyzing": "Analizando tus síntomas...",
-    "noSymptoms": "Por favor ingresa tus síntomas"
+    "noSymptoms": "Por favor ingresa tus síntomas",
+    "header": {
+      "title": "Inicio"
+    },
+    "widgets": {
+      "healthStatus": {
+        "title": "Estado de Salud",
+        "excellent": "Excelente",
+        "excellentDesc": "Tus mediciones de salud son óptimas",
+        "good": "Bueno",
+        "goodDesc": "Tu salud está en buen estado",
+        "fair": "Regular",
+        "fairDesc": "Algunas mediciones necesitan atención",
+        "poor": "Deficiente",
+        "poorDesc": "Varias mediciones necesitan atención",
+        "heartRate": "Ritmo Cardíaco",
+        "bloodPressure": "Presión Arterial",
+        "sleep": "Sueño",
+        "bpm": "lpm",
+        "mmHg": "mmHg",
+        "hrs": "horas"
+      },
+      "stepsTracker": {
+        "title": "Pasos Diarios",
+        "history": "Historial",
+        "steps": "pasos",
+        "goal": "Meta: {{goal}} pasos",
+        "distance": "Distancia",
+        "calories": "Calorías",
+        "progress": "Progreso",
+        "km": "km",
+        "kcal": "kcal"
+      }
+    },
+    "actions": {
+      "startAnalysis": "Iniciar Nuevo Análisis de Síntomas"
+    },
+    "recentSymptoms": {
+      "title": "Síntomas Recientes",
+      "empty": "No hay síntomas recientes registrados"
+    }
   },
   "appointments": {
     "upcoming": "Próximas Citas",
@@ -181,7 +221,8 @@
     "submit": "Enviar",
     "retry": "Reintentar",
     "warning": "Advertencia",
-    "info": "Información"
+    "info": "Información",
+    "details": "Detalles"
   },
   "auth": {
     "welcome": {
@@ -340,5 +381,10 @@
       "position": "Cambio de Posición",
       "other": "Otros"
     }
+  },
+  "splash": {
+    "appTitle": "AICura™",
+    "tagline": "Tu Compañero Inteligente de Salud",
+    "loading": "Cargando..."
   }
 }
