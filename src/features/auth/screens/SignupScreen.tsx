@@ -8,7 +8,7 @@ import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 import { supabase } from '@/lib/supabase';
 import { StyledAppTitle } from '@components/StyledAppTitle';
-import { Header } from '@home/components';
+import { Header } from '@components/shared/Header';
 
 type SignupScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Signup'>;
@@ -61,7 +61,7 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header showBack hideGreeting />
+      <Header showBack />
       
       <ScrollView 
         style={styles.content}

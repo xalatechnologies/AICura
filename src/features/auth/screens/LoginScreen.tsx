@@ -16,7 +16,7 @@ import { AuthError } from '@supabase/supabase-js';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 import { StyledAppTitle } from '@components/StyledAppTitle';
-import { Header } from '@home/components';
+import { Header } from '@components/shared/Header';
 
 type AuthStackParamList = {
   Login: undefined;
@@ -58,7 +58,7 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header showBack hideGreeting />
+      <Header showBack />
       
       <View style={styles.contentContainer}>
         <View style={styles.header}>
