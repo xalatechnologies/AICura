@@ -7,22 +7,40 @@ module.exports = function(api) {
         'module-resolver',
         {
           root: ['./src'],
-          extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
             '@': './src',
             '@components': './src/components',
+            '@features': './src/features',
+            '@symptoms': './src/features/symptoms',
+            '@symptoms/components': './src/features/symptoms/components',
+            '@symptoms/hooks': './src/features/symptoms/hooks',
+            '@symptoms/types': './src/features/symptoms/types',
+            '@symptoms/constants': './src/features/symptoms/constants',
+            '@hooks': './src/hooks',
             '@screens': './src/screens',
-            '@navigation': './src/navigation',
-            '@contexts': './src/contexts',
             '@theme': './src/theme',
+            '@services': './src/services',
+            '@utils': './src/utils',
             '@assets': './src/assets',
             '@lib': './src/lib',
-            '@utils': './src/utils',
-            '@hooks': './src/hooks',
             '@i18n': './src/i18n',
-          },
-        },
+            '@styles': './src/styles',
+            '@context': './src/context',
+            '@navigation': './src/navigation'
+          }
+        }
       ],
-    ],
+      [
+        'module:react-native-dotenv',
+        {
+          moduleName: '@env',
+          path: '.env',
+          blacklist: null,
+          whitelist: null,
+          safe: false,
+          allowUndefined: true
+        }
+      ]
+    ]
   };
 }; 

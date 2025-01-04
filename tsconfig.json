@@ -6,7 +6,12 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
-      "@screens/*": ["src/screens/*"],
+      "@features/*": ["src/features/*"],
+      "@symptoms/*": ["src/features/symptoms/*"],
+      "@symptoms/components/*": ["src/features/symptoms/components/*"],
+      "@symptoms/hooks/*": ["src/features/symptoms/hooks/*"],
+      "@symptoms/types": ["src/features/symptoms/types"],
+      "@symptoms/constants": ["src/features/symptoms/constants"],
       "@navigation/*": ["src/navigation/*"],
       "@context/*": ["src/context/*"],
       "@theme/*": ["src/theme/*"],
@@ -16,7 +21,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@i18n/*": ["src/i18n/*"],
       "@styles/*": ["src/styles/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@screens/*": ["src/screens/*"]
     }
   }
 }
