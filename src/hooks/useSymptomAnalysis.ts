@@ -38,6 +38,58 @@ export interface CTAOption {
   icon: string;
 }
 
+export interface BodyPart {
+  id: string;
+  name: string;
+  commonSymptoms: string[];
+  coordinates?: {
+    x: number;
+    y: number;
+    radius: number;
+  };
+}
+
+export const BODY_PARTS: BodyPart[] = [
+  {
+    id: 'head',
+    name: 'Head & Face',
+    commonSymptoms: ['Headache', 'Migraine', 'Dizziness', 'Vision changes', 'Facial pain'],
+    coordinates: { x: 50, y: 20, radius: 12 }
+  },
+  {
+    id: 'chest',
+    name: 'Chest & Breathing',
+    commonSymptoms: ['Chest pain', 'Shortness of breath', 'Cough', 'Heart palpitations'],
+    coordinates: { x: 50, y: 60, radius: 15 }
+  },
+  {
+    id: 'abdomen',
+    name: 'Abdomen & Digestive',
+    commonSymptoms: ['Abdominal pain', 'Nausea', 'Bloating', 'Diarrhea', 'Loss of appetite'],
+    coordinates: { x: 50, y: 85, radius: 15 }
+  },
+  {
+    id: 'arms',
+    name: 'Arms & Hands',
+    commonSymptoms: ['Joint pain', 'Muscle aches', 'Weakness', 'Numbness', 'Tingling'],
+    coordinates: { x: 25, y: 60, radius: 12 }
+  },
+  {
+    id: 'legs',
+    name: 'Legs & Feet',
+    commonSymptoms: ['Joint pain', 'Muscle aches', 'Swelling', 'Numbness', 'Cramping'],
+    coordinates: { x: 50, y: 140, radius: 20 }
+  }
+];
+
+export interface Symptom {
+  id: string;
+  name: string;
+  severity: number;
+  frequency: string;
+  bodyPartId?: string;
+}
+
 const ROUND_QUESTIONS: FollowUpRound[] = [
   {
     round: 1,
@@ -106,177 +158,66 @@ const ROUND_QUESTIONS: FollowUpRound[] = [
 ];
 
 export const useSymptomAnalysis = () => {
+  const [selectedBodyPart, setSelectedBodyPart] = useState<BodyPart | null>(null);
+  const [symptoms, setSymptoms] = useState<Symptom[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentRound, setCurrentRound] = useState<FollowUpRound | null>(null);
-  const [roundAnswers, setRoundAnswers] = useState<FollowUpAnswer[]>([]);
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
-  const [allAnswers, setAllAnswers] = useState<FollowUpAnswer[]>([]);
   const [showCTAs, setShowCTAs] = useState(false);
   const abortController = useRef<AbortController | null>(null);
 
-  const resetAnalysis = useCallback(() => {
-    setMessages([]);
-    setSuggestions([]);
-    setCurrentRound(null);
-    setCurrentRoundNumber(0);
-    setAllAnswers([]);
-    setShowCTAs(false);
-  }, []);
-
-  const getSymptomsInput = useCallback(async (input: string) => {
-    if (input.length < 2) {
-      setSuggestions([]);
-      return;
-    }
-    try {
-      setSuggestions([]); // Remove suggestions functionality for now
-    } catch (error) {
-      console.error('Error getting suggestions:', error);
-      setSuggestions([]);
+  const selectBodyPart = useCallback((partId: string) => {
+    const part = BODY_PARTS.find(p => p.id === partId);
+    if (part) {
+      setSelectedBodyPart(part);
+      setSuggestions(part.commonSymptoms);
     }
   }, []);
 
-  const processFollowUpRound = useCallback((roundNumber: number) => {
-    const rounds: FollowUpRound[] = [
+  const addSymptom = useCallback((name: string, severity: number = 5, frequency: string = 'Sometimes') => {
+    setSymptoms(prev => [
+      ...prev,
       {
-        round: 1,
-        questions: [
-          {
-            type: 'toggle',
-            question: 'How long have you been experiencing these symptoms?',
-            options: ['Today', 'Few days', 'Week or more', 'Month+']
-          },
-          {
-            type: 'slider',
-            question: 'On a scale of 1-10, how would you rate the intensity?',
-            min: 1,
-            max: 10
-          },
-          {
-            type: 'toggle',
-            question: 'Is it constant or does it come and go?',
-            options: ['Constant', 'Intermittent', 'Varies']
-          }
-        ]
-      },
-      {
-        round: 2,
-        questions: [
-          {
-            type: 'multi-toggle',
-            question: 'Have you noticed anything that makes it worse?',
-            options: ['Activity', 'Food', 'Stress', 'Weather', 'Other']
-          },
-          {
-            type: 'multi-toggle',
-            question: 'What helps improve the symptoms?',
-            options: ['Rest', 'Medication', 'Position change', 'Nothing']
-          },
-          {
-            type: 'toggle',
-            question: 'Are you experiencing any other symptoms alongside?',
-            options: ['Yes', 'No']
-          }
-        ]
-      },
-      {
-        round: 3,
-        questions: [
-          {
-            type: 'toggle',
-            question: 'How is this affecting your daily activities?',
-            options: ['Minimal', 'Moderate', 'Severe']
-          },
-          {
-            type: 'toggle',
-            question: 'Have you experienced this before?',
-            options: ['First time', 'Recurring', 'Chronic']
-          },
-          {
-            type: 'multi-toggle',
-            question: 'Any concerning changes or symptoms?',
-            options: ['Worsening', 'New symptoms', 'Emergency signs', 'None']
-          }
-        ]
+        id: Date.now().toString(),
+        name,
+        severity,
+        frequency,
+        bodyPartId: selectedBodyPart?.id
       }
-    ];
+    ]);
+  }, [selectedBodyPart]);
 
-    setCurrentRound(rounds[roundNumber - 1] || null);
-    setCurrentRoundNumber(roundNumber);
+  const updateSymptom = useCallback((id: string, updates: Partial<Symptom>) => {
+    setSymptoms(prev => prev.map(s => 
+      s.id === id ? { ...s, ...updates } : s
+    ));
   }, []);
 
-  const submitRoundAnswers = useCallback(async (answers: FollowUpAnswer[]) => {
-    setAllAnswers(prev => [...prev, ...answers]);
-    setRoundAnswers([]);
-
-    if (currentRoundNumber < 3) {
-      processFollowUpRound(currentRoundNumber + 1);
-    } else {
-      const initialSymptom = messages[0]?.content || '';
-      const formattedAnswers = allAnswers
-        .concat(answers)
-        .map(a => {
-          if (typeof a.answer === 'object') {
-            const freq = a.answer as { duration?: string; frequency?: string };
-            return `${a.question}: Duration - ${freq.duration}, Frequency - ${freq.frequency}`;
-          }
-          return `${a.question}: ${a.answer}`;
-        })
-        .join('\n');
-      
-      setCurrentRound(null);
-      setCurrentRoundNumber(0);
-      setAllAnswers([]);
-
-      try {
-        const finalAnalysis = await analyzeSymptoms(
-          `Based on the patient's initial report of: "${initialSymptom}"\n\nDetailed Information from Follow-up Questions:\n${formattedAnswers}\n\nPlease provide a comprehensive assessment and potential diagnoses.`
-        );
-
-        const aiMessage: Message = {
-          id: Date.now().toString(),
-          type: 'ai',
-          content: finalAnalysis,
-          timestamp: Date.now(),
-          role: 'assistant'
-        };
-
-        setMessages(prev => [prev[0], aiMessage]);
-        setShowCTAs(true); // Show CTA buttons after final assessment
-      } catch (error) {
-        console.error('Error in final assessment:', error);
-      }
-    }
-  }, [currentRoundNumber, allAnswers, messages]);
-
-  const handleFollowUpResponse = useCallback(async (response: string, context: string) => {
-    // Start with round 1 when follow-up begins
-    processFollowUpRound(1);
+  const removeSymptom = useCallback((id: string) => {
+    setSymptoms(prev => prev.filter(s => s.id !== id));
   }, []);
 
-  const submitSymptoms = useCallback(async (symptoms: string) => {
+  const submitSymptoms = useCallback(async () => {
+    if (symptoms.length === 0) return;
+
     setIsAnalyzing(true);
-    setSuggestions([]);
+    const symptomsDescription = symptoms.map(s => 
+      `${s.name} (Severity: ${s.severity}/10, Frequency: ${s.frequency}${s.bodyPartId ? `, Area: ${BODY_PARTS.find(p => p.id === s.bodyPartId)?.name}` : ''})`
+    ).join('\n');
 
     const userMessage: Message = {
       id: Date.now().toString(),
       type: 'user',
-      content: symptoms,
+      content: symptomsDescription,
       timestamp: Date.now(),
       role: 'user'
     };
-    setMessages([userMessage]); // Start fresh conversation
+    setMessages([userMessage]);
 
     try {
-      if (abortController.current) {
-        abortController.current.abort();
-      }
-      abortController.current = new AbortController();
-
-      const analysisContent = await analyzeSymptoms(symptoms);
-
+      const analysisContent = await aiAnalyzeSymptoms(symptomsDescription);
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
@@ -286,41 +227,41 @@ export const useSymptomAnalysis = () => {
       };
       setMessages(prev => [...prev, aiMessage]);
 
-      // Start follow-up questions
       setTimeout(() => {
         setCurrentRound(ROUND_QUESTIONS[0]);
         setCurrentRoundNumber(1);
       }, 500);
-
-    } catch (error: unknown) {
-      if (error instanceof Error && error.name !== 'AbortError') {
-        console.error('Error analyzing symptoms:', error);
-      }
-    } finally {
-      setIsAnalyzing(false);
-      abortController.current = null;
-    }
-  }, []);
-
-  const analyzeSymptoms = async (input: string): Promise<string> => {
-    try {
-      return await aiAnalyzeSymptoms(input);
     } catch (error) {
       console.error('Error analyzing symptoms:', error);
-      throw error;
+    } finally {
+      setIsAnalyzing(false);
     }
-  };
+  }, [symptoms]);
+
+  const resetAnalysis = useCallback(() => {
+    setMessages([]);
+    setSuggestions([]);
+    setCurrentRound(null);
+    setCurrentRoundNumber(0);
+    setSymptoms([]);
+    setSelectedBodyPart(null);
+    setShowCTAs(false);
+  }, []);
 
   return {
+    bodyParts: BODY_PARTS,
+    selectedBodyPart,
+    selectBodyPart,
+    symptoms,
+    addSymptom,
+    updateSymptom,
+    removeSymptom,
     suggestions,
     messages,
     isAnalyzing,
     currentRound,
     showCTAs,
-    getSymptomsInput,
     submitSymptoms,
-    analyzeSymptoms,
     resetAnalysis,
-    setMessages,
   };
 };
