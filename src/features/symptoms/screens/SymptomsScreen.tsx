@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { Header } from '@/components/shared/Header';
 import { Wizard, WizardStep } from '@/components/shared/Wizard';
 import {
   SymptomLocationStep,
@@ -13,6 +15,7 @@ import {
 
 export const SymptomsScreen = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [wizardData, setWizardData] = useState({});
 
   const handleStepChange = useCallback((step: number) => {
@@ -23,6 +26,10 @@ export const SymptomsScreen = () => {
     // Handle wizard completion
     console.log('Wizard completed with data:', data);
   }, []);
+
+  const handleBack = () => {
+    navigation.goBack();
+  };
 
   const steps: WizardStep[] = [
     {

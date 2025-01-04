@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Header } from './Header';
+import { useNavigation } from '@react-navigation/native';
 
 export interface WizardStep {
   key: string;
@@ -40,6 +41,7 @@ export const Wizard: React.FC<WizardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [slideAnim] = useState(new Animated.Value(0));
   const [fadeAnim] = useState(new Animated.Value(1));
@@ -113,6 +115,8 @@ export const Wizard: React.FC<WizardProps> = ({
   const handleBack = useCallback(() => {
     if (currentStep > 0) {
       handleStepChange(currentStep - 1);
+    } else {
+      navigation.goBack();
     }
   }, [currentStep, handleStepChange]);
 
@@ -121,7 +125,7 @@ export const Wizard: React.FC<WizardProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <Header showBack={currentStep > 0} onBack={handleBack} />
+      <Header showBack onBack={handleBack} />
       
       <View style={[styles.header, { paddingTop: Platform.OS === 'ios' ? 20 : 10 }]}>
         <Icon name={steps[currentStep].icon} size={60} color={colors.primary} />

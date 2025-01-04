@@ -39,12 +39,12 @@ export const ChipInput: React.FC<ChipInputProps> = ({
             key={index}
             style={[styles.chip, { backgroundColor: colors.primary }]}
           >
-            <Text style={[styles.chipText, { color: colors.white }]}>{chip}</Text>
+            <Text style={[styles.chipText, { color: colors.textInverted }]}>{chip}</Text>
             <TouchableOpacity
               onPress={() => handleRemoveChip(index)}
               style={styles.removeButton}
             >
-              <Icon name="close-circle" size={18} color={colors.white} />
+              <Icon name="close-circle" size={18} color={colors.textInverted} />
             </TouchableOpacity>
           </View>
         ))}
@@ -63,7 +63,7 @@ export const ChipInput: React.FC<ChipInputProps> = ({
           onPress={handleAddChip}
           style={[styles.addButton, { backgroundColor: colors.primary }]}
         >
-          <Icon name="add" size={24} color={colors.white} />
+          <Icon name="add" size={20} color={colors.textInverted} />
         </TouchableOpacity>
       </View>
     </View>
