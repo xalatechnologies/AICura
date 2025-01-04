@@ -6,7 +6,7 @@ import { LoginScreen } from '@screens/auth/LoginScreen';
 import { SignupScreen } from '@screens/auth/SignupScreen';
 import { OnboardingScreen } from '@screens/OnboardingScreen';
 import { MainTabs } from '@navigation/MainTabs';
-import { useAuth } from '@contexts/AuthContext';
+import { useAuth } from '@context/AuthContext';
 
 export type RootStackParamList = {
   Splash: undefined;

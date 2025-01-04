@@ -26,7 +26,7 @@ import {
   UserProfile,
   OnboardingStep,
 } from './onboarding';
-import { useAuth } from '@contexts/AuthContext';
+import { useAuth } from '@context/AuthContext';
 
 type OnboardingScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;

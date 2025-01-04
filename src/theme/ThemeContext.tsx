@@ -3,7 +3,7 @@ import { Appearance, ColorSchemeName } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ColorScheme } from './types';
 import { lightTheme, darkTheme } from './themes';
-import { useAuth } from '@contexts/AuthContext';
+import { useAuth } from '@context/AuthContext';
 
 interface ThemeContextType {
   theme: Theme;
