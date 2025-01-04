@@ -4,12 +4,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '@/features/home/screens/HomeScreen';
 import { AppointmentsScreen } from '@/features/appointments/screens/AppointmentsScreen';
 import ProfileScreen from '@/features/profile/screens/ProfileScreen';
+import { ChatScreen } from '@/features/chat';
+import { MedicalJournalScreen } from '@/features/medical-journal';
 import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export type MainTabsParamList = {
   Home: undefined;
   Appointments: undefined;
+  Chat: undefined;
+  MedicalJournal: undefined;
   Profile: undefined;
 };
 
@@ -43,11 +47,30 @@ export const MainTabs = () => {
         }}
       />
       <Tab.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="chat" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MedicalJournal"
+        component={MedicalJournalScreen}
+        options={{
+          tabBarLabel: 'Journal',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="book" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Appointments"
         component={AppointmentsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="chat" size={size} color={color} />
+            <Icon name="event" size={size} color={color} />
           ),
         }}
       />

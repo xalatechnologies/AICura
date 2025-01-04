@@ -56,7 +56,7 @@ export const HomeScreen: React.FC = () => {
 
         <View style={styles.recentSection}>
           <RecentSymptoms />
-        </View>
+      </View>
       </ScrollView>
     </View>
   );

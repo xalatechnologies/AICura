@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Header } from '@/components/shared/Header';
 
 const ProfileScreen = () => {
   const { colors } = useTheme();
@@ -20,46 +21,58 @@ const ProfileScreen = () => {
   };
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
-    >
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('profile.settings')}
-        </Text>
-        <View style={[styles.settingItem, { backgroundColor: colors.card }]}>
-          <View style={styles.settingContent}>
-            <Icon name="language" size={24} color={colors.primary} />
-            <Text style={[styles.settingText, { color: colors.text }]}>
-              {t('profile.language')}
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.settingItem, { backgroundColor: colors.card }]}>
-          <View style={styles.settingContent}>
-            <Icon name="dark-mode" size={24} color={colors.primary} />
-            <Text style={[styles.settingText, { color: colors.text }]}>
-              {t('profile.darkMode')}
-            </Text>
-          </View>
-          <ThemeToggle />
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={[styles.logoutButton, { backgroundColor: colors.error }]}
-        onPress={handleLogout}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Header 
+        title={t('profile.title')}
+        rightAction={{
+          icon: 'settings',
+          onPress: () => {/* Handle settings */}
+        }}
+      />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.content}
       >
-        <Icon name="logout" size={24} color="#FFFFFF" />
-        <Text style={styles.logoutText}>{t('profile.logout')}</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            {t('profile.settings')}
+          </Text>
+          <View style={[styles.settingItem, { backgroundColor: colors.card }]}>
+            <View style={styles.settingContent}>
+              <Icon name="language" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>
+                {t('profile.language')}
+              </Text>
+            </View>
+          </View>
+          <View style={[styles.settingItem, { backgroundColor: colors.card }]}>
+            <View style={styles.settingContent}>
+              <Icon name="dark-mode" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>
+                {t('profile.darkMode')}
+              </Text>
+            </View>
+            <ThemeToggle />
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={[styles.logoutButton, { backgroundColor: colors.error }]}
+          onPress={handleLogout}
+        >
+          <Icon name="logout" size={24} color="#FFFFFF" />
+          <Text style={styles.logoutText}>{t('profile.logout')}</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
   },
   content: {

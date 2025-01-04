@@ -19,8 +19,10 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPassword: undefined;
   Onboarding: undefined;
-  MainTabs: { screen?: 'Home' | 'Appointments' | 'Profile' | 'Settings' };
+  MainTabs: { screen?: 'Home' | 'Appointments' | 'Profile' | 'Chat' | 'MedicalJournal' };
   LanguageSelection: undefined;
+  Chat: undefined;
+  MedicalJournal: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
