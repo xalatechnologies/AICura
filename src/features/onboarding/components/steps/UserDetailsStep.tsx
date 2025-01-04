@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@theme/ThemeContext';
 
 interface UserDetailsStepProps {
-  profile: {
-    name: string;
-    age: string;
-    gender: string;
-  };
-  onUpdateProfile: (updates: Partial<{ name: string; age: string; gender: string }>) => void;
+  onDataChange?: (data: any) => void;
 }
 
 const GENDER_OPTIONS = ['male', 'female', 'other'];
 
-export const UserDetailsStep = React.memo(({ profile, onUpdateProfile }: UserDetailsStepProps) => {
+export const UserDetailsStep = React.memo(({ onDataChange }: UserDetailsStepProps) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    gender: '',
+  });
+
+  useEffect(() => {
+    if (onDataChange) {
+      onDataChange(formData);
+    }
+  }, [formData, onDataChange]);
+
+  const handleUpdate = (updates: Partial<typeof formData>) => {
+    setFormData(prev => ({ ...prev, ...updates }));
+  };
 
   return (
     <View style={styles.stepContent}>
@@ -28,8 +38,8 @@ export const UserDetailsStep = React.memo(({ profile, onUpdateProfile }: UserDet
           style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
           placeholder={t('onboarding.userDetails.namePlaceholder')}
           placeholderTextColor={colors.textSecondary}
-          value={profile.name}
-          onChangeText={(text) => onUpdateProfile({ name: text })}
+          value={formData.name}
+          onChangeText={(text) => handleUpdate({ name: text })}
         />
       </View>
 
@@ -42,8 +52,8 @@ export const UserDetailsStep = React.memo(({ profile, onUpdateProfile }: UserDet
           placeholder={t('onboarding.userDetails.agePlaceholder')}
           placeholderTextColor={colors.textSecondary}
           keyboardType="numeric"
-          value={profile.age}
-          onChangeText={(text) => onUpdateProfile({ age: text })}
+          value={formData.age}
+          onChangeText={(text) => handleUpdate({ age: text })}
         />
       </View>
 
@@ -58,15 +68,15 @@ export const UserDetailsStep = React.memo(({ profile, onUpdateProfile }: UserDet
               style={[
                 styles.optionButton,
                 { 
-                  backgroundColor: profile.gender === gender ? colors.primary : colors.card,
+                  backgroundColor: formData.gender === gender ? colors.primary : colors.card,
                 },
               ]}
-              onPress={() => onUpdateProfile({ gender })}
+              onPress={() => handleUpdate({ gender })}
             >
               <Text
                 style={[
                   styles.optionText,
-                  { color: profile.gender === gender ? '#fff' : colors.text },
+                  { color: formData.gender === gender ? '#fff' : colors.text },
                 ]}
               >
                 {t(`onboarding.userDetails.genders.${gender}`)}

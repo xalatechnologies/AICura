@@ -3,14 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { UserProfile } from './types';
 
 interface ReviewStepProps {
-  profile: UserProfile;
-  onEditSection: (section: number) => void;
+  data: any;
+  onEditSection?: (section: number) => void;
 }
 
-export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProps) => {
+export const ReviewStep = React.memo(({ data, onEditSection }: ReviewStepProps) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
 
@@ -23,7 +22,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
           </Text>
           <TouchableOpacity
             style={[styles.editButton, { backgroundColor: colors.primary }]}
-            onPress={() => onEditSection(1)}
+            onPress={() => onEditSection?.(1)}
           >
             <Icon name="pencil" size={20} color="#fff" />
             <Text style={styles.editButtonText}>{t('onboarding.edit.title')}</Text>
@@ -34,7 +33,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.userDetails.name')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {profile.name}
+            {data.name}
           </Text>
         </View>
         <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
@@ -42,7 +41,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.userDetails.age')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {profile.age}
+            {data.age}
           </Text>
         </View>
         <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
@@ -50,7 +49,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.userDetails.gender')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {t(`onboarding.userDetails.genders.${profile.gender}`)}
+            {t(`onboarding.userDetails.genders.${data.gender}`)}
           </Text>
         </View>
       </View>
@@ -62,19 +61,19 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
           </Text>
           <TouchableOpacity
             style={[styles.editButton, { backgroundColor: colors.primary }]}
-            onPress={() => onEditSection(2)}
+            onPress={() => onEditSection?.(2)}
           >
             <Icon name="pencil" size={20} color="#fff" />
             <Text style={styles.editButtonText}>{t('onboarding.edit.title')}</Text>
           </TouchableOpacity>
         </View>
-        {profile.medicalHistory.conditions.length > 0 && (
+        {data.medicalHistory.conditions.length > 0 && (
           <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
             <Text style={[styles.reviewLabel, { color: colors.textSecondary }]}>
               {t('onboarding.medicalHistory.conditions')}
             </Text>
             <View style={styles.chipList}>
-              {profile.medicalHistory.conditions.map((condition) => (
+              {data.medicalHistory.conditions.map((condition: string) => (
                 <View
                   key={condition}
                   style={[styles.reviewChip, { backgroundColor: colors.primary }]}
@@ -87,13 +86,13 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             </View>
           </View>
         )}
-        {profile.medicalHistory.allergies.length > 0 && (
+        {data.medicalHistory.allergies.length > 0 && (
           <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
             <Text style={[styles.reviewLabel, { color: colors.textSecondary }]}>
               {t('onboarding.medicalHistory.allergies.title')}
             </Text>
             <View style={styles.chipList}>
-              {profile.medicalHistory.allergies.map((allergy) => (
+              {data.medicalHistory.allergies.map((allergy: string) => (
                 <View
                   key={allergy}
                   style={[styles.reviewChip, { backgroundColor: colors.primary }]}
@@ -104,12 +103,12 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             </View>
           </View>
         )}
-        {profile.medicalHistory.medications.length > 0 && (
+        {data.medicalHistory.medications.length > 0 && (
           <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
             <Text style={[styles.reviewLabel, { color: colors.textSecondary }]}>
               {t('onboarding.medicalHistory.medications.title')}
             </Text>
-            {profile.medicalHistory.medications.map((med, index) => (
+            {data.medicalHistory.medications.map((med: { name: string; dosage: string; frequency: string }, index: number) => (
               <View key={index} style={styles.medicationReview}>
                 <Text style={[styles.medicationName, { color: colors.text }]}>
                   {med.name}
@@ -130,7 +129,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
           </Text>
           <TouchableOpacity
             style={[styles.editButton, { backgroundColor: colors.primary }]}
-            onPress={() => onEditSection(3)}
+            onPress={() => onEditSection?.(3)}
           >
             <Icon name="pencil" size={20} color="#fff" />
             <Text style={styles.editButtonText}>{t('onboarding.edit.title')}</Text>
@@ -141,7 +140,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.lifestyle.smoking')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {profile.lifestyle.smoking
+            {data.lifestyle.smoking
               ? t('onboarding.lifestyle.smoker')
               : t('onboarding.lifestyle.nonSmoker')}
           </Text>
@@ -151,7 +150,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.lifestyle.activity')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {t(`onboarding.lifestyle.activityLevels.${profile.lifestyle.activity}`)}
+            {t(`onboarding.lifestyle.activityLevels.${data.lifestyle.activity}`)}
           </Text>
         </View>
         <View style={[styles.reviewItem, { backgroundColor: colors.card }]}>
@@ -159,7 +158,7 @@ export const ReviewStep = React.memo(({ profile, onEditSection }: ReviewStepProp
             {t('onboarding.lifestyle.alcohol')}
           </Text>
           <Text style={[styles.reviewValue, { color: colors.text }]}>
-            {t(`onboarding.lifestyle.alcoholFrequency.${profile.lifestyle.alcohol}`)}
+            {t(`onboarding.lifestyle.alcoholFrequency.${data.lifestyle.alcohol}`)}
           </Text>
         </View>
       </View>

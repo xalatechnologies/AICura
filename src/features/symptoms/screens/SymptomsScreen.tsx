@@ -1,89 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
-import { SymptomInput } from '../components/SymptomInput';
-import { Symptom } from '../types';
-import { useTheme } from '@/theme/ThemeContext';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Header } from '@/components/shared/Header';
-import Voice from '@react-native-voice/voice';
+import { Wizard, WizardStep } from '@/components/shared/Wizard';
+import {
+  SymptomLocationStep,
+  SymptomDetailsStep,
+  MedicalHistoryStep,
+  ContextualFactorsStep,
+  ComplicationsStep,
+  SummaryStep,
+} from '../components/steps';
 
 export const SymptomsScreen = () => {
-  const { colors } = useTheme();
   const { t } = useTranslation();
-  const [symptoms, setSymptoms] = useState<Symptom[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const [wizardData, setWizardData] = useState({});
 
-  useEffect(() => {
-    Voice.onSpeechStart = () => setIsRecording(true);
-    Voice.onSpeechEnd = () => setIsRecording(false);
-    Voice.onSpeechResults = (e: any) => {
-      if (e?.value?.[0]) {
-        setInputText(prev => prev + ' ' + e.value[0]);
-      }
-    };
-
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
+  const handleStepChange = useCallback((step: number) => {
+    // Handle step change if needed
   }, []);
 
-  const handleAddSymptom = (symptom: Omit<Symptom, 'id'>) => {
-    setSymptoms((prevSymptoms) => [
-      ...prevSymptoms,
-      { id: Date.now().toString(), ...symptom },
-    ]);
-  };
+  const handleComplete = useCallback((data: any) => {
+    // Handle wizard completion
+    console.log('Wizard completed with data:', data);
+  }, []);
 
-  const onStartRecording = async () => {
-    try {
-      await Voice.start('en-US');
-    } catch (error) {
-      console.error('Error starting recording:', error);
-    }
-  };
-
-  const onStopRecording = async () => {
-    try {
-      await Voice.stop();
-    } catch (error) {
-      console.error('Error stopping recording:', error);
-    }
-  };
+  const steps: WizardStep[] = [
+    {
+      key: 'location',
+      title: t('symptoms.steps.location.title'),
+      description: t('symptoms.steps.location.description'),
+      icon: 'body-outline',
+      component: <SymptomLocationStep />,
+      validate: () => true, // Add proper validation
+    },
+    {
+      key: 'details',
+      title: t('symptoms.steps.details.title'),
+      description: t('symptoms.steps.details.description'),
+      icon: 'list-outline',
+      component: <SymptomDetailsStep />,
+      validate: () => true,
+    },
+    {
+      key: 'history',
+      title: t('symptoms.steps.history.title'),
+      description: t('symptoms.steps.history.description'),
+      icon: 'medical-outline',
+      component: <MedicalHistoryStep />,
+      validate: () => true,
+    },
+    {
+      key: 'context',
+      title: t('symptoms.steps.context.title'),
+      description: t('symptoms.steps.context.description'),
+      icon: 'information-circle-outline',
+      component: <ContextualFactorsStep />,
+      validate: () => true,
+    },
+    {
+      key: 'complications',
+      title: t('symptoms.steps.complications.title'),
+      description: t('symptoms.steps.complications.description'),
+      icon: 'warning-outline',
+      component: <ComplicationsStep />,
+      validate: () => true,
+    },
+    {
+      key: 'summary',
+      title: t('symptoms.steps.summary.title'),
+      description: t('symptoms.steps.summary.description'),
+      icon: 'checkmark-circle-outline',
+      component: <SummaryStep data={wizardData} />,
+      validate: () => true,
+    },
+  ];
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header 
-        title={t('symptoms.analyzer.title')} 
-        showBack 
-      />
-      <SymptomInput
-        value={inputText}
-        onChangeText={setInputText}
-        suggestions={[]}
-        onAddSymptom={handleAddSymptom}
-        isRecording={isRecording}
-        onStartRecording={onStartRecording}
-        onStopRecording={onStopRecording}
-        placeholder={t('symptoms.analyzer.inputPlaceholder')}
-      />
-      <FlatList
-        data={symptoms}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={[styles.symptomItem, { borderColor: colors.border }]}>
-            <Text style={[styles.symptomName, { color: colors.text }]}>
-              {item.name}
-            </Text>
-            <Text style={[styles.symptomDetail, { color: colors.text }]}>
-              {t('symptoms.frequency')}: {t(`symptoms.frequencies.${item.frequency}`)}
-            </Text>
-            <Text style={[styles.symptomDetail, { color: colors.text }]}>
-              {t('symptoms.severity')}: {item.severity}
-            </Text>
-          </View>
-        )}
-        contentContainerStyle={styles.listContent}
+    <View style={styles.container}>
+      <Wizard
+        steps={steps}
+        onComplete={handleComplete}
+        onStepChange={handleStepChange}
       />
     </View>
   );
@@ -92,21 +89,5 @@ export const SymptomsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  symptomItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-  },
-  symptomName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  symptomDetail: {
-    fontSize: 14,
-    marginTop: 2,
-  },
-  listContent: {
-    padding: 16,
   },
 }); 

@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@theme/ThemeContext';
-import { UserProfile } from './types';
 
 interface LifestyleStepProps {
-  profile: UserProfile;
-  onUpdateProfile: (updates: Partial<UserProfile>) => void;
+  onDataChange?: (data: any) => void;
 }
 
 const ACTIVITY_LEVELS = ['sedentary', 'light', 'moderate', 'active', 'very_active'];
 const ALCOHOL_FREQUENCY = ['none', 'occasional', 'moderate', 'frequent'];
 
-export const LifestyleStep = React.memo(({ profile, onUpdateProfile }: LifestyleStepProps) => {
+export const LifestyleStep = React.memo(({ onDataChange }: LifestyleStepProps) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const [formData, setFormData] = useState({
+    smoking: false,
+    activity: 'moderate',
+    alcohol: 'none',
+  });
+
+  useEffect(() => {
+    if (onDataChange) {
+      onDataChange(formData);
+    }
+  }, [formData, onDataChange]);
+
+  const handleUpdate = (updates: Partial<typeof formData>) => {
+    setFormData(prev => ({ ...prev, ...updates }));
+  };
 
   return (
     <View style={styles.stepContent}>
@@ -24,17 +37,13 @@ export const LifestyleStep = React.memo(({ profile, onUpdateProfile }: Lifestyle
         </Text>
         <View style={styles.switchContainer}>
           <Switch
-            value={profile.lifestyle.smoking}
-            onValueChange={(value) =>
-              onUpdateProfile({
-                lifestyle: { ...profile.lifestyle, smoking: value },
-              })
-            }
+            value={formData.smoking}
+            onValueChange={(value) => handleUpdate({ smoking: value })}
             trackColor={{ false: colors.border, true: colors.primary }}
             thumbColor="#fff"
           />
           <Text style={[styles.switchLabel, { color: colors.text }]}>
-            {profile.lifestyle.smoking
+            {formData.smoking
               ? t('onboarding.lifestyle.smoker')
               : t('onboarding.lifestyle.nonSmoker')}
           </Text>
@@ -52,22 +61,18 @@ export const LifestyleStep = React.memo(({ profile, onUpdateProfile }: Lifestyle
               style={[
                 styles.optionButton,
                 { 
-                  backgroundColor: profile.lifestyle.activity === level 
+                  backgroundColor: formData.activity === level 
                     ? colors.primary 
                     : colors.card,
                 },
               ]}
-              onPress={() =>
-                onUpdateProfile({
-                  lifestyle: { ...profile.lifestyle, activity: level },
-                })
-              }
+              onPress={() => handleUpdate({ activity: level })}
             >
               <Text
                 style={[
                   styles.optionText,
                   { 
-                    color: profile.lifestyle.activity === level 
+                    color: formData.activity === level 
                       ? '#fff' 
                       : colors.text,
                   },
@@ -91,22 +96,18 @@ export const LifestyleStep = React.memo(({ profile, onUpdateProfile }: Lifestyle
               style={[
                 styles.optionButton,
                 { 
-                  backgroundColor: profile.lifestyle.alcohol === frequency 
+                  backgroundColor: formData.alcohol === frequency 
                     ? colors.primary 
                     : colors.card,
                 },
               ]}
-              onPress={() =>
-                onUpdateProfile({
-                  lifestyle: { ...profile.lifestyle, alcohol: frequency },
-                })
-              }
+              onPress={() => handleUpdate({ alcohol: frequency })}
             >
               <Text
                 style={[
                   styles.optionText,
                   { 
-                    color: profile.lifestyle.alcohol === frequency 
+                    color: formData.alcohol === frequency 
                       ? '#fff' 
                       : colors.text,
                   },

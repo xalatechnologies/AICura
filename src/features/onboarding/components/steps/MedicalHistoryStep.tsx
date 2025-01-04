@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@theme/ThemeContext';
@@ -6,8 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Medication, UserProfile } from './types';
 
 interface MedicalHistoryStepProps {
-  profile: UserProfile;
-  onUpdateProfile: (updates: Partial<UserProfile>) => void;
+  onDataChange?: (data: any) => void;
 }
 
 const COMMON_CONDITIONS = [
@@ -22,9 +21,14 @@ const COMMON_CONDITIONS = [
 const COMMON_ALLERGIES = ['pollen', 'dust', 'nuts', 'lactose', 'gluten', 'shellfish'];
 const MEDICATION_FREQUENCIES = ['daily', 'weekly', 'asNeeded'] as const;
 
-export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: MedicalHistoryStepProps) => {
+export const MedicalHistoryStep = React.memo(({ onDataChange }: MedicalHistoryStepProps) => {
   const { t } = useTranslation();
   const { colors } = useTheme();
+  const [formData, setFormData] = useState({
+    conditions: [] as string[],
+    allergies: [] as string[],
+    medications: [] as Medication[],
+  });
   const [newAllergy, setNewAllergy] = useState('');
   const [newMedication, setNewMedication] = useState<Medication>({
     name: '',
@@ -32,15 +36,22 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
     frequency: 'daily'
   });
 
+  useEffect(() => {
+    if (onDataChange) {
+      onDataChange(formData);
+    }
+  }, [formData, onDataChange]);
+
+  const handleUpdate = (updates: Partial<typeof formData>) => {
+    setFormData(prev => ({ ...prev, ...updates }));
+  };
+
   const handleAddAllergy = () => {
     if (!newAllergy.trim()) return;
 
-    const updatedAllergies = [...profile.medicalHistory.allergies, newAllergy.trim()];
-    onUpdateProfile({
-      medicalHistory: {
-        ...profile.medicalHistory,
-        allergies: updatedAllergies
-      }
+    const updatedAllergies = [...formData.allergies, newAllergy.trim()];
+    handleUpdate({
+      allergies: updatedAllergies
     });
     setNewAllergy('');
   };
@@ -48,24 +59,18 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
   const handleAddMedication = () => {
     if (!newMedication.name.trim() || !newMedication.dosage.trim()) return;
 
-    const updatedMedications = [...profile.medicalHistory.medications, { ...newMedication }];
-    onUpdateProfile({
-      medicalHistory: {
-        ...profile.medicalHistory,
-        medications: updatedMedications
-      }
+    const updatedMedications = [...formData.medications, { ...newMedication }];
+    handleUpdate({
+      medications: updatedMedications
     });
     setNewMedication({ name: '', dosage: '', frequency: 'daily' });
   };
 
   const handleRemoveMedication = (index: number) => {
-    const updatedMedications = [...profile.medicalHistory.medications];
+    const updatedMedications = [...formData.medications];
     updatedMedications.splice(index, 1);
-    onUpdateProfile({
-      medicalHistory: {
-        ...profile.medicalHistory,
-        medications: updatedMedications
-      }
+    handleUpdate({
+      medications: updatedMedications
     });
   };
 
@@ -82,30 +87,30 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
               style={[
                 styles.checkbox,
                 { 
-                  backgroundColor: profile.medicalHistory.conditions.includes(condition) 
+                  backgroundColor: formData.conditions.includes(condition) 
                     ? colors.primary 
                     : colors.card,
                 },
               ]}
               onPress={() => {
-                const conditions = profile.medicalHistory.conditions.includes(condition)
-                  ? profile.medicalHistory.conditions.filter(c => c !== condition)
-                  : [...profile.medicalHistory.conditions, condition];
-                onUpdateProfile({
-                  medicalHistory: { ...profile.medicalHistory, conditions },
+                const conditions = formData.conditions.includes(condition)
+                  ? formData.conditions.filter(c => c !== condition)
+                  : [...formData.conditions, condition];
+                handleUpdate({
+                  conditions
                 });
               }}
             >
               <Icon
-                name={profile.medicalHistory.conditions.includes(condition) ? 'checkmark' : 'add'}
+                name={formData.conditions.includes(condition) ? 'checkmark' : 'add'}
                 size={24}
-                color={profile.medicalHistory.conditions.includes(condition) ? '#fff' : colors.text}
+                color={formData.conditions.includes(condition) ? '#fff' : colors.text}
               />
               <Text
                 style={[
                   styles.checkboxText,
                   { 
-                    color: profile.medicalHistory.conditions.includes(condition) 
+                    color: formData.conditions.includes(condition) 
                       ? '#fff' 
                       : colors.text,
                   },
@@ -145,17 +150,17 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
               style={[
                 styles.chip,
                 {
-                  backgroundColor: profile.medicalHistory.allergies.includes(allergy)
+                  backgroundColor: formData.allergies.includes(allergy)
                     ? colors.primary
                     : colors.card
                 }
               ]}
               onPress={() => {
-                const allergies = profile.medicalHistory.allergies.includes(allergy)
-                  ? profile.medicalHistory.allergies.filter(a => a !== allergy)
-                  : [...profile.medicalHistory.allergies, allergy];
-                onUpdateProfile({
-                  medicalHistory: { ...profile.medicalHistory, allergies }
+                const allergies = formData.allergies.includes(allergy)
+                  ? formData.allergies.filter(a => a !== allergy)
+                  : [...formData.allergies, allergy];
+                handleUpdate({
+                  allergies
                 });
               }}
             >
@@ -163,7 +168,7 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
                 style={[
                   styles.chipText,
                   {
-                    color: profile.medicalHistory.allergies.includes(allergy)
+                    color: formData.allergies.includes(allergy)
                       ? '#fff'
                       : colors.text
                   }
@@ -238,7 +243,7 @@ export const MedicalHistoryStep = React.memo(({ profile, onUpdateProfile }: Medi
         </View>
 
         <View style={styles.medicationList}>
-          {profile.medicalHistory.medications.map((med, index) => (
+          {formData.medications.map((med, index) => (
             <View
               key={index}
               style={[styles.medicationItem, { backgroundColor: colors.card }]}

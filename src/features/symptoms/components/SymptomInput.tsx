@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
-import { VoiceRecorder } from './VoiceRecorder';
 import type { Symptom } from '../types';
 
 interface SymptomInputProps {
@@ -10,9 +9,6 @@ interface SymptomInputProps {
   placeholder?: string;
   suggestions?: string[];
   onAddSymptom?: (symptom: Omit<Symptom, "id">) => void;
-  isRecording: boolean;
-  onStartRecording: () => Promise<void>;
-  onStopRecording: () => Promise<void>;
 }
 
 export const SymptomInput = ({
@@ -21,9 +17,6 @@ export const SymptomInput = ({
   placeholder,
   suggestions = [],
   onAddSymptom,
-  isRecording,
-  onStartRecording,
-  onStopRecording,
 }: SymptomInputProps) => {
   const { colors } = useTheme();
 
@@ -37,10 +30,6 @@ export const SymptomInput = ({
           placeholder={placeholder}
           placeholderTextColor={colors.textSecondary}
           multiline
-        />
-        <VoiceRecorder 
-          isRecording={isRecording}
-          onTextChange={(text) => onChangeText(value + ' ' + text)}
         />
       </View>
     </View>
