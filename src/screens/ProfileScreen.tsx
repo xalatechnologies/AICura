@@ -4,7 +4,7 @@ import { useTheme } from '@theme/ThemeContext';
 import { useAuth } from '@context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { LanguageToggle, ThemeToggle } from '@components/index';
+import { ThemeToggle } from '@components/index';
 
 export const ProfileScreen = () => {
   const { colors } = useTheme();
@@ -35,7 +35,6 @@ export const ProfileScreen = () => {
               {t('profile.language')}
             </Text>
           </View>
-          <LanguageToggle />
         </View>
         <View style={[styles.settingItem, { backgroundColor: colors.card }]}>
           <View style={styles.settingContent}>

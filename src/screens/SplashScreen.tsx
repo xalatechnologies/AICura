@@ -1,36 +1,58 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@navigation/RootNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyledAppTitle } from '@components/StyledAppTitle';
+import { StyledTagline } from '@components/StyledTagline';
+
+type SplashScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Splash'>;
 
 export const SplashScreen = () => {
   const { colors } = useTheme();
-  const fadeAnim = new Animated.Value(0);
+  const navigation = useNavigation<SplashScreenNavigationProp>();
 
   useEffect(() => {
-    Animated.sequence([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.delay(1000),
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
+    const initializeApp = async () => {
+      try {
+        const selectedLanguage = await AsyncStorage.getItem('selectedLanguage');
+        
+        setTimeout(() => {
+          if (!selectedLanguage) {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LanguageSelection' }],
+            });
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Welcome' }],
+            });
+          }
+        }, 2500);
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LanguageSelection' }],
+        });
+      }
+    };
+
+    initializeApp();
+  }, [navigation]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <StyledAppTitle size="large" />
-        <Text style={[styles.tagline, { color: colors.textSecondary }]}>
-          The Future AI Doctor
-        </Text>
-      </Animated.View>
+      <Image
+        source={require('@assets/images/playstore.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
+      <StyledAppTitle size="large" />
+      <StyledTagline />
     </View>
   );
 };
@@ -40,13 +62,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 20,
   },
-  content: {
-    alignItems: 'center',
+  logo: {
+    width: '100%',
+    height: 300,
+    marginBottom: 40,
   },
   tagline: {
     fontSize: 18,
     marginTop: 8,
-    fontFamily: 'Roboto-Light',
+    fontWeight: '300',
   },
 });

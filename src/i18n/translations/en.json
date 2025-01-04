@@ -181,7 +181,8 @@
     "submit": "Submit",
     "retry": "Retry",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "tagline": "The Future AI Doctor at your fingertips"
   },
   "auth": {
     "welcome": {

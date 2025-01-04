@@ -4,7 +4,8 @@ import { SplashScreen } from '@screens/SplashScreen';
 import { WelcomeScreen } from '@screens/auth/WelcomeScreen';
 import { LoginScreen } from '@screens/auth/LoginScreen';
 import { SignupScreen } from '@screens/auth/SignupScreen';
-import { OnboardingScreen } from '@screens/OnboardingScreen';
+import { ForgotPasswordScreen } from '@screens/auth/ForgotPasswordScreen';
+import { LanguageSelectionScreen } from '@screens/LanguageSelectionScreen';
 import { MainTabs } from '@navigation/MainTabs';
 import { useAuth } from '@context/AuthContext';
 
@@ -15,37 +16,36 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPassword: undefined;
   Onboarding: undefined;
-  MainTabs: {
-    screen?: 'Home' | 'Appointments' | 'Profile' | 'Settings';
-  };
+  MainTabs: { screen?: 'Home' | 'Appointments' | 'Profile' | 'Settings' };
   LanguageSelection: undefined;
-  Settings: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = () => {
-  const { isLoading, isAuthenticated, hasCompletedOnboarding } = useAuth();
-
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  const { isAuthenticated } = useAuth();
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+      }}
+    >
       {!isAuthenticated ? (
-        // Auth Stack
         <>
+          <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
         </>
-      ) : !hasCompletedOnboarding ? (
-        // Onboarding Stack
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       ) : (
-        // Main App Stack
-        <Stack.Screen name="MainTabs" component={MainTabs} />
+        <>
+          <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
+        </>
       )}
     </Stack.Navigator>
   );

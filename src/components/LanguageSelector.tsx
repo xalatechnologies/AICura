@@ -5,6 +5,8 @@ import { useTheme } from '@theme/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeLanguage } from '@i18n/index';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '@navigation/RootNavigator';
 
 interface Language {
   code: string;
@@ -74,27 +76,36 @@ const languages: Language[] = [
 export const LanguageSelector = ({ onLanguageChange, showTitle = true }: LanguageSelectorProps) => {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleLanguageSelect = async (language: Language) => {
     try {
-      await AsyncStorage.setItem('selectedLanguage', language.code);
-      await AsyncStorage.setItem('languageDirection', language.direction || 'ltr');
       await changeLanguage(language.code);
+      
+      await Promise.all([
+        AsyncStorage.setItem('selectedLanguage', language.code),
+        AsyncStorage.setItem('languageDirection', language.direction || 'ltr')
+      ]);
+
       if (onLanguageChange) {
         onLanguageChange(language);
       }
+
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Welcome' }],
+        });
+      }
     } catch (error) {
-      console.error('Error saving language selection:', error);
+      console.error('Error changing language:', error);
     }
   };
 
   return (
     <View style={styles.container}>
-      {showTitle && (
-        <Text style={[styles.title, { color: colors.text }]}>
-          {t('settings.selectLanguage')}
-        </Text>
-      )}
       <View style={styles.languageList}>
         {languages.map((language) => (
           <TouchableOpacity

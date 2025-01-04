@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
 import { StyledAppTitle } from '@components/StyledAppTitle';
+import { StyledTagline } from '@components/StyledTagline';
 import { ThemeHeader } from '@components/ThemeHeader';
 
 type WelcomeScreenProps = {
@@ -20,7 +21,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
       <ThemeHeader showLanguage />
 
       <View style={styles.content}>
-      <Image
+        <Image
           source={require('@assets/images/playstore.png')}
           style={styles.image}
           resizeMode="contain"
@@ -28,9 +29,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 
         <View style={styles.header}>
           <StyledAppTitle size="large" />
-          <Text style={[styles.description, { color: colors.textSecondary }]}>
-            {t('auth.welcome.description')}
-          </Text>
+          <StyledTagline />
         </View>
 
         <View style={styles.buttons}>
