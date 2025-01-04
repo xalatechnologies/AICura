@@ -1,14 +1,17 @@
 import { useState, useCallback, useRef } from 'react';
-import { getSuggestions, analyzeSymptoms, getFollowUpQuestion } from '../services/ai';
+import { analyzeSymptoms as aiAnalyzeSymptoms } from '@services/ai';
 
 export interface Message {
   type: 'user' | 'ai';
   content: string;
+  id?: string;
+  timestamp?: number;
+  role?: 'user' | 'assistant';
 }
 
 export interface FollowUpRound {
-  question: string;
-  options: string[];
+  round: number;
+  questions: FollowUpQuestion[];
 }
 
 export interface FollowUpAnswer {
@@ -26,11 +29,6 @@ export interface FollowUpQuestion {
     duration: string[];
     frequency: string[];
   };
-}
-
-export interface FollowUpRound {
-  round: number;
-  questions: FollowUpQuestion[];
 }
 
 export interface CTAOption {
@@ -107,7 +105,7 @@ const ROUND_QUESTIONS: FollowUpRound[] = [
   }
 ];
 
-export function useSymptomAnalysis() {
+export const useSymptomAnalysis = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -133,32 +131,7 @@ export function useSymptomAnalysis() {
       return;
     }
     try {
-      const response = await getSuggestions(input);
-      // Process suggestions to include related symptoms
-      const simplifiedSuggestions = response
-        .filter(Boolean)
-        .map(suggestion => {
-          // Clean up the suggestion text and extract main symptom
-          const cleanSuggestion = suggestion.trim()
-            .replace(/^[•\-\*]\s*/, '') // Remove bullet points
-            .split(/[:\.\n]/)[0] // Take only the first part before any punctuation
-            .trim();
-          return cleanSuggestion;
-        })
-        .filter(suggestion => {
-          const suggestionLower = suggestion.toLowerCase();
-          const inputLower = input.toLowerCase();
-          // Include suggestions that:
-          // 1. Start with the input
-          // 2. Contain the input
-          // 3. Are common related symptoms (based on the AI response)
-          return suggestionLower.startsWith(inputLower) || 
-                 suggestionLower.includes(inputLower) ||
-                 suggestion.length > 0;
-        })
-        .slice(0, 8); // Show more suggestions (up to 8)
-
-      setSuggestions(simplifiedSuggestions);
+      setSuggestions([]); // Remove suggestions functionality for now
     } catch (error) {
       console.error('Error getting suggestions:', error);
       setSuggestions([]);
@@ -259,15 +232,15 @@ export function useSymptomAnalysis() {
 
       try {
         const finalAnalysis = await analyzeSymptoms(
-          `Based on the patient's initial report of: "${initialSymptom}"\n\nDetailed Information from Follow-up Questions:\n${formattedAnswers}\n\nPlease provide a comprehensive assessment and potential diagnoses.`,
-          true
+          `Based on the patient's initial report of: "${initialSymptom}"\n\nDetailed Information from Follow-up Questions:\n${formattedAnswers}\n\nPlease provide a comprehensive assessment and potential diagnoses.`
         );
 
         const aiMessage: Message = {
           id: Date.now().toString(),
-          role: 'assistant',
+          type: 'ai',
           content: finalAnalysis,
           timestamp: Date.now(),
+          role: 'assistant'
         };
 
         setMessages(prev => [prev[0], aiMessage]);
@@ -289,9 +262,10 @@ export function useSymptomAnalysis() {
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      role: 'user',
+      type: 'user',
       content: symptoms,
       timestamp: Date.now(),
+      role: 'user'
     };
     setMessages([userMessage]); // Start fresh conversation
 
@@ -305,9 +279,10 @@ export function useSymptomAnalysis() {
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: 'assistant',
+        type: 'ai',
         content: analysisContent,
         timestamp: Date.now(),
+        role: 'assistant'
       };
       setMessages(prev => [...prev, aiMessage]);
 
@@ -327,6 +302,15 @@ export function useSymptomAnalysis() {
     }
   }, []);
 
+  const analyzeSymptoms = async (input: string): Promise<string> => {
+    try {
+      return await aiAnalyzeSymptoms(input);
+    } catch (error) {
+      console.error('Error analyzing symptoms:', error);
+      throw error;
+    }
+  };
+
   return {
     suggestions,
     messages,
@@ -335,8 +319,7 @@ export function useSymptomAnalysis() {
     showCTAs,
     getSymptomsInput,
     submitSymptoms,
-    handleFollowUpResponse,
-    submitRoundAnswers,
+    analyzeSymptoms,
     resetAnalysis,
     setMessages,
   };

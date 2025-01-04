@@ -32,7 +32,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Svg, Circle } from 'react-native-svg';
 import Markdown from 'react-native-markdown-display';
 import { Message, FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
-import { Message, FollowUpRound, FollowUpAnswer } from '../hooks/useSymptomAnalysis';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
@@ -72,9 +71,12 @@ export const HomeScreen = () => {
     setLoading(true);
 
     try {
-      const result = await analyzeSymptoms(userMessage.content);
-      setMessages(prev => [...prev, ...result.messages]);
-      setFollowUpRound(result.followUpRound);
+      const analysisResult = await analyzeSymptoms(userMessage.content);
+      const aiMessage: Message = {
+        type: 'ai',
+        content: analysisResult,
+      };
+      setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error('Error analyzing symptoms:', error);
       Alert.alert('Error', 'Failed to analyze symptoms. Please try again.');

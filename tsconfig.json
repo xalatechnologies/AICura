@@ -15,7 +15,8 @@
       "@utils/*": ["src/utils/*"],
       "@hooks/*": ["src/hooks/*"],
       "@i18n/*": ["src/i18n/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@services/*": ["src/services/*"]
     }
   }
 }
