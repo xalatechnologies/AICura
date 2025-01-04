@@ -5,13 +5,13 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
   Text,
 } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { useSymptomAnalysis } from '@hooks/useSymptomAnalysis';
 import { BodyMap } from '@components/BodyMap';
 import { SymptomSelector } from '@components/SymptomSelector';
+import { SymptomInput } from '@components/SymptomInput';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -40,6 +40,11 @@ export const HomeScreen = () => {
     submitSymptoms,
   } = useSymptomAnalysis();
 
+  const handleSymptomInput = (text: string) => {
+    // Add symptom with default severity and frequency
+    addSymptom(text);
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <KeyboardAvoidingView
@@ -56,42 +61,33 @@ export const HomeScreen = () => {
             What symptoms are you experiencing?
           </Text>
 
+          <SymptomInput
+            onSubmit={handleSymptomInput}
+            suggestions={suggestions}
+            isLoading={isAnalyzing}
+          />
+
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Select the affected area on the body map
+            Or select the affected area on the body map
           </Text>
 
           <BodyMap
             bodyParts={bodyParts}
             selectedPart={selectedBodyPart}
             onSelectPart={selectBodyPart}
+            compact
           />
 
-          <SymptomSelector
-            suggestions={suggestions}
-            selectedSymptoms={symptoms}
-            onAddSymptom={addSymptom}
-            onUpdateSymptom={updateSymptom}
-            onRemoveSymptom={removeSymptom}
-          />
+          {symptoms.length > 0 && (
+            <SymptomSelector
+              suggestions={suggestions}
+              selectedSymptoms={symptoms}
+              onAddSymptom={addSymptom}
+              onUpdateSymptom={updateSymptom}
+              onRemoveSymptom={removeSymptom}
+            />
+          )}
         </ScrollView>
-
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={[
-              styles.analyzeButton,
-              {
-                backgroundColor: symptoms.length > 0 ? colors.primary : colors.border,
-                opacity: isAnalyzing ? 0.7 : 1,
-              },
-            ]}
-            onPress={submitSymptoms}
-            disabled={symptoms.length === 0 || isAnalyzing}
-          >
-            <Text style={styles.buttonText}>
-              {isAnalyzing ? 'Analyzing...' : 'Analyze Symptoms'}
-            </Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
     </View>
   );
@@ -113,26 +109,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   subtitle: {
     fontSize: 16,
-    marginBottom: 24,
-  },
-  footer: {
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0,0,0,0.1)',
-  },
-  analyzeButton: {
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    marginTop: 24,
+    marginBottom: 16,
   },
 });
 

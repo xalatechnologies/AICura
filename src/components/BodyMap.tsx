@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import { BodyPart } from '@hooks/useSymptomAnalysis';
 import Svg, { Path, Circle, G } from 'react-native-svg';
@@ -8,18 +8,20 @@ interface BodyMapProps {
   bodyParts: BodyPart[];
   selectedPart: BodyPart | null;
   onSelectPart: (partId: string) => void;
+  compact?: boolean;
 }
 
 export const BodyMap: React.FC<BodyMapProps> = ({
   bodyParts,
   selectedPart,
   onSelectPart,
+  compact = true,
 }) => {
   const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.mapContainer}>
+    <View style={[styles.container, compact && styles.containerCompact]}>
+      <View style={[styles.mapContainer, compact && styles.mapContainerCompact]}>
         <Svg
           viewBox="0 0 100 180"
           style={styles.bodyImage}
@@ -60,33 +62,39 @@ export const BodyMap: React.FC<BodyMapProps> = ({
         </Svg>
       </View>
 
-      <View style={styles.partsList}>
-        {bodyParts.map((part) => (
-          <TouchableOpacity
-            key={part.id}
-            style={[
-              styles.partButton,
-              {
-                backgroundColor:
-                  selectedPart?.id === part.id ? colors.primary : colors.card,
-              },
-            ]}
-            onPress={() => onSelectPart(part.id)}
-          >
-            <Text
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={[styles.partsListContainer, compact && styles.partsListContainerCompact]}
+      >
+        <View style={[styles.partsList, { marginTop: compact ? 0 : 20 }]}>
+          {bodyParts.map((part) => (
+            <TouchableOpacity
+              key={part.id}
               style={[
-                styles.partText,
+                styles.partButton,
                 {
-                  color:
-                    selectedPart?.id === part.id ? '#FFFFFF' : colors.text,
+                  backgroundColor:
+                    selectedPart?.id === part.id ? colors.primary : colors.card,
                 },
               ]}
+              onPress={() => onSelectPart(part.id)}
             >
-              {part.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <Text
+                style={[
+                  styles.partText,
+                  {
+                    color:
+                      selectedPart?.id === part.id ? '#FFFFFF' : colors.text,
+                  },
+                ]}
+              >
+                {part.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -96,6 +104,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     padding: 20,
+  },
+  containerCompact: {
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   mapContainer: {
     width: '100%',
@@ -109,26 +123,35 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
+  mapContainerCompact: {
+    width: '40%',
+    minWidth: 120,
+    maxWidth: 160,
+  },
   bodyImage: {
     width: '100%',
     height: '100%',
   },
+  partsListContainer: {
+    flexGrow: 0,
+  },
+  partsListContainerCompact: {
+    flex: 1,
+  },
   partsList: {
-    width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 10,
-    marginTop: 20,
+    gap: 8,
   },
   partButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginHorizontal: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginHorizontal: 2,
   },
   partText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
   },
 }); 
