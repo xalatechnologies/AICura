@@ -262,5 +262,72 @@
       "signupFailed": "ثبت نام ناموفق بود. لطفاً دوباره تلاش کنید.",
       "networkError": "خطای شبکه. لطفاً اتصال خود را بررسی کنید."
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "محل علایم",
+        "description": "قسمت متاثر شده بدن را انتخاب کنید و علایم خود را توضیح دهید"
+      },
+      "details": {
+        "title": "جزئیات علایم",
+        "description": "در مورد علایم خود بیشتر به ما بگویید"
+      },
+      "history": {
+        "title": "سابقه صحی",
+        "description": "سابقه صحی مرتبط را به اشتراک بگذارید"
+      },
+      "context": {
+        "title": "عوامل محیطی",
+        "description": "به ما کمک کنید تا محیط و سبک زندگی شما را درک کنیم"
+      },
+      "complications": {
+        "title": "عوارض",
+        "description": "علایم اضافی یا عوارض"
+      },
+      "summary": {
+        "title": "خلاصه",
+        "description": "گزارش علایم خود را مرور کنید"
+      }
+    },
+    "selectBodyPart": "قسمت متاثر شده بدن را انتخاب کنید",
+    "describeSymptoms": "علایم خود را توضیح دهید",
+    "analyzer": {
+      "inputPlaceholder": "علایم خود را اینجا بنویسید..."
+    },
+    "onset": {
+      "hours": "ساعت",
+      "days": "روز",
+      "weeks": "هفته",
+      "months": "ماه"
+    },
+    "severity": {
+      "mild": "خفیف",
+      "moderate": "متوسط",
+      "severe": "شدید"
+    },
+    "duration": {
+      "constant": "مداوم",
+      "intermittent": "متناوب"
+    },
+    "triggers": {
+      "movement": "حرکت",
+      "rest": "استراحت",
+      "food": "غذا",
+      "stress": "استرس",
+      "weather": "آب و هوا",
+      "other": "دیگر"
+    },
+    "details": {
+      "onset": "چه وقت شروع شد؟",
+      "severity": "چقدر شدید است؟",
+      "duration": "چقدر طول می‌کشد؟",
+      "triggers": "چه چیزی آن را بدتر می‌کند؟"
+    },
+    "additionalSymptoms": {
+      "title": "علایم اضافی",
+      "namePlaceholder": "نام علامت را وارد کنید",
+      "descriptionPlaceholder": "علامت را توضیح دهید (اختیاری)"
+    }
   }
 }

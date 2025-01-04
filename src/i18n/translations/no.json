@@ -251,5 +251,72 @@
       "resendTimer": "Send kode på nytt om {seconds} sekunder",
       "emailSentTo": "Kode sendt til {email}"
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "Symptomsted",
+        "description": "Velg berørt kroppsdel og beskriv symptomene dine"
+      },
+      "details": {
+        "title": "Symptomdetaljer",
+        "description": "Fortell oss mer om symptomene dine"
+      },
+      "history": {
+        "title": "Medisinsk Historie",
+        "description": "Del relevant medisinsk historie"
+      },
+      "context": {
+        "title": "Kontekstuelle Faktorer",
+        "description": "Hjelp oss å forstå ditt miljø og livsstil"
+      },
+      "complications": {
+        "title": "Komplikasjoner",
+        "description": "Eventuelle tilleggssymptomer eller komplikasjoner"
+      },
+      "summary": {
+        "title": "Sammendrag",
+        "description": "Gjennomgå din symptomrapport"
+      }
+    },
+    "selectBodyPart": "Velg berørt kroppsdel",
+    "describeSymptoms": "Beskriv symptomene dine",
+    "analyzer": {
+      "inputPlaceholder": "Skriv inn symptomene dine her..."
+    },
+    "onset": {
+      "hours": "Timer",
+      "days": "Dager",
+      "weeks": "Uker",
+      "months": "Måneder"
+    },
+    "severity": {
+      "mild": "Mild",
+      "moderate": "Moderat",
+      "severe": "Alvorlig"
+    },
+    "duration": {
+      "constant": "Konstant",
+      "intermittent": "Periodisk"
+    },
+    "triggers": {
+      "movement": "Bevegelse",
+      "rest": "Hvile",
+      "food": "Mat",
+      "stress": "Stress",
+      "weather": "Vær",
+      "other": "Annet"
+    },
+    "details": {
+      "onset": "Når startet det?",
+      "severity": "Hvor alvorlig er det?",
+      "duration": "Hvor ofte forekommer det?",
+      "triggers": "Hva utløser eller forverrer det?"
+    },
+    "additionalSymptoms": {
+      "title": "Tilleggssymptomer",
+      "namePlaceholder": "Skriv inn symptomets navn",
+      "descriptionPlaceholder": "Beskriv symptomet (valgfritt)"
+    }
   }
 }

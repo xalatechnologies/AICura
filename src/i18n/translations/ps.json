@@ -262,5 +262,72 @@
       "phoneRequired": "د تلیفون شمیره اړینه ده",
       "invalidPhone": "مهرباني وکړئ یوه سمه د تلیفون شمیره ولیکئ"
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "د نښو ځای",
+        "description": "د اغیزمن شوي بدن برخه وټاکئ او خپلې نښې تشریح کړئ"
+      },
+      "details": {
+        "title": "د نښو تفصیلات",
+        "description": "موږ ته د خپلو نښو په اړه نور معلومات راکړئ"
+      },
+      "history": {
+        "title": "طبي تاریخچه",
+        "description": "اړوند طبي تاریخچه شریکه کړئ"
+      },
+      "context": {
+        "title": "چاپیریالي عوامل",
+        "description": "موږ سره مرسته وکړئ چې ستاسو چاپیریال او د ژوند طرز وپیژنو"
+      },
+      "complications": {
+        "title": "اختلاطات",
+        "description": "اضافي نښې یا اختلاطات"
+      },
+      "summary": {
+        "title": "لنډیز",
+        "description": "د خپلو نښو راپور وګورئ"
+      }
+    },
+    "selectBodyPart": "د اغیزمن شوي بدن برخه وټاکئ",
+    "describeSymptoms": "خپلې نښې تشریح کړئ",
+    "analyzer": {
+      "inputPlaceholder": "خپلې نښې دلته ولیکئ..."
+    },
+    "onset": {
+      "hours": "ساعتونه",
+      "days": "ورځې",
+      "weeks": "اونۍ",
+      "months": "میاشتې"
+    },
+    "severity": {
+      "mild": "خفیف",
+      "moderate": "منځنی",
+      "severe": "شدید"
+    },
+    "duration": {
+      "constant": "دوامداره",
+      "intermittent": "متناوب"
+    },
+    "triggers": {
+      "movement": "حرکت",
+      "rest": "استراحت",
+      "food": "خواړه",
+      "stress": "فشار",
+      "weather": "هوا",
+      "other": "نور"
+    },
+    "details": {
+      "onset": "کله پیل شوې؟",
+      "severity": "څومره شدید دی؟",
+      "duration": "څومره وخت کیږي؟",
+      "triggers": "څه یې خرابوي یا زیاتوي؟"
+    },
+    "additionalSymptoms": {
+      "title": "اضافي نښې",
+      "namePlaceholder": "د نښې نوم ولیکئ",
+      "descriptionPlaceholder": "نښه تشریح کړئ (اختیاري)"
+    }
   }
 }

@@ -262,5 +262,72 @@
       "phoneRequired": "فون نمبر درکار ہے",
       "invalidPhone": "براہ کرم درست فون نمبر درج کریں"
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "علامات کی جگہ",
+        "description": "متاثرہ جسمانی حصہ منتخب کریں اور اپنی علامات بیان کریں"
+      },
+      "details": {
+        "title": "علامات کی تفصیلات",
+        "description": "ہمیں اپنی علامات کے بارے میں مزید بتائیں"
+      },
+      "history": {
+        "title": "طبی تاریخ",
+        "description": "متعلقہ طبی تاریخ شیئر کریں"
+      },
+      "context": {
+        "title": "ماحولیاتی عوامل",
+        "description": "ہمیں اپنے ماحول اور طرز زندگی کو سمجھنے میں مدد کریں"
+      },
+      "complications": {
+        "title": "پیچیدگیاں",
+        "description": "اضافی علامات یا پیچیدگیاں"
+      },
+      "summary": {
+        "title": "خلاصہ",
+        "description": "اپنی علامات کی رپورٹ کا جائزہ لیں"
+      }
+    },
+    "selectBodyPart": "متاثرہ جسمانی حصہ منتخب کریں",
+    "describeSymptoms": "اپنی علامات بیان کریں",
+    "analyzer": {
+      "inputPlaceholder": "اپنی علامات یہاں لکھیں..."
+    },
+    "onset": {
+      "hours": "گھنٹے",
+      "days": "دن",
+      "weeks": "ہفتے",
+      "months": "مہینے"
+    },
+    "severity": {
+      "mild": "معمولی",
+      "moderate": "درمیانی",
+      "severe": "شدید"
+    },
+    "duration": {
+      "constant": "مستقل",
+      "intermittent": "وقفہ وقفہ سے"
+    },
+    "triggers": {
+      "movement": "حرکت",
+      "rest": "آرام",
+      "food": "کھانا",
+      "stress": "تناؤ",
+      "weather": "موسم",
+      "other": "دیگر"
+    },
+    "details": {
+      "onset": "یہ کب شروع ہوا؟",
+      "severity": "یہ کتنا شدید ہے؟",
+      "duration": "یہ کتنی دیر سے ہے؟",
+      "triggers": "کیا اسے بڑھاتا یا خراب کرتا ہے؟"
+    },
+    "additionalSymptoms": {
+      "title": "اضافی علامات",
+      "namePlaceholder": "علامت کا نام درج کریں",
+      "descriptionPlaceholder": "علامت کی تفصیل لکھیں (اختیاری)"
+    }
   }
 }

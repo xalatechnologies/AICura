@@ -272,5 +272,72 @@
       "signupFailed": "Error al registrarse. Por favor intenta de nuevo.",
       "networkError": "Error de red. Por favor verifica tu conexión."
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "Ubicación del Síntoma",
+        "description": "Seleccione la parte del cuerpo afectada y describa sus síntomas"
+      },
+      "details": {
+        "title": "Detalles del Síntoma",
+        "description": "Cuéntenos más sobre sus síntomas"
+      },
+      "history": {
+        "title": "Historial Médico",
+        "description": "Comparta el historial médico relevante"
+      },
+      "context": {
+        "title": "Factores Contextuales",
+        "description": "Ayúdenos a entender su entorno y estilo de vida"
+      },
+      "complications": {
+        "title": "Complicaciones",
+        "description": "Síntomas adicionales o complicaciones"
+      },
+      "summary": {
+        "title": "Resumen",
+        "description": "Revise su informe de síntomas"
+      }
+    },
+    "selectBodyPart": "Seleccione la parte del cuerpo afectada",
+    "describeSymptoms": "Describa sus síntomas",
+    "analyzer": {
+      "inputPlaceholder": "Escriba sus síntomas aquí..."
+    },
+    "onset": {
+      "hours": "Horas",
+      "days": "Días",
+      "weeks": "Semanas",
+      "months": "Meses"
+    },
+    "severity": {
+      "mild": "Leve",
+      "moderate": "Moderado",
+      "severe": "Grave"
+    },
+    "duration": {
+      "constant": "Constante",
+      "intermittent": "Intermitente"
+    },
+    "triggers": {
+      "movement": "Movimiento",
+      "rest": "Descanso",
+      "food": "Comida",
+      "stress": "Estrés",
+      "weather": "Clima",
+      "other": "Otro"
+    },
+    "details": {
+      "onset": "¿Cuándo comenzó?",
+      "severity": "¿Qué tan grave es?",
+      "duration": "¿Con qué frecuencia ocurre?",
+      "triggers": "¿Qué lo desencadena o empeora?"
+    },
+    "additionalSymptoms": {
+      "title": "Síntomas Adicionales",
+      "namePlaceholder": "Ingrese el nombre del síntoma",
+      "descriptionPlaceholder": "Describa el síntoma (opcional)"
+    }
   }
 }

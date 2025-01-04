@@ -273,5 +273,72 @@
       "signupFailed": "Sign up failed. Please try again.",
       "networkError": "Network error. Please check your connection."
     }
+  },
+  "symptoms": {
+    "steps": {
+      "location": {
+        "title": "Symptom Location",
+        "description": "Select the affected body part and describe your symptoms"
+      },
+      "details": {
+        "title": "Symptom Details",
+        "description": "Tell us more about your symptoms"
+      },
+      "history": {
+        "title": "Medical History",
+        "description": "Share relevant medical history"
+      },
+      "context": {
+        "title": "Contextual Factors",
+        "description": "Help us understand your environment and lifestyle"
+      },
+      "complications": {
+        "title": "Complications",
+        "description": "Any additional symptoms or complications"
+      },
+      "summary": {
+        "title": "Summary",
+        "description": "Review your symptom report"
+      }
+    },
+    "selectBodyPart": "Select the affected body part",
+    "describeSymptoms": "Describe your symptoms",
+    "analyzer": {
+      "inputPlaceholder": "Type your symptoms here..."
+    },
+    "onset": {
+      "hours": "Hours",
+      "days": "Days",
+      "weeks": "Weeks",
+      "months": "Months"
+    },
+    "severity": {
+      "mild": "Mild",
+      "moderate": "Moderate",
+      "severe": "Severe"
+    },
+    "duration": {
+      "constant": "Constant",
+      "intermittent": "Intermittent"
+    },
+    "triggers": {
+      "movement": "Movement",
+      "rest": "Rest",
+      "food": "Food",
+      "stress": "Stress",
+      "weather": "Weather",
+      "other": "Other"
+    },
+    "details": {
+      "onset": "When did it start?",
+      "severity": "How severe is it?",
+      "duration": "How often does it occur?",
+      "triggers": "What triggers or worsens it?"
+    },
+    "additionalSymptoms": {
+      "title": "Additional Symptoms",
+      "namePlaceholder": "Enter symptom name",
+      "descriptionPlaceholder": "Describe the symptom (optional)"
+    }
   }
 }
