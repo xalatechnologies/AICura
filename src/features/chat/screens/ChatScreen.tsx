@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme } from '@/theme/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import { Header } from '@/components/shared/Header';
 import type { Message } from '../types';
 
 export const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
@@ -50,38 +53,50 @@ export const ChatScreen = () => {
   );
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={[styles.container, { backgroundColor: colors.background }]}
-    >
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.messageList}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Header 
+        title={t('chat.title')} 
+        rightAction={{
+          icon: 'more-vert',
+          onPress: () => {/* Handle menu */}
+        }}
       />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder="Type a message..."
-          placeholderTextColor={colors.text}
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+      >
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={renderMessage}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.messageList}
         />
-        <TouchableOpacity 
-          style={[styles.sendButton, { backgroundColor: colors.primary }]} 
-          onPress={handleSend}
-        >
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder={t('chat.inputPlaceholder')}
+            placeholderTextColor={colors.text}
+          />
+          <TouchableOpacity 
+            style={[styles.sendButton, { backgroundColor: colors.primary }]} 
+            onPress={handleSend}
+          >
+            <Text style={styles.sendButtonText}>{t('chat.send')}</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  keyboardAvoidingView: {
     flex: 1,
   },
   messageList: {
