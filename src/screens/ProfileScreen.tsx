@@ -4,9 +4,9 @@ import { useTheme } from '@theme/ThemeContext';
 import { useAuth } from '@context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { ThemeToggle } from '@components/index';
+import { ThemeToggle } from '@components/ThemeToggle';
 
-export const ProfileScreen = () => {
+const ProfileScreen = () => {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const { signOut } = useAuth();

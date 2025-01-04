@@ -3,25 +3,20 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@theme/ThemeContext';
 import { useAuth } from '@context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { supabase } from '@lib/supabase';
 import { AuthError } from '@supabase/supabase-js';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
-import { ThemeHeader } from '@components/ThemeHeader';
 import { StyledAppTitle } from '@components/StyledAppTitle';
-import { CustomColors } from '@styles/theme';
+import { Header } from '@home/components';
 
 type AuthStackParamList = {
   Login: undefined;
@@ -62,8 +57,8 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ThemeHeader showBack showLanguage />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Header showBack hideGreeting />
       
       <View style={styles.contentContainer}>
         <View style={styles.header}>
@@ -123,25 +118,21 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
-const createStyles = (colors: CustomColors) => StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-    paddingTop: 20,
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 48,
+    marginBottom: 32,
   },
   description: {
     fontSize: 16,
@@ -149,32 +140,26 @@ const createStyles = (colors: CustomColors) => StyleSheet.create({
     marginTop: 8,
   },
   form: {
-    width: '100%',
     gap: 16,
+    marginBottom: 24,
   },
   forgotPassword: {
     alignSelf: 'flex-end',
-    marginTop: 8,
-    marginBottom: 16,
   },
   forgotPasswordText: {
     fontSize: 14,
   },
   buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 24,
+    marginTop: 8,
   },
   button: {
     width: '100%',
-    marginVertical: 8,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 32,
-    gap: 4,
+    gap: 8,
+    marginTop: 'auto',
   },
   footerText: {
     fontSize: 14,

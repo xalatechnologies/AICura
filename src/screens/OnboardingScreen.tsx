@@ -27,6 +27,7 @@ import {
   OnboardingStep,
 } from './onboarding';
 import { useAuth } from '@context/AuthContext';
+import { Header } from '@home/components';
 
 type OnboardingScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
@@ -302,15 +303,9 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <View style={[styles.header, { paddingTop: Platform.OS === 'ios' ? 60 : 40 }]}>
-        {currentStep > 0 && (
-          <TouchableOpacity
-            style={[styles.backButton, { backgroundColor: colors.card }]}
-            onPress={handleBack}
-          >
-            <Icon name="arrow-back" size={24} color={colors.text} />
-          </TouchableOpacity>
-        )}
+      <Header showBack={currentStep > 0} onBack={handleBack} hideGreeting />
+      
+      <View style={[styles.header, { paddingTop: Platform.OS === 'ios' ? 20 : 10 }]}>
         <Icon name={steps[currentStep].icon} size={60} color={colors.primary} />
         <Text style={[styles.stepTitle, { color: colors.text }]}>
           {steps[currentStep].title}
@@ -417,16 +412,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   stepTitle: {
     fontSize: 24,

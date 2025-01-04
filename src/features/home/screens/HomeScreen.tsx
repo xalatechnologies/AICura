@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@theme/ThemeContext';
 import { SymptomInput } from '@symptoms/components';
@@ -10,6 +10,7 @@ import {
   HealthStatusWidget,
   StepsTrackerWidget,
   RecentSymptoms,
+  Header,
 } from '../components';
 
 export const HomeScreen: React.FC = () => {
@@ -29,31 +30,35 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Header />
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* Health Widgets Section */}
-        <HealthStatusWidget />
-        <StepsTrackerWidget />
+        <View style={styles.widgetsSection}>
+          <HealthStatusWidget />
+          <StepsTrackerWidget />
+        </View>
 
-        {/* Symptom Input Section */}
-        <SymptomInput
-          value={symptomText}
-          onChangeText={setSymptomText}
-          isRecording={isRecording}
-          onStartRecording={startRecording}
-          onStopRecording={stopRecording}
-          placeholder="Describe your symptoms..."
-        />
-        <StartAnalysisButton onPress={handleStartAnalysis} />
+        <View style={styles.inputSection}>
+          <SymptomInput
+            value={symptomText}
+            onChangeText={setSymptomText}
+            isRecording={isRecording}
+            onStartRecording={startRecording}
+            onStopRecording={stopRecording}
+            placeholder="Describe your symptoms..."
+          />
+          <StartAnalysisButton onPress={handleStartAnalysis} />
+        </View>
 
-        {/* Recent Symptoms Section */}
-        <RecentSymptoms />
+        <View style={styles.recentSection}>
+          <RecentSymptoms />
+        </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -66,7 +71,17 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  widgetsSection: {
     gap: 16,
+    marginBottom: 24,
+  },
+  inputSection: {
+    gap: 16,
+    marginBottom: 24,
+  },
+  recentSection: {
+    flex: 1,
   },
 });
 

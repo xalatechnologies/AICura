@@ -1,4 +1,5 @@
-export * from './StartAnalysisButton';
 export * from './HealthStatusWidget';
 export * from './StepsTrackerWidget';
-export * from './RecentSymptoms'; 
+export * from './StartAnalysisButton';
+export * from './RecentSymptoms';
+export * from './Header'; 

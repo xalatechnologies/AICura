@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@navigation/RootNavigator';
 import { StyledAppTitle } from '@components/StyledAppTitle';
 import { StyledTagline } from '@components/StyledTagline';
-import { ThemeHeader } from '@components/ThemeHeader';
+import { Header } from '@home/components';
 
 type WelcomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -18,7 +18,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ThemeHeader showLanguage />
+      <Header hideGreeting />
 
       <View style={styles.content}>
         <Image
@@ -37,7 +37,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
             style={[styles.button, { backgroundColor: colors.primary }]}
             onPress={() => navigation.navigate('Signup')}
           >
-            <Text style={styles.buttonText}>
+            <Text style={[styles.buttonText, { color: colors.textInverted }]}>
               {t('auth.welcome.signup')}
             </Text>
           </TouchableOpacity>
@@ -59,56 +59,35 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: 16,
+    alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
-    width: '100%',
-    height: 300,
-    marginBottom: 40,
+    width: 200,
+    height: 200,
+    marginBottom: 32,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  description: {
-    fontSize: 16,
-    textAlign: 'center',
-    paddingHorizontal: 32,
+    marginBottom: 48,
   },
   buttons: {
+    width: '100%',
     gap: 16,
   },
   button: {
-    height: 56,
-    borderRadius: 12,
-    justifyContent: 'center',
+    width: '100%',
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
-  },
-  languageButton: {
-    position: 'absolute',
-    top: 40,
-    right: 20,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
   },
 });

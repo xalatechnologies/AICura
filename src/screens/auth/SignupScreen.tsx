@@ -7,8 +7,8 @@ import { RootStackParamList } from '@navigation/RootNavigator';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 import { supabase } from '@/lib/supabase';
-import { ThemeHeader } from '@components/ThemeHeader';
 import { StyledAppTitle } from '@components/StyledAppTitle';
+import { Header } from '@home/components';
 
 type SignupScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Signup'>;
@@ -24,29 +24,36 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
 
   const handleSignup = async () => {
     if (!email || !password || !confirmPassword) {
-      Alert.alert(t('common.error'), t('auth.signup.fillAllFields'));
+      Alert.alert(t('auth.signup.error'), t('auth.signup.emptyFields'));
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert(t('common.error'), t('auth.signup.passwordsDoNotMatch'));
+      Alert.alert(t('auth.signup.error'), t('auth.signup.passwordMismatch'));
       return;
     }
 
+    setLoading(true);
     try {
-      setLoading(true);
       const { error } = await supabase.auth.signUp({
         email,
         password,
       });
+
       if (error) throw error;
+
       Alert.alert(
-        t('auth.signup.successTitle'),
-        t('auth.signup.successMessage')
+        t('auth.signup.success'),
+        t('auth.signup.verificationSent'),
+        [
+          {
+            text: t('common.ok'),
+            onPress: () => navigation.replace('Login'),
+          },
+        ]
       );
-      navigation.navigate('Login');
-    } catch (error) {
-      Alert.alert(t('common.error'), t('auth.signup.errorMessage'));
+    } catch (error: any) {
+      Alert.alert(t('auth.signup.error'), error.message);
     } finally {
       setLoading(false);
     }
@@ -54,7 +61,7 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ThemeHeader showBack showLanguage />
+      <Header showBack hideGreeting />
       
       <ScrollView 
         style={styles.content}
@@ -120,17 +127,16 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
   },
   content: {
     flex: 1,
   },
   contentContainer: {
-    padding: 20,
+    padding: 16,
   },
   header: {
-    marginTop: 40,
-    marginBottom: 40,
+    alignItems: 'center',
+    marginBottom: 32,
   },
   description: {
     fontSize: 16,
@@ -138,20 +144,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   form: {
-    width: '100%',
-    gap: 20,
+    gap: 16,
+    marginBottom: 24,
   },
   button: {
-    marginTop: 16,
     width: '100%',
-    marginVertical: 8,
+    marginTop: 8,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-    marginTop: 24,
+    gap: 8,
+    marginTop: 'auto',
   },
   footerText: {
     fontSize: 14,
