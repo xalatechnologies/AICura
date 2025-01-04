@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -8,15 +8,36 @@ export const StepsTrackerWidget: React.FC = () => {
   const steps = 6500; // This would come from your health tracking service
   const goal = 10000;
   const progress = Math.min(steps / goal, 1);
+  const calories = Math.round(steps * 0.04); // Rough estimate of calories burned
+  const distance = (steps * 0.762) / 1000; // Average stride length of 0.762m to km
 
   return (
     <View style={[styles.container, { backgroundColor: colors.card }]}>
-      <Icon name="walk" size={32} color={colors.primary} style={styles.icon} />
-      <View style={styles.contentContainer}>
-        <View style={styles.textContainer}>
-          <Text style={[styles.label, { color: colors.text }]}>Daily Steps</Text>
-          <Text style={[styles.steps, { color: colors.primary }]}>{steps.toLocaleString()}</Text>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Icon name="walk" size={24} color={colors.primary} />
+          <Text style={[styles.title, { color: colors.text }]}>Daily Steps</Text>
         </View>
+        <TouchableOpacity
+          style={[styles.detailsButton, { borderColor: colors.border }]}
+        >
+          <Text style={[styles.detailsText, { color: colors.primary }]}>
+            History
+          </Text>
+          <Icon name="chevron-right" size={20} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.stepsContainer}>
+        <View style={styles.stepsInfo}>
+          <Text style={[styles.stepsCount, { color: colors.text }]}>
+            {steps.toLocaleString()}
+          </Text>
+          <Text style={[styles.stepsLabel, { color: colors.textSecondary }]}>
+            steps
+          </Text>
+        </View>
+
         <View style={styles.progressContainer}>
           <View 
             style={[
@@ -26,7 +47,7 @@ export const StepsTrackerWidget: React.FC = () => {
           >
             <View 
               style={[
-                styles.progress, 
+                styles.progressFill, 
                 { 
                   backgroundColor: colors.primary,
                   width: `${progress * 100}%`,
@@ -34,9 +55,55 @@ export const StepsTrackerWidget: React.FC = () => {
               ]} 
             />
           </View>
-          <Text style={[styles.goal, { color: colors.text }]}>
-            Goal: {goal.toLocaleString()}
+          <Text style={[styles.goalText, { color: colors.textSecondary }]}>
+            Goal: {goal.toLocaleString()} steps
           </Text>
+        </View>
+      </View>
+
+      <View style={[styles.divider, { backgroundColor: colors.border }]} />
+
+      <View style={styles.metricsContainer}>
+        <View style={styles.metricItem}>
+          <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
+            Distance
+          </Text>
+          <View style={styles.metricValueContainer}>
+            <Text style={[styles.metricValue, { color: colors.text }]}>
+              {distance.toFixed(2)}
+            </Text>
+            <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
+              km
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.metricItem}>
+          <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
+            Calories
+          </Text>
+          <View style={styles.metricValueContainer}>
+            <Text style={[styles.metricValue, { color: colors.text }]}>
+              {calories}
+            </Text>
+            <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
+              kcal
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.metricItem}>
+          <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>
+            Progress
+          </Text>
+          <View style={styles.metricValueContainer}>
+            <Text style={[styles.metricValue, { color: colors.text }]}>
+              {Math.round(progress * 100)}
+            </Text>
+            <Text style={[styles.metricUnit, { color: colors.textSecondary }]}>
+              %
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -45,46 +112,98 @@ export const StepsTrackerWidget: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
     borderRadius: 12,
-    gap: 16,
+    padding: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
-  icon: {
-    marginRight: 8,
-  },
-  contentContainer: {
-    flex: 1,
-    gap: 8,
-  },
-  textContainer: {
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 16,
   },
-  label: {
-    fontSize: 14,
-    opacity: 0.7,
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
-  steps: {
-    fontSize: 20,
+  title: {
+    fontSize: 16,
     fontWeight: '600',
   },
-  progressContainer: {
+  detailsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    borderWidth: 1,
     gap: 4,
   },
+  detailsText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  stepsContainer: {
+    gap: 12,
+  },
+  stepsInfo: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 4,
+  },
+  stepsCount: {
+    fontSize: 32,
+    fontWeight: '700',
+  },
+  stepsLabel: {
+    fontSize: 16,
+  },
+  progressContainer: {
+    gap: 8,
+  },
   progressBar: {
-    height: 4,
-    borderRadius: 2,
+    height: 8,
+    borderRadius: 4,
     overflow: 'hidden',
   },
-  progress: {
+  progressFill: {
     height: '100%',
-    borderRadius: 2,
+    borderRadius: 4,
   },
-  goal: {
+  goalText: {
     fontSize: 12,
-    opacity: 0.5,
+  },
+  divider: {
+    height: 1,
+    marginVertical: 16,
+  },
+  metricsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  metricItem: {
+    alignItems: 'center',
+    gap: 4,
+  },
+  metricLabel: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  metricValueContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 2,
+    justifyContent: 'center',
+  },
+  metricValue: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  metricUnit: {
+    fontSize: 12,
   },
 }); 

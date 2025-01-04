@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@theme/ThemeContext';
 import { SymptomInput } from '@symptoms/components';
@@ -30,10 +30,14 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.contentContainer}
-      >
+      <View style={styles.content}>
+        {/* Health Widgets Section */}
+        <View style={styles.widgetsSection}>
+          <HealthStatusWidget />
+          <StepsTrackerWidget />
+        </View>
+
+        {/* Symptom Input Section */}
         <View style={styles.inputSection}>
           <SymptomInput
             value={symptomText}
@@ -43,20 +47,14 @@ export const HomeScreen: React.FC = () => {
             onStopRecording={stopRecording}
             placeholder="Describe your symptoms..."
           />
-          <StartAnalysisButton onPress={handleStartAnalysis} disabled={!symptomText.trim()} />
+          <StartAnalysisButton onPress={handleStartAnalysis} />
         </View>
 
+        {/* Recent Symptoms Section */}
         <View style={styles.recentSection}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Recent Symptoms</Text>
           <RecentSymptoms />
         </View>
-
-        <View style={styles.widgetsContainer}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Health Overview</Text>
-          <HealthStatusWidget />
-          <StepsTrackerWidget />
-        </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -65,26 +63,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
+  content: {
     flex: 1,
-  },
-  contentContainer: {
     padding: 16,
     gap: 24,
   },
+  widgetsSection: {
+    gap: 16,
+  },
   inputSection: {
     gap: 16,
+    paddingVertical: 8,
   },
   recentSection: {
-    gap: 12,
-  },
-  widgetsContainer: {
-    gap: 16,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 4,
+    flex: 1,
   },
 });
 

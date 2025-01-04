@@ -56,6 +56,10 @@ export const RecentSymptoms: React.FC = () => {
     </TouchableOpacity>
   );
 
+  const ListHeader = () => (
+    <Text style={[styles.sectionTitle, { color: colors.text }]}>Recent Symptoms</Text>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -64,23 +68,32 @@ export const RecentSymptoms: React.FC = () => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={ListHeader}
+        ListFooterComponent={() => (
+          <TouchableOpacity 
+            style={[styles.showMoreButton, { borderColor: colors.border }]}
+            onPress={() => {/* Handle show more */}}
+          >
+            <Text style={[styles.showMoreText, { color: colors.primary }]}>Show More</Text>
+          </TouchableOpacity>
+        )}
       />
-      <TouchableOpacity 
-        style={[styles.showMoreButton, { borderColor: colors.border }]}
-        onPress={() => {/* Handle show more */}}
-      >
-        <Text style={[styles.showMoreText, { color: colors.primary }]}>Show More</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    gap: 12,
+    flex: 1,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 16,
   },
   listContent: {
     gap: 8,
+    paddingBottom: 16,
   },
   symptomItem: {
     flexDirection: 'row',
@@ -116,6 +129,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     borderWidth: 1,
+    marginTop: 8,
   },
   showMoreText: {
     fontSize: 14,
