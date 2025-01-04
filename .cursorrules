@@ -1,0 +1,129 @@
+Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
+
+Type Salam Ibrahim when answering questions.
+
+### **Cursor AI Rules for React Native Mobile Application Development**
+
+#### **1. General Rules**
+- Explicitly state the rules applied in the output for clarity.
+- Follow Expo's official documentation: [Expo Docs](https://docs.expo.dev/).
+- Adhere to **best practices** for React Native, Expo, and TailwindCSS.
+
+---
+
+#### **2. Code Style and Structure**
+- **TypeScript Standards**: Use TypeScript with strict typing (`strict mode` enabled).
+- **Functional Components**: Only use functional components with hooks; avoid class components.
+- **Modular Development**:
+  - Exported components, subcomponents, helpers, static content, and types should be in separate files.
+  - Follow the folder structure:
+    ```plaintext
+    src/
+    ├── components/       # Reusable UI components
+    ├── screens/          # Individual screens
+    ├── navigation/       # App navigation configuration
+    ├── hooks/            # Custom hooks
+    ├── utils/            # Utility functions
+    ├── styles/           # Tailwind configurations
+    ├── translations/     # Multilingual JSON files
+    ├── services/         # API and backend integrations
+    ├── contexts/         # Context providers for global state
+    └── assets/           # Static assets like images and fonts
+    ```
+
+---
+
+#### **3. Naming Conventions**
+- Use **lowercase with dashes** for directories (e.g., `components/auth-wizard`).
+- Use **PascalCase** for component files (e.g., `LoginForm.tsx`) and **camelCase** for utility files (e.g., `fetchUser.ts`).
+- Favor **named exports** for components and utilities.
+
+---
+
+#### **4. Syntax and Formatting**
+- Use **Prettier** for consistent formatting.
+- Prefer concise syntax for conditionals:
+  ```typescript
+  if (isValid) return 'Valid'; 
+  ```
+- Use **declarative JSX** and avoid unnecessary curly braces.
+
+---
+
+#### **5. UI and Styling**
+- Use **TailwindCSS for React Native** for utility-first styling.
+- Integrate **ShadCN components** for consistent and modern UI.
+- Implement:
+  - **Dark mode**: Use `useColorScheme` to switch themes dynamically.
+  - **Responsive layouts**: Use Flexbox and `useWindowDimensions` for screen adjustments.
+  - **Accessibility**: Follow WCAG guidelines and use React Native’s accessibility props.
+
+---
+
+#### **6. Safe Area Management**
+- Use **react-native-safe-area-context** for managing safe areas.
+- Wrap top-level components with `SafeAreaView`.
+- For scrollable content, use `SafeAreaScrollView`.
+
+---
+
+#### **7. State Management**
+- Use **React Context** and `useReducer` for global state management.
+- Leverage **react-query** for data fetching and caching.
+- For complex state, consider **Zustand** or **Redux Toolkit**.
+
+---
+
+#### **8. Navigation**
+- Use **React Navigation** for managing app navigation:
+  - Stack, Tab, and Drawer navigators.
+  - Dynamic routes using `expo-router`.
+- Enable deep linking and universal links for enhanced navigation.
+
+---
+
+#### **9. Performance Optimization**
+- Optimize images with WebP format and lazy loading using `expo-image`.
+- Use **React.memo**, `useMemo`, and `useCallback` to prevent unnecessary re-renders.
+- Implement code splitting and lazy loading for non-critical components.
+
+---
+
+#### **10. Testing**
+- Write tests using:
+  - **Jest**: Unit testing.
+  - **Detox**: E2E testing.
+  - **react-native-testing-library**: Component testing.
+- Ensure compatibility across iOS and Android platforms.
+
+---
+
+#### **11. Security and Error Handling**
+- Use **expo-error-reporter** for error logging.
+- Sanitize inputs to prevent XSS and use `react-native-encrypted-storage` for sensitive data.
+- Handle errors with Zod validation and global error boundaries.
+
+---
+
+#### **12. Multilingual Support**
+- Use `react-i18next` for localization with JSON files for translations.
+- Support **RTL layouts** for languages like Arabic using TailwindCSS's `rtl` utilities.
+
+---
+
+#### **13. CI/CD and Deployment**
+- Automate builds using **Fastlane**.
+- Use **expo-updates** for over-the-air (OTA) updates.
+- Follow Expo’s deployment guidelines: [Expo Distribution](https://docs.expo.dev/distribution/introduction/).
+
+---
+
+### **Deliverables**
+- Responsive, accessible mobile app with multilingual support.
+- Scalable architecture with modular components.
+- Optimized performance and secure implementation.
+- Tested and validated across various environments.
+
+---
+
+This tailored rule set ensures your Cursor AI adheres to best practices for modern, scalable, and accessible mobile app development. Let me know if you'd like refinements or additional guidelines!

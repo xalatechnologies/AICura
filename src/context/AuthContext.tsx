@@ -11,6 +11,7 @@ interface AuthContextType {
   checkOnboardingStatus: () => Promise<boolean>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -97,6 +98,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      setIsAuthenticated(false);
+      setUserProfile(null);
+      setHasCompletedOnboarding(false);
+      await AsyncStorage.removeItem('theme');
+      await AsyncStorage.removeItem('selectedLanguage');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     initializeApp();
 
@@ -127,6 +143,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         checkOnboardingStatus,
         updateProfile,
         signIn,
+        signOut,
       }}
     >
       {children}

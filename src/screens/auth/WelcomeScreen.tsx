@@ -13,10 +13,10 @@ type WelcomeScreenProps = {
 
 export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
   const { t } = useTranslation();
-  const { theme } = useTheme();
+  const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ThemeHeader showLanguage />
 
       <View style={styles.content}>
@@ -28,14 +28,14 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 
         <View style={styles.header}>
           <StyledAppTitle size="large" />
-          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
+          <Text style={[styles.description, { color: colors.textSecondary }]}>
             {t('auth.welcome.description')}
           </Text>
         </View>
 
         <View style={styles.buttons}>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: theme.colors.primary }]}
+            style={[styles.button, { backgroundColor: colors.primary }]}
             onPress={() => navigation.navigate('Signup')}
           >
             <Text style={styles.buttonText}>
@@ -44,10 +44,10 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: theme.colors.card }]}
+            style={[styles.button, { backgroundColor: colors.card }]}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={[styles.buttonText, { color: theme.colors.text }]}>
+            <Text style={[styles.buttonText, { color: colors.text }]}>
               {t('auth.welcome.login')}
             </Text>
           </TouchableOpacity>
@@ -60,6 +60,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 60,
   },
   content: {
     flex: 1,

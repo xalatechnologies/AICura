@@ -1,7 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, ActivityIndicator, View, DimensionValue } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface ButtonProps {
   title: string;
@@ -11,100 +10,127 @@ interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'small' | 'medium' | 'large';
+  fullWidth?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
-export const Button = ({ 
-  title, 
-  onPress, 
-  style, 
-  textStyle, 
-  disabled,
-  loading,
-  variant = 'primary'
-}: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = ({
+  title,
+  onPress,
+  style,
+  textStyle,
+  disabled = false,
+  loading = false,
+  variant = 'primary',
+  size = 'medium',
+  fullWidth = false,
+  icon,
+  iconPosition = 'left',
+}) => {
   const { colors } = useTheme();
 
-  const getColors = (): [string, string] => {
-    if (disabled) {
-      return [colors.textSecondary, colors.textSecondary];
-    }
+  const getBackgroundColor = () => {
+    if (disabled) return colors.buttonDisabled;
     switch (variant) {
       case 'primary':
-        return [colors.primary, colors.primaryDark];
+        return colors.buttonPrimary;
       case 'secondary':
-        return [colors.secondary, colors.secondaryDark];
+        return colors.buttonSecondary;
       case 'outline':
-        return ['transparent', 'transparent'];
+        return 'transparent';
       default:
-        return [colors.primary, colors.primaryDark];
+        return colors.buttonPrimary;
     }
   };
 
-  const getTextColor = () => {
-    if (disabled) {
-      return '#FFFFFF';
+  const getHeight = (): DimensionValue => {
+    switch (size) {
+      case 'small':
+        return 36;
+      case 'large':
+        return 56;
+      default:
+        return 48;
     }
-    if (variant === 'outline') {
-      return colors.primary;
-    }
-    return '#FFFFFF';
   };
 
-  const getBorderColor = () => {
-    if (variant === 'outline') {
-      return colors.primary;
-    }
-    return 'transparent';
-  };
+  const buttonStyles = [
+    styles.button,
+    {
+      height: getHeight(),
+      opacity: disabled ? 0.6 : 1,
+      width: fullWidth ? '100%' as DimensionValue : undefined,
+      backgroundColor: getBackgroundColor(),
+    },
+    variant === 'outline' && {
+      borderWidth: 2,
+      borderColor: disabled ? colors.buttonDisabled : colors.buttonPrimary,
+    },
+    style,
+  ];
+
+  const textColor = variant === 'outline' 
+    ? (disabled ? colors.buttonDisabled : colors.buttonPrimary)
+    : colors.textInverted;
+
+  const content = (
+    <>
+      {loading ? (
+        <ActivityIndicator color={textColor} size="small" />
+      ) : (
+        <View style={styles.contentContainer}>
+          {icon && iconPosition === 'left' && <View style={styles.iconLeft}>{icon}</View>}
+          <Text style={[
+            styles.text,
+            {
+              color: textColor,
+              fontSize: size === 'large' ? 18 : size === 'small' ? 14 : 16,
+            },
+            textStyle,
+          ]}>
+            {title}
+          </Text>
+          {icon && iconPosition === 'right' && <View style={styles.iconRight}>{icon}</View>}
+        </View>
+      )}
+    </>
+  );
 
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
-      style={[styles.container, style]}
+      style={buttonStyles}
+      activeOpacity={0.8}
     >
-      <LinearGradient
-        colors={getColors()}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={[
-          styles.gradient,
-          { borderColor: getBorderColor(), borderWidth: variant === 'outline' ? 1 : 0 }
-        ]}
-      >
-        {loading ? (
-          <ActivityIndicator color={getTextColor()} />
-        ) : (
-          <Text style={[styles.text, { color: getTextColor() }, textStyle]}>
-            {title}
-          </Text>
-        )}
-      </LinearGradient>
+      <View style={styles.contentContainer}>{content}</View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 50,
+  button: {
     borderRadius: 12,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    alignSelf: 'flex-start',
   },
-  gradient: {
-    flex: 1,
-    justifyContent: 'center',
+  contentContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    height: '100%',
   },
   text: {
-    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  iconLeft: {
+    marginRight: 8,
+  },
+  iconRight: {
+    marginLeft: 8,
   },
 }); 

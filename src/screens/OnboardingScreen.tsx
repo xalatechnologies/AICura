@@ -235,7 +235,7 @@ export const OnboardingScreen = ({ navigation }: OnboardingScreenProps) => {
         await updateProfile(profileData);
         
         await AsyncStorage.setItem('onboardingComplete', 'true');
-        navigation.navigate('MainTabs');
+        navigation.navigate('MainTabs', { screen: 'Home' });
       } catch (error) {
         Alert.alert('Error', 'Failed to save profile');
         console.error('Error:', error);

@@ -15,7 +15,7 @@ type ForgotPasswordScreenProps = {
 };
 
 export const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,13 +40,13 @@ export const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) 
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ThemeHeader showBack showLanguage />
       
       <View style={styles.content}>
         <View style={styles.header}>
           <StyledAppTitle size="medium" />
-          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
+          <Text style={[styles.description, { color: colors.textSecondary }]}>
             {t('auth.forgotPassword.description')}
           </Text>
         </View>
@@ -70,11 +70,11 @@ export const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) 
         </View>
 
         <View style={styles.footer}>
-          <Text style={[styles.footerText, { color: theme.colors.textSecondary }]}>
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
             {t('auth.forgotPassword.rememberPassword')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={[styles.footerLink, { color: theme.colors.primary }]}>
+            <Text style={[styles.footerLink, { color: colors.primary }]}>
               {t('auth.forgotPassword.loginLink')}
             </Text>
           </TouchableOpacity>

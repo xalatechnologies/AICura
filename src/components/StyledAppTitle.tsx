@@ -1,47 +1,31 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { useTheme } from '@theme/ThemeContext';
 
 interface StyledAppTitleProps {
   size?: 'small' | 'medium' | 'large';
 }
 
-export const StyledAppTitle = ({ size = 'medium' }: StyledAppTitleProps) => {
+export const StyledAppTitle: React.FC<StyledAppTitleProps> = ({ size = 'medium' }) => {
   const { colors } = useTheme();
 
   const getFontSize = () => {
     switch (size) {
       case 'small':
-        return 28;
+        return 24;
       case 'large':
-        return 48;
-      default:
         return 36;
+      default:
+        return 28;
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={[
-        styles.aiText,
-        { 
-          fontSize: getFontSize(),
-          color: colors.primary,
-          textShadowColor: colors.primary,
-          textShadowOffset: { width: 2, height: 2 },
-          textShadowRadius: 6,
-        }
-      ]}>
-        AI
-      </Text>
-      <Text style={[
-        styles.curaText,
-        { 
-          fontSize: getFontSize(),
-          color: colors.text 
-        }
-      ]}>
-        Cura
+      <Text style={[styles.title, { fontSize: getFontSize() }]}>
+        <Text style={{ color: colors.primary }}>AI</Text>
+        <Text style={{ color: colors.text }}>Cura</Text>
+        <Text style={{ color: colors.primary, fontSize: getFontSize() * 0.6 }}>™</Text>
       </Text>
     </View>
   );
@@ -49,16 +33,16 @@ export const StyledAppTitle = ({ size = 'medium' }: StyledAppTitleProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
+    height: 48,
+    justifyContent: 'center',
   },
-  aiText: {
-    fontFamily: 'Roboto-Bold',
-    letterSpacing: 2,
-  },
-  curaText: {
-    fontFamily: 'Roboto-Light',
+  title: {
+    fontWeight: '700',
+    textAlign: 'center',
+    fontFamily: Platform.select({
+      ios: 'Helvetica Neue',
+      android: 'sans-serif-medium',
+    }),
     letterSpacing: 1,
   },
 }); 

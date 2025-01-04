@@ -1,15 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import { lightTheme, darkTheme } from '../styles/theme';
+import { useTheme } from '@theme/ThemeContext';
 
-const AppointmentsScreen = () => {
-  const { theme } = useTheme();
-  const currentTheme = theme === 'dark' ? darkTheme : lightTheme;
+export const AppointmentsScreen = () => {
+  const { colors } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: currentTheme.colors.background }]}>
-      <Text style={[styles.text, { color: currentTheme.colors.text }]}>Appointments Screen</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.text, { color: colors.text }]}>Appointments Screen</Text>
     </View>
   );
 };

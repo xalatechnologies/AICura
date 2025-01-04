@@ -15,7 +15,7 @@ type SignupScreenProps = {
 };
 
 export const SignupScreen = ({ navigation }: SignupScreenProps) => {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +53,7 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ThemeHeader showBack showLanguage />
       
       <ScrollView 
@@ -63,7 +63,7 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
       >
         <View style={styles.header}>
           <StyledAppTitle size="large" />
-          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
+          <Text style={[styles.description, { color: colors.textSecondary }]}>
             {t('auth.signup.description')}
           </Text>
         </View>
@@ -103,11 +103,11 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
         </View>
 
         <View style={styles.footer}>
-          <Text style={[styles.footerText, { color: theme.colors.textSecondary }]}>
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
             {t('auth.signup.alreadyHaveAccount')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={[styles.footerLink, { color: theme.colors.primary }]}>
+            <Text style={[styles.footerLink, { color: colors.primary }]}>
               {t('auth.signup.loginLink')}
             </Text>
           </TouchableOpacity>
@@ -120,7 +120,7 @@ export const SignupScreen = ({ navigation }: SignupScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40,
+    paddingTop: 60,
   },
   content: {
     flex: 1,
@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 16,
+    width: '100%',
+    marginVertical: 8,
   },
   footer: {
     flexDirection: 'row',

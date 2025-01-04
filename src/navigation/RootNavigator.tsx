@@ -15,7 +15,9 @@ export type RootStackParamList = {
   Signup: undefined;
   ForgotPassword: undefined;
   Onboarding: undefined;
-  MainTabs: undefined;
+  MainTabs: {
+    screen?: 'Home' | 'Appointments' | 'Profile' | 'Settings';
+  };
   LanguageSelection: undefined;
   Settings: undefined;
 };
