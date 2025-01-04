@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@theme/ThemeContext';
 import { SymptomInput } from '@symptoms/components';
-import { StartAnalysisButton } from '@components/StartAnalysisButton';
-import { HealthStatusWidget } from '@components/HealthStatusWidget';
-import { StepsTrackerWidget } from '@components/StepsTrackerWidget';
-import { RecentSymptoms } from '../components/RecentSymptoms';
 import { useSymptomAnalysis } from '@symptoms/hooks/useSymptomAnalysis';
 import { useNavigation } from '@react-navigation/native';
+import {
+  StartAnalysisButton,
+  HealthStatusWidget,
+  StepsTrackerWidget,
+  RecentSymptoms,
+} from '../components';
 
 export const HomeScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -86,5 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
-
+export default HomeScreen; 

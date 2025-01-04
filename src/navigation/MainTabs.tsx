@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen } from '@screens/HomeScreen';
+import { HomeScreen } from '@home/screens/HomeScreen';
 import { AppointmentsScreen } from '@screens/AppointmentsScreen';
 import { ProfileScreen } from '@screens/ProfileScreen';
 import { useTheme } from '@theme/ThemeContext';
