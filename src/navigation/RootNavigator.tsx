@@ -23,7 +23,7 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <Stack.Navigator
@@ -31,21 +31,25 @@ export const RootNavigator = () => {
         headerShown: false,
         animation: 'fade',
       }}
+      initialRouteName="Splash"
     >
-      {!isAuthenticated ? (
-        <>
+      {isLoading ? (
+        <Stack.Group screenOptions={{ gestureEnabled: false }}>
           <Stack.Screen name="Splash" component={SplashScreen} />
+        </Stack.Group>
+      ) : !isAuthenticated ? (
+        <Stack.Group>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
-        </>
+        </Stack.Group>
       ) : (
-        <>
+        <Stack.Group>
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
-        </>
+        </Stack.Group>
       )}
     </Stack.Navigator>
   );

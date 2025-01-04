@@ -3,9 +3,9 @@ import { supabase } from '@/lib/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Profile } from '@/types/database';
 
-interface AuthContextType {
-  isLoading: boolean;
+export interface AuthContextType {
   isAuthenticated: boolean;
+  isLoading: boolean;
   hasCompletedOnboarding: boolean;
   userProfile: Profile | null;
   checkOnboardingStatus: () => Promise<boolean>;
@@ -17,10 +17,72 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [userProfile, setUserProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      try {
+        setIsLoading(true);
+        // Add delay for splash screen
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        const session = await supabase.auth.getSession();
+        const isAuth = !!session?.data?.session;
+        setIsAuthenticated(isAuth);
+
+        if (isAuth) {
+          await checkOnboardingStatus();
+        }
+
+        // Check language selection
+        const selectedLanguage = await AsyncStorage.getItem('selectedLanguage');
+        if (!selectedLanguage) {
+          // Will redirect to language selection in RootNavigator
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error('Error in initializeApp:', error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeApp();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setIsAuthenticated(!!session);
+        if (session) {
+          await checkOnboardingStatus();
+        } else {
+          setUserProfile(null);
+          setHasCompletedOnboarding(false);
+        }
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const checkAuthState = async () => {
+    try {
+      setIsLoading(true);
+      // Check auth state logic here
+      const session = await supabase.auth.getSession();
+      setIsAuthenticated(!!session.data.session);
+    } catch (error) {
+      console.error('Error checking auth state:', error);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const checkOnboardingStatus = async () => {
     try {
@@ -46,22 +108,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error in checkOnboardingStatus:', error);
       return false;
-    }
-  };
-
-  const initializeApp = async () => {
-    try {
-      const session = await supabase.auth.getSession();
-      const isAuth = !!session?.data?.session;
-      setIsAuthenticated(isAuth);
-
-      if (isAuth) {
-        await checkOnboardingStatus();
-      }
-    } catch (error) {
-      console.error('Error in initializeApp:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -113,39 +159,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  useEffect(() => {
-    initializeApp();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setIsAuthenticated(!!session);
-        if (session) {
-          await checkOnboardingStatus();
-        } else {
-          setUserProfile(null);
-          setHasCompletedOnboarding(false);
-        }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
+  const value = {
+    isAuthenticated,
+    isLoading,
+    hasCompletedOnboarding,
+    userProfile,
+    checkOnboardingStatus,
+    updateProfile,
+    signIn,
+    signOut,
+  };
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoading,
-        isAuthenticated,
-        hasCompletedOnboarding,
-        userProfile,
-        checkOnboardingStatus,
-        updateProfile,
-        signIn,
-        signOut,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
