@@ -39,6 +39,8 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@navigation/RootNavigator';
 import type { MainTabsParamList } from '@navigation/MainTabs';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { AnalyzeIcon } from '@components/AnalyzeIcon';
 
 type HomeScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<MainTabsParamList, 'Home'>,
@@ -86,15 +88,17 @@ export const HomeScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.keyboardAvoidingView}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 110 : 0}
       >
         <ScrollView
           ref={scrollViewRef}
           style={styles.messagesContainer}
           contentContainerStyle={styles.messagesContent}
           onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+          keyboardShouldPersistTaps="handled"
         >
           {messages.map((message, index) => (
             <View
@@ -124,7 +128,7 @@ export const HomeScreen = () => {
               >
                 {message.content}
               </Markdown>
-      </View>
+            </View>
           ))}
 
           {loading && (
@@ -137,24 +141,24 @@ export const HomeScreen = () => {
           )}
         </ScrollView>
 
-        <View style={[styles.inputContainer, { backgroundColor: colors.surface }]}>
-            <TextInput
+        <View style={[styles.inputContainer, { backgroundColor: colors.card }]}>
+          <TextInput
             style={[styles.input, { color: colors.text }]}
-            placeholder="Describe your symptoms..."
+            placeholder="Enter your symptoms..."
             placeholderTextColor={colors.textSecondary}
-              value={symptoms}
+            value={symptoms}
             onChangeText={setSymptoms}
-              multiline
-            />
-            <TouchableOpacity
+            multiline
+          />
+          <TouchableOpacity
             style={[styles.sendButton, { backgroundColor: colors.primary }]}
             onPress={handleSend}
             disabled={loading || !symptoms.trim()}
           >
-            <Send stroke={colors.background} width={20} height={20} />
-            </TouchableOpacity>
+            <Icon name="healing" size={24} color="#fff" />
+          </TouchableOpacity>
         </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -201,19 +205,19 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    padding: 12,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    padding: 8,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0,0,0,0.1)',
   },
   input: {
     flex: 1,
     minHeight: 40,
     maxHeight: 100,
-    marginRight: 12,
-    paddingHorizontal: 16,
+    marginRight: 8,
+    paddingHorizontal: 12,
     paddingVertical: 8,
-    fontSize: 16,
+    borderRadius: 20,
   },
   sendButton: {
     width: 40,

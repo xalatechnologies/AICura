@@ -1,0 +1,131 @@
+{
+  "common": {
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "next": "Neste",
+    "back": "Tilbake",
+    "done": "Ferdig",
+    "error": "Feil",
+    "success": "Vellykket",
+    "loading": "Laster...",
+    "yes": "Ja",
+    "no": "Nei",
+    "ok": "OK",
+    "confirm": "Bekreft",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "search": "Søk",
+    "select": "Velg",
+    "submit": "Send inn",
+    "retry": "Prøv igjen",
+    "warning": "Advarsel",
+    "info": "Informasjon",
+    "tagline": "Fremtidens AI-lege i din hånd"
+  },
+  "auth": {
+    "welcome": {
+      "title": "Velkommen til AICura™",
+      "description": "Din intelligente helsepartner",
+      "subtitle": "Opplev fremtidens helsevesen",
+      "login": "Logg inn",
+      "signup": "Kom i gang",
+      "terms": "Ved å fortsette godtar du våre",
+      "termsLink": "Vilkår og betingelser",
+      "privacyLink": "Personvernerklæring",
+      "and": "og",
+      "selectLanguage": "Velg ditt foretrukne språk"
+    },
+    "login": {
+      "title": "Velkommen tilbake til AICura™",
+      "description": "Din helsereise fortsetter her",
+      "email": "E-postadresse",
+      "emailPlaceholder": "Skriv inn e-postadresse",
+      "password": "Passord",
+      "passwordPlaceholder": "Skriv inn passord",
+      "forgotPassword": "Glemt passord?",
+      "loginButton": "Logg inn",
+      "noAccount": "Har du ikke en konto?",
+      "signupLink": "Registrer deg",
+      "error": "Påloggingsfeil",
+      "emptyFields": "Vennligst fyll ut alle felt"
+    },
+    "signup": {
+      "title": "Opprett konto",
+      "emailPlaceholder": "E-postadresse",
+      "passwordPlaceholder": "Passord",
+      "confirmPasswordPlaceholder": "Bekreft passord",
+      "signupButton": "Registrer deg",
+      "alreadyHaveAccount": "Har du allerede en konto?",
+      "loginLink": "Logg inn",
+      "fillAllFields": "Vennligst fyll ut alle felt",
+      "passwordsDoNotMatch": "Passordene stemmer ikke overens",
+      "successTitle": "Konto opprettet",
+      "successMessage": "Vennligst bekreft e-posten din for å fortsette",
+      "errorMessage": "Feil ved opprettelse av konto"
+    },
+    "forgotPassword": {
+      "title": "Tilbakestill passord",
+      "emailPlaceholder": "E-postadresse",
+      "resetButton": "Send tilbakestillingslenke",
+      "backToLogin": "Tilbake til innlogging",
+      "successMessage": "Tilbakestillingslenke sendt til din e-post",
+      "errorMessage": "Feil ved sending av tilbakestillingslenke"
+    }
+  },
+  "profile": {
+    "settings": "Innstillinger",
+    "language": "Språk",
+    "darkMode": "Mørk modus",
+    "notifications": "Varsler",
+    "privacy": "Personverninnstillinger",
+    "logout": "Logg ut",
+    "editProfile": "Rediger profil",
+    "deleteAccount": "Slett konto",
+    "version": "Versjon"
+  },
+  "home": {
+    "welcome": "Velkommen",
+    "checkSymptoms": "Sjekk symptomer",
+    "appointments": "Avtaler",
+    "chat": "Chat",
+    "journal": "Medisinsk journal",
+    "emergency": "Nødsituasjon",
+    "newCheck": "Ny helsesjekk",
+    "bookAppointment": "Bestill time",
+    "contactDoctor": "Kontakt lege",
+    "lastCheck": "Siste helsesjekk",
+    "symptomsInput": "Skriv inn dine symptomer...",
+    "analyzing": "Analyserer symptomene dine...",
+    "noSymptoms": "Vennligst skriv inn symptomene dine"
+  },
+  "appointments": {
+    "upcoming": "Kommende avtaler",
+    "past": "Tidligere avtaler",
+    "schedule": "Planlegg ny",
+    "noUpcoming": "Ingen kommende avtaler",
+    "noPast": "Ingen tidligere avtaler",
+    "with": "Med {doctor}",
+    "cancel": "Avbryt avtale",
+    "reschedule": "Endre avtaletid"
+  },
+  "chat": {
+    "startConversation": "Start samtale med lege",
+    "typeMessage": "Skriv din melding...",
+    "send": "Send",
+    "connecting": "Kobler til...",
+    "offline": "Frakoblet",
+    "online": "Tilkoblet"
+  },
+  "journal": {
+    "title": "Medisinsk journal",
+    "newEntry": "Ny registrering",
+    "symptoms": "Symptomer",
+    "medications": "Medisiner",
+    "mood": "Humør",
+    "notes": "Notater",
+    "date": "Dato",
+    "time": "Tid",
+    "save": "Lagre",
+    "delete": "Slett"
+  }
+} 

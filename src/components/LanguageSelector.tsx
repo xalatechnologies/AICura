@@ -37,9 +37,9 @@ const languages: Language[] = [
     direction: 'ltr'
   },
   {
-    code: 'no',
-    name: 'Norwegian',
-    nativeName: 'Norsk',
+    code: 'nb',
+    name: 'Norwegian Bokmål',
+    nativeName: 'Norsk bokmål',
     icon: 'language',
     direction: 'ltr'
   },
@@ -94,10 +94,7 @@ export const LanguageSelector = ({ onLanguageChange, showTitle = true }: Languag
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Welcome' }],
-        });
+        navigation.navigate('Welcome');
       }
     } catch (error) {
       console.error('Error changing language:', error);
