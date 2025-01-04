@@ -11,12 +11,12 @@ import {
   Animated,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@theme/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootNavigator';
+import { RootStackParamList } from '@/navigation/RootNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { supabase } from '@lib/supabase';
+import { supabase } from '@/lib/supabase';
 import {
   WelcomeStep,
   UserDetailsStep,
@@ -25,9 +25,9 @@ import {
   ReviewStep,
   UserProfile,
   OnboardingStep,
-} from './onboarding';
-import { useAuth } from '@context/AuthContext';
-import { Header } from '@home/components';
+} from '../screens';
+import { useAuth } from '@/context/AuthContext';
+import { Header } from '@/features/home/components';
 
 type OnboardingScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
@@ -409,65 +409,58 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
   stepTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    marginTop: 16,
     textAlign: 'center',
-    marginTop: 20,
-    marginBottom: 10,
   },
   stepDescription: {
     fontSize: 16,
     textAlign: 'center',
-    opacity: 0.8,
-    marginBottom: 20,
+    marginTop: 8,
   },
   content: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.1)',
+    paddingHorizontal: 24,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 24,
   },
   pagination: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 24,
   },
   dotButton: {
-    padding: 10,
+    padding: 8,
   },
   dot: {
     height: 10,
     borderRadius: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 4,
   },
   nextButtonContainer: {
-    overflow: 'hidden',
+    alignItems: 'stretch',
   },
   nextButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 30,
     justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 12,
   },
   buttonText: {
-    marginLeft: 10,
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#fff',
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+    marginRight: 8,
   },
 }); 

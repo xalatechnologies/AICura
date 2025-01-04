@@ -1,13 +1,16 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SplashScreen } from '@screens/SplashScreen';
-import { WelcomeScreen } from '@screens/auth/WelcomeScreen';
-import { LoginScreen } from '@screens/auth/LoginScreen';
-import { SignupScreen } from '@screens/auth/SignupScreen';
-import { ForgotPasswordScreen } from '@screens/auth/ForgotPasswordScreen';
-import { LanguageSelectionScreen } from '@screens/LanguageSelectionScreen';
-import { MainTabs } from '@navigation/MainTabs';
-import { useAuth } from '@context/AuthContext';
+import { SplashScreen } from '@/screens/SplashScreen';
+import { LanguageSelectionScreen } from '@/screens/LanguageSelectionScreen';
+import { MainTabs } from '@/navigation/MainTabs';
+import { useAuth } from '@/context/AuthContext';
+import { OnboardingScreen } from '@/features/onboarding';
+import {
+  WelcomeScreen,
+  LoginScreen,
+  SignupScreen,
+  ForgotPasswordScreen,
+} from '@/features/auth';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -48,6 +51,7 @@ export const RootNavigator = () => {
       ) : (
         <Stack.Group>
           <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
         </Stack.Group>
       )}

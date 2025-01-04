@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen } from '@home/screens/HomeScreen';
-import { AppointmentsScreen } from '@screens/AppointmentsScreen';
-import { ProfileScreen } from '@screens/ProfileScreen';
-import { useTheme } from '@theme/ThemeContext';
+import { HomeScreen } from '@/features/home/screens/HomeScreen';
+import { AppointmentsScreen } from '@/features/appointments/screens/AppointmentsScreen';
+import ProfileScreen from '@/features/profile/screens/ProfileScreen';
+import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export type MainTabsParamList = {

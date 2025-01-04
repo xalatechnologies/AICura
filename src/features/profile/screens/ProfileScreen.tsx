@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
-import { useAuth } from '@context/AuthContext';
+import { useTheme } from '@/theme/ThemeContext';
+import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { ThemeToggle } from '@components/ThemeToggle';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const ProfileScreen = () => {
   const { colors } = useTheme();
@@ -105,5 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
-
+export default ProfileScreen; 

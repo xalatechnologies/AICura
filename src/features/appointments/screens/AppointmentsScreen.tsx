@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 
 export const AppointmentsScreen = () => {
   const { colors } = useTheme();
@@ -24,5 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppointmentsScreen;
-
+export default AppointmentsScreen; 
