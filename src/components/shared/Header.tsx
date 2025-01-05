@@ -1,25 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/navigation/RootNavigator';
+import { useTranslation } from 'react-i18next';
 
-interface HeaderProps {
+export interface HeaderProps {
   title?: string;
   showBack?: boolean;
   onBack?: () => void;
   actionButton?: {
     icon: string;
     onPress: () => void;
+    accessibilityLabel?: string;
   };
   rightAction?: {
     icon: string;
     onPress: () => void;
+    accessibilityLabel?: string;
   };
+  accessibilityLabel?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -27,10 +30,11 @@ export const Header: React.FC<HeaderProps> = ({
   showBack = false, 
   onBack,
   actionButton,
-  rightAction 
+  rightAction,
+  accessibilityLabel,
 }) => {
+  const { t } = useTranslation();
   const { colors, toggleTheme } = useTheme();
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleBack = () => {
@@ -51,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
       style={[
         styles.container,
         {
-          paddingTop: insets.top,
+          paddingTop: Platform.OS === 'ios' ? 47 : 16,
           shadowColor: '#000',
         },
       ]}
@@ -62,6 +66,9 @@ export const Header: React.FC<HeaderProps> = ({
             <TouchableOpacity 
               style={styles.iconButton}
               onPress={handleBack}
+              accessible={true}
+              accessibilityLabel={accessibilityLabel || t('common.navigation.back')}
+              accessibilityRole="button"
             >
               <Icon name="arrow-left" size={24} color={colors.primary} />
             </TouchableOpacity>
@@ -70,12 +77,19 @@ export const Header: React.FC<HeaderProps> = ({
             <TouchableOpacity 
               style={styles.iconButton}
               onPress={actionButton.onPress}
+              accessible={true}
+              accessibilityLabel={actionButton.accessibilityLabel}
+              accessibilityRole="button"
             >
               <Icon name={actionButton.icon} size={24} color={colors.primary} />
             </TouchableOpacity>
           )}
           {title && (
-            <Text style={[styles.title, { color: colors.text }]}>
+            <Text 
+              style={[styles.title, { color: colors.text }]}
+              accessible={true}
+              accessibilityRole="header"
+            >
               {title}
             </Text>
           )}
@@ -85,6 +99,9 @@ export const Header: React.FC<HeaderProps> = ({
           <TouchableOpacity 
             style={styles.iconButton}
             onPress={handleLanguagePress}
+            accessible={true}
+            accessibilityLabel={t('common.accessibility.changeLanguage')}
+            accessibilityRole="button"
           >
             <Icon name="web" size={24} color={colors.primary} />
           </TouchableOpacity>
@@ -93,6 +110,9 @@ export const Header: React.FC<HeaderProps> = ({
             <TouchableOpacity 
               style={styles.iconButton}
               onPress={rightAction.onPress}
+              accessible={true}
+              accessibilityLabel={rightAction.accessibilityLabel}
+              accessibilityRole="button"
             >
               <Icon name={rightAction.icon} size={24} color={colors.primary} />
             </TouchableOpacity>
@@ -100,6 +120,9 @@ export const Header: React.FC<HeaderProps> = ({
             <TouchableOpacity 
               style={styles.iconButton}
               onPress={toggleTheme}
+              accessible={true}
+              accessibilityLabel={t('common.accessibility.toggleTheme')}
+              accessibilityRole="button"
             >
               <Icon name="theme-light-dark" size={24} color={colors.primary} />
             </TouchableOpacity>

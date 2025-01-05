@@ -118,10 +118,184 @@ export const SymptomDescriptionStep: React.FC<SymptomDescriptionStepProps> = ({
       if (inputText) {
         fetchSuggestions(inputText);
       }
-    }, 300); // Faster response time
+    }, 300);
 
     return () => clearTimeout(debounceTimeout);
   }, [inputText, fetchSuggestions]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    contentContainer: {
+      flex: 1,
+      padding: 16,
+    },
+    inputWrapper: {
+      borderRadius: 16,
+      padding: 16,
+      minHeight: 150,
+      marginBottom: Platform.OS === 'ios' ? 20 : 0,
+      backgroundColor: colors.surface,
+      shadowColor: colors.text,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    emptyState: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 20,
+    },
+    emptyStateIcon: {
+      marginBottom: 16,
+      opacity: 0.9,
+    },
+    emptyStateTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      marginBottom: 8,
+      textAlign: 'center',
+      color: colors.text,
+    },
+    emptyStateSubtitle: {
+      fontSize: 14,
+      textAlign: 'center',
+      opacity: 0.7,
+      color: colors.textSecondary,
+    },
+    input: {
+      flex: 1,
+      fontSize: 16,
+      lineHeight: 24,
+      minHeight: 120,
+      maxHeight: 200,
+      textAlignVertical: 'top',
+      paddingBottom: 40,
+      color: colors.text,
+    },
+    voiceButton: {
+      position: 'absolute',
+      bottom: 16,
+      right: 16,
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.primary,
+      shadowColor: colors.text,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingBottom: 8,
+      gap: 8,
+    },
+    tagContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 20,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      backgroundColor: colors.primary,
+    },
+    tagText: {
+      fontSize: 14,
+      marginRight: 4,
+      fontWeight: '500',
+      color: colors.textInverted,
+    },
+    tagRemoveButton: {
+      padding: 2,
+    },
+    suggestionsContainer: {
+      maxHeight: 200,
+      borderRadius: 16,
+      marginTop: 8,
+      overflow: 'hidden',
+      backgroundColor: colors.surface,
+      shadowColor: colors.text,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    suggestionItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    suggestionIcon: {
+      marginRight: 8,
+    },
+    suggestionText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    loadingItem: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 16,
+    },
+    loadingContainer: {
+      padding: 12,
+      alignItems: 'center',
+    },
+    loadingIndicator: {
+      width: 20,
+      height: 20,
+      borderWidth: 2,
+      borderRadius: 10,
+      borderColor: colors.primary,
+      borderRightColor: 'transparent',
+      marginBottom: 8,
+      transform: [{ rotate: '45deg' }],
+    },
+    loadingText: {
+      fontSize: 14,
+      color: colors.text,
+    },
+    tagWrapper: {
+      marginVertical: 2,
+      marginHorizontal: 2,
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      marginTop: 8,
+    },
+    searchIcon: {
+      marginRight: 8,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 18,
+      fontWeight: '500',
+      paddingVertical: 8,
+      color: colors.text,
+    },
+  });
 
   return (
     <KeyboardAvoidingView
@@ -129,290 +303,113 @@ export const SymptomDescriptionStep: React.FC<SymptomDescriptionStepProps> = ({
       style={styles.container}
     >
       <View style={styles.contentContainer}>
-        <View style={[styles.inputWrapper, { backgroundColor: colors.card }]}>
-          {showEmptyState && selectedSymptoms.length === 0 ? (
-            <TouchableOpacity 
-              style={styles.emptyState}
-              onPress={() => {
-                const input = document.querySelector('input');
-                if (input) input.focus();
+        <View style={styles.inputWrapper}>
+          {showEmptyState ? (
+            <View style={styles.emptyState}>
+              <Icon
+                name="medical"
+                size={48}
+                color={colors.primary}
+                style={styles.emptyStateIcon}
+              />
+              <Text style={styles.emptyStateTitle}>
+                {t('symptoms.steps.description.emptyState.title')}
+              </Text>
+              <Text style={styles.emptyStateSubtitle}>
+                {t('symptoms.steps.description.emptyState.subtitle')}
+              </Text>
+            </View>
+          ) : null}
+          
+          <View style={styles.tagsContainer}>
+            {selectedSymptoms.map((symptom) => (
+              <View key={symptom.id} style={styles.tagContainer}>
+                <Text style={styles.tagText}>{symptom.text}</Text>
+                <TouchableOpacity
+                  onPress={() => removeSymptom(symptom.id)}
+                  style={styles.tagRemoveButton}
+                  accessible={true}
+                  accessibilityLabel={t('symptoms.steps.description.actions.remove', { symptom: symptom.text })}
+                >
+                  <Icon name="close-circle" size={18} color={colors.textInverted} />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+
+          <TextInput
+            style={styles.input}
+            value={inputText}
+            onChangeText={handleDescriptionChange}
+            placeholder={t('symptoms.steps.description.searchPlaceholder')}
+            placeholderTextColor={colors.textSecondary}
+            multiline
+            accessible={true}
+            accessibilityLabel={t('symptoms.steps.description.searchPlaceholder')}
+            accessibilityHint={t('symptoms.steps.description.searchHint')}
+          />
+
+          <TouchableOpacity
+            style={[
+              styles.voiceButton,
+              isRecording && { backgroundColor: colors.error },
+            ]}
+            onPress={handleVoiceInput}
+            accessible={true}
+            accessibilityLabel={t(isRecording 
+              ? 'symptoms.steps.description.voiceInput.stop'
+              : 'symptoms.steps.description.voiceInput.start')}
+          >
+            <Animated.View
+              style={{
+                transform: [{ scale: pulseAnim }],
               }}
             >
-              <Icon name="search-outline" size={32} color={colors.primary} style={styles.emptyStateIcon} />
-              <TextInput
-                style={[styles.searchInput, { color: colors.text }]}
-                value={inputText}
-                onChangeText={handleDescriptionChange}
-                placeholder={t('symptoms.description.searchPlaceholder')}
-                placeholderTextColor={colors.textSecondary}
-                autoFocus
+              <Icon
+                name={isRecording ? 'mic' : 'mic-outline'}
+                size={24}
+                color={colors.textInverted}
               />
-            </TouchableOpacity>
-          ) : (
-            <>
-              <View style={styles.tagsContainer}>
-                {selectedSymptoms.map((symptom) => (
-                  <Animated.View 
-                    key={symptom.id} 
-                    style={[
-                      styles.tagWrapper,
-                      {
-                        opacity: new Animated.Value(1),
-                        transform: [{ scale: new Animated.Value(1) }],
-                      }
-                    ]}
-                  >
-                    <LinearGradient
-                      colors={[colors.primary, colors.primary + 'DD']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                      style={styles.tagContainer}
-                    >
-                      <Text style={[styles.tagText, { color: colors.textInverted }]}>{symptom.text}</Text>
-                      <TouchableOpacity 
-                        onPress={() => removeSymptom(symptom.id)} 
-                        style={styles.tagRemoveButton}
-                      >
-                        <Icon name="close-circle" size={18} color={colors.textInverted} />
-                      </TouchableOpacity>
-                    </LinearGradient>
-                  </Animated.View>
-                ))}
-              </View>
-              <View style={styles.searchContainer}>
-                <Icon name="search-outline" size={20} color={colors.textSecondary} style={styles.searchIcon} />
-                <TextInput
-                  style={[styles.input, { color: colors.text }]}
-                  value={inputText}
-                  onChangeText={handleDescriptionChange}
-                  placeholder={selectedSymptoms.length === 0 ? t('symptoms.description.searchPlaceholder') : t('symptoms.description.addMore')}
-                  placeholderTextColor={colors.textSecondary}
-                />
-                <Animated.View style={{
-                  transform: [{ scale: pulseAnim }]
-                }}>
-                  <TouchableOpacity
-                    style={[
-                      styles.voiceButton,
-                      { backgroundColor: isRecording ? colors.primary : colors.border },
-                    ]}
-                    onPress={handleVoiceInput}
-                  >
-                    <Icon
-                      name={isRecording ? 'mic' : 'mic-outline'}
-                      size={24}
-                      color={isRecording ? colors.textInverted : colors.text}
-                    />
-                  </TouchableOpacity>
-                </Animated.View>
-              </View>
-            </>
-          )}
+            </Animated.View>
+          </TouchableOpacity>
         </View>
-        
+
         {suggestions.length > 0 && (
-          <Animated.View 
-            style={[
-              styles.suggestionsContainer,
-              { 
-                backgroundColor: colors.card,
-                opacity: new Animated.Value(1),
-                transform: [{ translateY: new Animated.Value(0) }],
-              }
-            ]}
-          >
+          <View style={styles.suggestionsContainer}>
             <FlatList
               data={suggestions}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={[styles.suggestionItem, { borderBottomColor: colors.border }]}
+                  style={styles.suggestionItem}
                   onPress={() => handleSuggestionPress(item)}
+                  accessible={true}
+                  accessibilityLabel={t('symptoms.steps.description.actions.add', { symptom: item.text })}
                 >
-                  <Icon name="add-circle-outline" size={20} color={colors.primary} style={styles.suggestionIcon} />
-                  <Text style={[styles.suggestionText, { color: colors.text }]}>
-                    {item.text}
-                  </Text>
+                  <Icon
+                    name="add-circle-outline"
+                    size={20}
+                    color={colors.primary}
+                    style={styles.suggestionIcon}
+                  />
+                  <Text style={styles.suggestionText}>{item.text}</Text>
                 </TouchableOpacity>
               )}
-              keyboardShouldPersistTaps="always"
+              keyboardShouldPersistTaps="handled"
             />
-          </Animated.View>
+          </View>
         )}
-        
+
         {isLoading && (
-          <View style={styles.loadingContainer}>
-            <Animated.View 
-              style={[
-                styles.loadingIndicator,
-                { 
-                  borderColor: colors.primary,
-                  transform: [{ rotate: new Animated.Value(0).interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg'],
-                  }) }],
-                }
-              ]}
-            />
+          <View style={styles.suggestionsContainer}>
+            <View style={[styles.suggestionItem, styles.loadingItem]}>
+              <Text style={styles.suggestionText}>
+                {t('symptoms.steps.description.suggestions.loading')}
+              </Text>
+            </View>
           </View>
         )}
       </View>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 16,
-  },
-  inputWrapper: {
-    borderRadius: 16,
-    padding: 16,
-    minHeight: 150,
-    marginBottom: Platform.OS === 'ios' ? 20 : 0,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  emptyStateIcon: {
-    marginBottom: 16,
-    opacity: 0.9,
-  },
-  emptyStateTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  emptyStateSubtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-    opacity: 0.7,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    lineHeight: 24,
-    minHeight: 120,
-    maxHeight: 200,
-    textAlignVertical: 'top',
-    paddingBottom: 40,
-  },
-  voiceButton: {
-    position: 'absolute',
-    bottom: 16,
-    right: 16,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingBottom: 8,
-    gap: 8,
-  },
-  tagContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  tagText: {
-    fontSize: 14,
-    marginRight: 4,
-    fontWeight: '500',
-  },
-  tagRemoveButton: {
-    padding: 2,
-  },
-  suggestionsContainer: {
-    maxHeight: 200,
-    borderRadius: 16,
-    marginTop: 8,
-    overflow: 'hidden',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  suggestionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderBottomWidth: 1,
-  },
-  suggestionIcon: {
-    marginRight: 8,
-  },
-  suggestionText: {
-    fontSize: 16,
-  },
-  loadingContainer: {
-    padding: 12,
-    alignItems: 'center',
-  },
-  loadingIndicator: {
-    width: 20,
-    height: 20,
-    borderWidth: 2,
-    borderRadius: 10,
-    borderRightColor: 'transparent',
-    marginBottom: 8,
-    transform: [{ rotate: '45deg' }],
-  },
-  loadingText: {
-    fontSize: 14,
-  },
-  tagWrapper: {
-    marginVertical: 2,
-    marginHorizontal: 2,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: colors.background,
-    borderRadius: 12,
-    marginTop: 8,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '500',
-    paddingVertical: 8,
-  },
-});

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
-import { useTheme } from '@theme/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import { Svg, Path } from 'react-native-svg';
 import Animated, { 
@@ -10,23 +10,21 @@ import Animated, {
   useSharedValue
 } from 'react-native-reanimated';
 
-interface BodyPart {
+export interface BodyPart {
   id: string;
   name: string;
   commonSymptoms: string[];
 }
 
-interface BodyMapProps {
-  bodyParts: BodyPart[];
+export interface BodyMapProps {
   selectedPart: BodyPart | null;
-  onSelectPart: (part: BodyPart) => void;
+  onPartSelect: (partId: string) => void;
   compact?: boolean;
 }
 
 export const BodyMap: React.FC<BodyMapProps> = ({
-  bodyParts,
   selectedPart,
-  onSelectPart,
+  onPartSelect,
   compact,
 }) => {
   const { colors } = useTheme();
@@ -34,17 +32,8 @@ export const BodyMap: React.FC<BodyMapProps> = ({
   const [showingFront, setShowingFront] = useState(true);
   const rotation = useSharedValue(0);
 
-  // Map body part IDs to their data
-  const bodyPartMap = bodyParts.reduce((acc, part) => {
-    acc[part.id] = part;
-    return acc;
-  }, {} as Record<string, BodyPart>);
-
   const handlePress = (partId: string) => {
-    const part = bodyPartMap[partId];
-    if (part) {
-      onSelectPart(part);
-    }
+    onPartSelect(partId);
   };
 
   const handleRotate = () => {

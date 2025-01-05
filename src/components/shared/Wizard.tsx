@@ -10,6 +10,7 @@ import {
   Animated,
   PanResponder,
   Dimensions,
+  AccessibilityInfo,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
@@ -17,7 +18,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Header } from './Header';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions } from 'react-native';
 
 export interface WizardStep {
@@ -50,83 +50,16 @@ export const Wizard: React.FC<WizardProps> = ({
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [slideAnim] = useState(new Animated.Value(0));
   const [fadeAnim] = useState(new Animated.Value(1));
-  const [buttonScale] = useState(new Animated.Value(1));
-  const [headerHeight] = useState(new Animated.Value(1));
-  const screenWidth = Dimensions.get('window').width;
-  const scrollRef = useRef<ScrollView>(null);
-  const lastScrollY = useRef(0);
-  const insets = useSafeAreaInsets();
-  const { width: windowWidth } = useWindowDimensions();
   const [progressAnim] = useState(new Animated.Value(0));
   const [showHint, setShowHint] = useState(true);
+  const screenWidth = Dimensions.get('window').width;
+  const scrollRef = useRef<ScrollView>(null);
+  const { width: windowWidth } = useWindowDimensions();
 
-  const panResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onMoveShouldSetPanResponder: (_, gestureState) => {
-          const { dx, dy } = gestureState;
-          return Math.abs(dx) > Math.abs(dy * 1.5);
-        },
-        onPanResponderMove: (_, gestureState) => {
-          const { dx } = gestureState;
-          const progress = dx / (screenWidth * 0.8);
-          slideAnim.setValue(progress);
-          Animated.timing(fadeAnim, {
-            toValue: 1 - Math.abs(progress * 0.3),
-            duration: 0,
-            useNativeDriver: true,
-          }).start();
-        },
-        onPanResponderRelease: (_, gestureState) => {
-          const { dx, vx } = gestureState;
-          const isSwipeLeft = dx < -screenWidth * 0.15 || vx < -0.3;
-          const isSwipeRight = dx > screenWidth * 0.15 || vx > 0.3;
-
-          if (isSwipeLeft && currentStep < steps.length - 1) {
-            handleStepChange(currentStep + 1);
-          } else if (isSwipeRight && currentStep > 0) {
-            handleStepChange(currentStep - 1);
-          } else {
-            Animated.spring(slideAnim, {
-              toValue: 0,
-              tension: 50,
-              friction: 7,
-              useNativeDriver: true,
-            }).start();
-            Animated.spring(fadeAnim, {
-              toValue: 1,
-              tension: 50,
-              friction: 7,
-              useNativeDriver: true,
-            }).start();
-          }
-        },
-      }),
-    [currentStep, steps.length]
-  );
-
-  const handleScroll = useCallback((event: any) => {
-    const scrollY = event.nativeEvent.contentOffset.y;
-    const delta = scrollY - lastScrollY.current;
-    lastScrollY.current = scrollY;
-
-    if (scrollY > 60) {
-      Animated.spring(headerHeight, {
-        toValue: 0.85,
-        tension: 50,
-        friction: 7,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.spring(headerHeight, {
-        toValue: 1,
-        tension: 50,
-        friction: 7,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, []);
+  const validateStep = useCallback(() => {
+    const currentStepData = steps[currentStep];
+    return currentStepData.validate ? currentStepData.validate() : true;
+  }, [currentStep, steps]);
 
   const animateTransition = useCallback((forward: boolean) => {
     Animated.parallel([
@@ -135,34 +68,27 @@ export const Wizard: React.FC<WizardProps> = ({
         duration: 150,
         useNativeDriver: true,
       }),
-      Animated.spring(slideAnim, {
-        toValue: forward ? 1 : -1,
-        tension: 50,
-        friction: 7,
+      Animated.timing(slideAnim, {
+        toValue: forward ? -50 : 50,
+        duration: 150,
         useNativeDriver: true,
       }),
     ]).start(() => {
+      slideAnim.setValue(forward ? 50 : -50);
       Animated.parallel([
-        Animated.spring(fadeAnim, {
+        Animated.timing(fadeAnim, {
           toValue: 1,
-          tension: 50,
-          friction: 7,
+          duration: 150,
           useNativeDriver: true,
         }),
-        Animated.spring(slideAnim, {
+        Animated.timing(slideAnim, {
           toValue: 0,
-          tension: 50,
-          friction: 7,
+          duration: 150,
           useNativeDriver: true,
         }),
       ]).start();
     });
   }, [fadeAnim, slideAnim]);
-
-  const validateStep = useCallback(() => {
-    const currentStepData = steps[currentStep];
-    return currentStepData.validate ? currentStepData.validate() : true;
-  }, [currentStep, steps]);
 
   const handleStepChange = useCallback((step: number) => {
     if (step < currentStep || validateStep()) {
@@ -172,30 +98,13 @@ export const Wizard: React.FC<WizardProps> = ({
     }
   }, [currentStep, validateStep, animateTransition, onStepChange]);
 
-  const animateButtonPress = useCallback(() => {
-    Animated.sequence([
-      Animated.timing(buttonScale, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(buttonScale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [buttonScale]);
-
   const handleNext = useCallback(() => {
-    animateButtonPress();
-
     if (currentStep < steps.length - 1) {
       handleStepChange(currentStep + 1);
     } else {
       onComplete(steps.map(step => step.key));
     }
-  }, [currentStep, steps.length, handleStepChange, animateButtonPress, onComplete]);
+  }, [currentStep, steps.length, handleStepChange, onComplete]);
 
   const handleBack = useCallback(() => {
     if (currentStep > 0) {
@@ -203,13 +112,46 @@ export const Wizard: React.FC<WizardProps> = ({
     } else {
       navigation.goBack();
     }
-  }, [currentStep, handleStepChange]);
+  }, [currentStep, handleStepChange, navigation]);
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: (_, gestureState) => {
+          const { dx, dy } = gestureState;
+          return Math.abs(dx) > Math.abs(dy * 2);
+        },
+        onPanResponderMove: (_, gestureState) => {
+          const { dx } = gestureState;
+          slideAnim.setValue(dx / screenWidth);
+        },
+        onPanResponderRelease: (_, gestureState) => {
+          const { dx, vx } = gestureState;
+          const isSwipeLeft = dx < -screenWidth * 0.2 || vx < -0.5;
+          const isSwipeRight = dx > screenWidth * 0.2 || vx > 0.5;
+
+          if (isSwipeLeft && currentStep < steps.length - 1) {
+            handleStepChange(currentStep + 1);
+          } else if (isSwipeRight && currentStep > 0) {
+            handleStepChange(currentStep - 1);
+          } else {
+            Animated.spring(slideAnim, {
+              toValue: 0,
+              tension: 50,
+              friction: 8,
+              useNativeDriver: true,
+            }).start();
+          }
+        },
+      }),
+    [currentStep, steps.length, handleStepChange]
+  );
 
   useEffect(() => {
-    Animated.spring(progressAnim, {
+    Animated.timing(progressAnim, {
       toValue: currentStep / (steps.length - 1),
-      tension: 50,
-      friction: 7,
+      duration: 300,
       useNativeDriver: false,
     }).start();
   }, [currentStep, steps.length]);
@@ -219,11 +161,15 @@ export const Wizard: React.FC<WizardProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <Header showBack onBack={handleBack} />
+      <Header 
+        showBack 
+        onBack={handleBack} 
+        accessibilityLabel={t('common.accessibility.previousStep')}
+      />
       
       <Animated.View style={[styles.progressBar, {
         backgroundColor: colors.border,
-        marginTop: insets.top + 8,
+        marginTop: Platform.OS === 'ios' ? 48 : 16,
       }]}>
         <Animated.View style={[styles.progressFill, {
           backgroundColor: colors.primary,
@@ -236,38 +182,23 @@ export const Wizard: React.FC<WizardProps> = ({
 
       <ScrollView 
         ref={scrollRef}
-        contentContainerStyle={[styles.scrollContainer, { paddingBottom: insets.bottom + 100 }]}
+        contentContainerStyle={[styles.scrollContainer, { paddingBottom: Platform.OS === 'ios' ? 100 : 80 }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
-        onScroll={handleScroll}
         scrollEventThrottle={16}
+        accessible={true}
+        accessibilityRole="adjustable"
+        accessibilityLabel={t('common.accessibility.goToStep', { number: currentStep + 1 })}
       >
-        <Animated.View style={[
-          styles.header,
-          {
-            transform: [{ scale: headerHeight }],
-            opacity: headerHeight.interpolate({
-              inputRange: [0.85, 1],
-              outputRange: [0.8, 1],
-            })
-          }
-        ]}>
+        <View style={styles.header}>
           <LinearGradient
             colors={[colors.primary + '20', 'transparent']}
             style={styles.headerGradient}
           >
             <View style={styles.headerRow}>
-              <Animated.View style={[styles.iconContainer, {
-                backgroundColor: colors.primary + '15',
-                transform: [{
-                  rotate: slideAnim.interpolate({
-                    inputRange: [-1, 0, 1],
-                    outputRange: ['30deg', '0deg', '-30deg'],
-                  })
-                }]
-              }]}>
+              <View style={[styles.iconContainer, { backgroundColor: colors.primary + '15' }]}>
                 <Icon name={steps[currentStep].icon} size={32} color={colors.primary} />
-              </Animated.View>
+              </View>
               <View style={styles.headerText}>
                 <Text style={[styles.stepTitle, { color: colors.text }]}>
                   {steps[currentStep].title}
@@ -278,28 +209,7 @@ export const Wizard: React.FC<WizardProps> = ({
               </View>
             </View>
           </LinearGradient>
-        </Animated.View>
-
-        {showHint && (
-          <Animated.View style={[styles.hintContainer, {
-            opacity: fadeAnim,
-            transform: [{ translateY: fadeAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [20, 0],
-            })}]
-          }]}>
-            <TouchableOpacity 
-              style={[styles.hintButton, { backgroundColor: colors.primary + '10' }]}
-              onPress={() => setShowHint(false)}
-            >
-              <Icon name="information-circle" size={20} color={colors.primary} />
-              <Text style={[styles.hintText, { color: colors.primary }]}>
-                Swipe left/right to navigate between steps
-              </Text>
-              <Icon name="close-circle" size={16} color={colors.primary} />
-            </TouchableOpacity>
-          </Animated.View>
-        )}
+        </View>
 
         <Animated.View 
           {...panResponder.panHandlers}
@@ -312,20 +222,8 @@ export const Wizard: React.FC<WizardProps> = ({
                   translateX: slideAnim.interpolate({
                     inputRange: [-1, 0, 1],
                     outputRange: [-windowWidth * 0.8, 0, windowWidth * 0.8],
-                  }),
-                },
-                {
-                  scale: fadeAnim.interpolate({
-                    inputRange: [0.7, 1],
-                    outputRange: [0.95, 1],
-                  }),
-                },
-                {
-                  rotate: slideAnim.interpolate({
-                    inputRange: [-1, 0, 1],
-                    outputRange: ['5deg', '0deg', '-5deg'],
-                  }),
-                },
+                  })
+                }
               ],
             },
           ]}
@@ -334,59 +232,38 @@ export const Wizard: React.FC<WizardProps> = ({
         </Animated.View>
       </ScrollView>
 
-      <Animated.View style={[
-        styles.footer,
-        {
-          paddingBottom: insets.bottom + 16,
-          backgroundColor: colors.background,
-          transform: [{
-            translateY: headerHeight.interpolate({
-              inputRange: [0.85, 1],
-              outputRange: [0, 10],
-            })
-          }]
-        }
-      ]}>
+      <View style={[styles.footer, { 
+        paddingBottom: Platform.OS === 'ios' ? 34 : 16, 
+        backgroundColor: colors.background 
+      }]}>
         <View style={styles.pagination}>
           {steps.map((step, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => {
-                animateButtonPress();
-                handleStepChange(index);
-                scrollRef.current?.scrollTo({ y: 0, animated: true });
-              }}
+              onPress={() => handleStepChange(index)}
               style={styles.dotButton}
+              accessible={true}
+              accessibilityLabel={t('common.accessibility.goToStep', { number: index + 1 })}
             >
-              <Animated.View
+              <View
                 style={[
                   styles.dot,
                   {
                     backgroundColor: index === currentStep ? colors.primary : colors.border,
                     width: index === currentStep ? 24 : 8,
-                    transform: [
-                      { scale: index === currentStep ? buttonScale : 1 }
-                    ],
                   },
                 ]}
               />
               {index === currentStep && (
                 <Text style={[styles.stepNumber, { color: colors.textSecondary }]}>
-                  {index + 1}/{steps.length}
+                  {t('common.navigation.stepCount', { current: index + 1, total: steps.length })}
                 </Text>
               )}
             </TouchableOpacity>
           ))}
         </View>
 
-        <Animated.View
-          style={[
-            styles.nextButtonContainer,
-            {
-              transform: [{ scale: buttonScale }],
-            },
-          ]}
-        >
+        <View style={styles.nextButtonContainer}>
           <TouchableOpacity
             style={[
               styles.nextButton,
@@ -397,6 +274,10 @@ export const Wizard: React.FC<WizardProps> = ({
             ]}
             onPress={handleNext}
             disabled={loading || !validateStep()}
+            accessible={true}
+            accessibilityLabel={currentStep === steps.length - 1 
+              ? t('common.navigation.finish')
+              : t('common.accessibility.nextStep')}
           >
             <LinearGradient
               colors={validateStep() ? [colors.primary, colors.primary + 'DD'] : [colors.border, colors.border]}
@@ -406,8 +287,8 @@ export const Wizard: React.FC<WizardProps> = ({
             >
               <Text style={styles.buttonText}>
                 {currentStep === steps.length - 1
-                  ? t('common.finish')
-                  : t('common.next')
+                  ? t('common.navigation.finish')
+                  : t('common.navigation.next')
                 }
               </Text>
               <Icon
@@ -417,8 +298,8 @@ export const Wizard: React.FC<WizardProps> = ({
               />
             </LinearGradient>
           </TouchableOpacity>
-        </Animated.View>
-      </Animated.View>
+        </View>
+      </View>
     </KeyboardAvoidingView>
   );
 };

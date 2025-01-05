@@ -4,7 +4,25 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@features/*": ["src/features/*"],
+      "@symptoms/*": ["src/features/symptoms/*"],
+      "@symptoms/components/*": ["src/features/symptoms/components/*"],
+      "@symptoms/hooks/*": ["src/features/symptoms/hooks/*"],
+      "@symptoms/types/*": ["src/features/symptoms/types/*"],
+      "@symptoms/constants/*": ["src/features/symptoms/constants/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@screens/*": ["src/screens/*"],
+      "@theme/*": ["src/theme/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@assets/*": ["src/assets/*"],
+      "@lib/*": ["src/lib/*"],
+      "@i18n/*": ["src/i18n/*"],
+      "@styles/*": ["src/styles/*"],
+      "@context/*": ["src/context/*"],
+      "@navigation/*": ["src/navigation/*"]
     },
     "lib": [
       "dom",

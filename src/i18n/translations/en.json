@@ -2,7 +2,7 @@
   "onboarding": {
     "steps": {
       "welcome": {
-        "title": "Welcome to HealthcareApp",
+        "title": "Welcome to AICura™",
         "description": "Your personal health companion for better living"
       },
       "userDetails": {
@@ -51,15 +51,21 @@
         }
       },
       "conditions": {
-        "diabetes": "Diabetes",
-        "hypertension": "Hypertension",
-        "asthma": "Asthma",
-        "heart_disease": "Heart Disease",
-        "arthritis": "Arthritis",
-        "other": "Other"
+        "title": "Existing Conditions",
+        "addNew": "Add condition",
+        "placeholder": "Enter condition",
+        "common": {
+          "diabetes": "Diabetes",
+          "hypertension": "Hypertension",
+          "asthma": "Asthma",
+          "heart_disease": "Heart Disease",
+          "arthritis": "Arthritis",
+          "other": "Other"
+        }
       },
       "allergies": {
         "title": "Allergies",
+        "addNew": "Add allergy",
         "placeholder": "Enter allergy",
         "common": {
           "pollen": "Pollen",
@@ -223,7 +229,31 @@
     "warning": "Warning",
     "info": "Information",
     "details": "Details",
-    "tagline": "The Future AI Doctor at your fingertips"
+    "tagline": "The Future AI Doctor at your fingertips",
+    "navigation": {
+      "next": "Next",
+      "back": "Back",
+      "finish": "Finish",
+      "swipeHint": "Swipe left/right to navigate between steps",
+      "hideHint": "Hide hint",
+      "stepCount": "Step {{current}}/{{total}}"
+    },
+    "accessibility": {
+      "nextStep": "Go to next step",
+      "previousStep": "Go to previous step",
+      "goToStep": "Go to step {{number}}",
+      "closeHint": "Close navigation hint",
+      "changeLanguage": "Change language",
+      "toggleTheme": "Toggle dark mode",
+      "back": "Go back"
+    },
+    "loading": {
+      "title": "Loading",
+      "pleaseWait": "Please wait..."
+    },
+    "validation": {
+      "stepIncomplete": "Please complete all required fields"
+    }
   },
   "auth": {
     "welcome": {
@@ -316,82 +346,120 @@
     }
   },
   "symptoms": {
+    "title": "Symptom Analyzer",
     "steps": {
+      "location": {
+        "title": "Location",
+        "description": "Where are you experiencing symptoms?",
+        "selectArea": "Select the affected area"
+      },
       "description": {
         "title": "Describe Your Symptoms",
-        "description": "Tell us what's bothering you"
-      },
-      "location": {
-        "title": "Symptom Location",
-        "description": "Select the affected body part and describe your symptoms"
+        "subtitle": "Tell us what's bothering you",
+        "searchPlaceholder": "Search or describe your symptoms...",
+        "searchHint": "Type or use voice input to describe your symptoms",
+        "emptyState": {
+          "title": "Describe Your Symptoms",
+          "subtitle": "Type or use voice input to describe what's bothering you"
+        },
+        "voiceInput": {
+          "start": "Tap to start voice input",
+          "stop": "Tap to stop recording",
+          "recording": "Recording...",
+          "error": "Could not process voice input"
+        },
+        "suggestions": {
+          "title": "Suggested Symptoms",
+          "loading": "Finding matching symptoms...",
+          "noResults": "No suggestions found",
+          "error": "Error loading suggestions"
+        },
+        "actions": {
+          "add": "Add {{symptom}}",
+          "remove": "Remove {{symptom}}"
+        }
       },
       "details": {
-        "title": "Symptom Details",
-        "description": "Tell us more about your symptoms"
+        "title": "Details",
+        "description": "Additional information about your symptoms",
+        "duration": "Duration",
+        "severity": "Severity",
+        "frequency": "Frequency",
+        "triggers": "Triggers",
+        "reliefFactors": "What helps?",
+        "aggravatingFactors": "What makes it worse?"
       },
-      "history": {
+      "medicalHistory": {
         "title": "Medical History",
-        "description": "Share relevant medical history"
-      },
-      "context": {
-        "title": "Contextual Factors",
-        "description": "Help us understand your environment and lifestyle"
+        "description": "Help us understand your background",
+        "conditionPlaceholder": "Enter existing conditions...",
+        "allergyPlaceholder": "Enter allergies...",
+        "medicationPlaceholder": "Enter current medications...",
+        "dosagePlaceholder": "Enter dosage (optional)",
+        "conditions": {
+          "title": "Existing Conditions",
+          "addNew": "Add condition"
+        },
+        "allergies": {
+          "title": "Allergies",
+          "addNew": "Add allergy"
+        },
+        "medications": {
+          "title": "Current Medications",
+          "addNew": "Add medication",
+          "dosage": "Dosage"
+        }
       },
       "complications": {
         "title": "Complications",
-        "description": "Any additional symptoms or complications"
+        "description": "Any additional symptoms or complications",
+        "placeholder": "Describe any other symptoms or health issues..."
+      },
+      "contextualFactors": {
+        "title": "Context",
+        "description": "Help us understand your situation better",
+        "lifestyle": {
+          "title": "Lifestyle Factors",
+          "exercise": "Exercise Level",
+          "diet": "Diet",
+          "sleep": "Sleep Quality",
+          "stress": "Stress Level"
+        },
+        "environment": {
+          "title": "Environmental Factors",
+          "weather": "Weather",
+          "pollution": "Pollution",
+          "allergens": "Allergens"
+        }
       },
       "summary": {
         "title": "Summary",
-        "description": "Review your symptom report"
+        "description": "Review your symptom report",
+        "mainSymptoms": "Main Symptoms",
+        "additionalSymptoms": "Additional Symptoms",
+        "medicalHistory": "Medical History",
+        "contextualFactors": "Contextual Factors",
+        "edit": "Edit",
+        "confirm": "Confirm"
       }
-    },
-    "selectBodyPart": "Select the affected body part",
-    "describeSymptoms": "Describe your symptoms",
-    "analyzer": {
-      "inputPlaceholder": "Type your symptoms here..."
-    },
-    "onset": {
-      "hours": "Hours",
-      "days": "Days",
-      "weeks": "Weeks",
-      "months": "Months"
     },
     "severity": {
       "mild": "Mild",
       "moderate": "Moderate",
       "severe": "Severe"
     },
+    "frequency": {
+      "rarely": "Rarely",
+      "sometimes": "Sometimes",
+      "often": "Often",
+      "constant": "Constant"
+    },
     "duration": {
-      "constant": "Constant",
-      "intermittent": "Intermittent"
-    },
-    "triggers": {
-      "movement": "Movement",
-      "rest": "Rest",
-      "food": "Food",
-      "stress": "Stress",
-      "weather": "Weather",
-      "other": "Other"
-    },
-    "details": {
-      "onset": "When did it start?",
-      "severity": "How severe is it?",
-      "duration": "How often does it occur?",
-      "triggers": "What triggers or worsens it?"
-    },
-    "additionalSymptoms": {
-      "title": "Additional Symptoms",
-      "namePlaceholder": "Enter symptom name",
-      "descriptionPlaceholder": "Describe the symptom (optional)"
-    },
-    "description": {
-      "title": "What's Bothering You?",
-      "subtitle": "Describe your symptoms in detail. The more information you provide, the better we can help.",
-      "placeholder": "Example: I've been experiencing a dull headache for the past 2 days, mainly in the front of my head. It gets worse when I look at screens for too long...",
-      "voicePrompt": "Tap to start voice input",
-      "voiceRecording": "Listening...",
-      "suggestions": "Suggestions based on your description:"
+      "hours": "Hours",
+      "days": "Days",
+      "weeks": "Weeks",
+      "months": "Months",
+      "years": "Years"
     },
     "bodyMap": {
       "frontView": "Front View",
@@ -417,6 +485,29 @@
         "leftButtock": "Left Buttock",
         "rightButtock": "Right Buttock"
       }
+    },
+    "commonSymptoms": {
+      "headache": "Headache",
+      "dizziness": "Dizziness",
+      "migraine": "Migraine",
+      "neckPain": "Neck pain",
+      "stiffness": "Stiffness",
+      "swollenLymphNodes": "Swollen lymph nodes",
+      "chestPain": "Chest pain",
+      "shortnessOfBreath": "Shortness of breath",
+      "heartPalpitations": "Heart palpitations",
+      "stomachPain": "Stomach pain",
+      "nausea": "Nausea",
+      "bloating": "Bloating",
+      "pain": "Pain",
+      "weakness": "Weakness",
+      "numbness": "Numbness",
+      "tension": "Tension",
+      "muscleTension": "Muscle tension",
+      "backPain": "Back pain",
+      "muscleStrain": "Muscle strain",
+      "sciatica": "Sciatica",
+      "lowerBackPain": "Lower back pain"
     }
   },
   "splash": {

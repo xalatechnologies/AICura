@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeLanguage } from '@i18n/index';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '@navigation/RootNavigator';
+import type { RootStackParamList } from '@/navigation/RootNavigator';
 
 interface Language {
   code: string;

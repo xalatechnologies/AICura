@@ -1,8 +1,8 @@
 import 'dotenv/config';
 
 module.exports = {
-  name: 'HealthcareApp',
-  slug: 'HealthcareApp',
+  name: 'AICura',
+  slug: 'aicura',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -10,22 +10,22 @@ module.exports = {
   splash: {
     image: './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#1E293B'
   },
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'com.ailege.healthcareapp',
+    bundleIdentifier: 'com.aicura.healthcareapp'
   },
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#1E293B'
     },
-    package: 'com.ailege.healthcareapp',
+    package: 'com.aicura.healthcareapp'
   },
   web: {
-    favicon: './assets/favicon.png',
+    favicon: './assets/favicon.png'
   },
   plugins: [
     [
