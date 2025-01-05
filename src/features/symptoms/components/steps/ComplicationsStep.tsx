@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Animated,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { getAISuggestions } from '@/services/ai';
 
 interface ComplicationsStepProps {
   onDataChange?: (data: any) => void;
@@ -32,6 +43,30 @@ export const ComplicationsStep: React.FC<ComplicationsStepProps> = ({
   const [selectedSeverity, setSelectedSeverity] = useState<'mild' | 'moderate' | 'severe'>('moderate');
   const [newSymptom, setNewSymptom] = useState('');
   const [newSymptomDescription, setNewSymptomDescription] = useState('');
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [activeField, setActiveField] = useState<'complications' | 'symptoms' | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchSuggestions = useCallback(async (input: string, type: 'complications' | 'symptoms') => {
+    if (input.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const results = await getAISuggestions(input, type === 'complications' ? 'conditions' : 'symptoms');
+      setSuggestions(results.map((text, index) => ({
+        id: `${index}-${text}`,
+        name: text,
+      })));
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const handleAddComplication = () => {
     if (newComplication.trim()) {
@@ -86,175 +121,201 @@ export const ComplicationsStep: React.FC<ComplicationsStepProps> = ({
 
   const severityOptions: Array<'mild' | 'moderate' | 'severe'> = ['mild', 'moderate', 'severe'];
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('symptoms.complications.title')}
-        </Text>
-        
-        <View style={styles.inputGroup}>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            value={newComplication}
-            onChangeText={setNewComplication}
-            placeholder={t('symptoms.complications.placeholder')}
-            placeholderTextColor={colors.textSecondary}
+  const renderSeverityButtons = () => (
+    <View style={styles.severityContainer}>
+      {severityOptions.map(severity => (
+        <TouchableOpacity
+          key={severity}
+          style={[
+            styles.severityButton,
+            {
+              backgroundColor:
+                selectedSeverity === severity ? colors.primary : colors.card,
+              borderWidth: 1,
+              borderColor: selectedSeverity === severity ? colors.primary : colors.border,
+            },
+          ]}
+          onPress={() => setSelectedSeverity(severity)}
+        >
+          <Icon
+            name={selectedSeverity === severity ? 'checkmark-circle' : 'radio-button-off'}
+            size={18}
+            color={selectedSeverity === severity ? colors.textInverted : colors.text}
+            style={styles.severityIcon}
           />
-          
-          <View style={styles.severityContainer}>
-            {severityOptions.map(severity => (
-              <TouchableOpacity
-                key={severity}
-                style={[
-                  styles.severityButton,
-                  {
-                    backgroundColor:
-                      selectedSeverity === severity ? colors.primary : colors.card,
-                  },
-                ]}
-                onPress={() => setSelectedSeverity(severity)}
-              >
-                <Text
-                  style={[
-                    styles.severityText,
-                    {
-                      color:
-                        selectedSeverity === severity ? colors.textInverted : colors.text,
-                    },
-                  ]}
-                >
-                  {t(`symptoms.severity.${severity}`)}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddComplication}
+          <Text
+            style={[
+              styles.severityText,
+              {
+                color: selectedSeverity === severity ? colors.textInverted : colors.text,
+              },
+            ]}
           >
-            <Icon name="add" size={24} color={colors.textInverted} />
-          </TouchableOpacity>
-        </View>
+            {t(`symptoms.severity.${severity}`)}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
 
-        <View style={styles.chipContainer}>
-          {complications.map(complication => (
-            <View
-              key={complication.id}
-              style={[styles.chip, { backgroundColor: colors.card }]}
+  const renderInputField = (
+    value: string,
+    onChange: (text: string) => void,
+    placeholder: string,
+    type: 'complications' | 'symptoms',
+    onAdd: () => void
+  ) => (
+    <View style={styles.searchContainer}>
+      <Icon name="search-outline" size={20} color={colors.textSecondary} style={styles.searchIcon} />
+      <TextInput
+        style={[styles.input, { color: colors.text }]}
+        value={value}
+        onChangeText={(text) => {
+          onChange(text);
+          setActiveField(type);
+          fetchSuggestions(text, type);
+        }}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textSecondary}
+        onFocus={() => setActiveField(type)}
+      />
+      {value.trim() && (
+        <TouchableOpacity
+          style={[styles.addButton, { backgroundColor: colors.primary }]}
+          onPress={onAdd}
+        >
+          <Icon name="add" size={24} color={colors.textInverted} />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+
+  const renderChips = (items: any[], onRemove: (id: string) => void, showSeverity?: boolean) => (
+    <View style={styles.chipContainer}>
+      {items.map(item => (
+        <Animated.View
+          key={item.id}
+          style={[styles.chipWrapper]}
+        >
+          <LinearGradient
+            colors={[colors.primary, colors.primary + 'DD']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.chip}
+          >
+            <Text style={[styles.chipText, { color: colors.textInverted }]}>
+              {item.name}
+              {showSeverity && item.severity && (
+                <Text style={styles.severityIndicator}>
+                  {` • ${t(`symptoms.severity.${item.severity}`)}`}
+                </Text>
+              )}
+              {item.description && (
+                <Text style={styles.description}>
+                  {` • ${item.description}`}
+                </Text>
+              )}
+            </Text>
+            <TouchableOpacity
+              onPress={() => onRemove(item.id)}
+              style={styles.removeButton}
             >
-              <Text style={[styles.chipText, { color: colors.text }]}>
-                {complication.name}
-              </Text>
-              <Text
-                style={[
-                  styles.severityIndicator,
-                  { color: colors.textSecondary },
-                ]}
-              >
-                {t(`symptoms.severity.${complication.severity}`)}
-              </Text>
-              <TouchableOpacity
-                onPress={() => handleRemoveComplication(complication.id)}
-                style={styles.removeButton}
-              >
-                <Icon name="close-circle" size={20} color={colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+              <Icon name="close-circle" size={20} color={colors.textInverted} />
+            </TouchableOpacity>
+          </LinearGradient>
+        </Animated.View>
+      ))}
+    </View>
+  );
+
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.section}>
+        {renderInputField(
+          newComplication,
+          setNewComplication,
+          t('symptoms.complications.placeholder'),
+          'complications',
+          handleAddComplication
+        )}
+        {newComplication.trim() && renderSeverityButtons()}
+        {renderChips(complications, handleRemoveComplication, true)}
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('symptoms.additionalSymptoms.title')}
-        </Text>
-        
-        <View style={styles.inputGroup}>
+        {renderInputField(
+          newSymptom,
+          setNewSymptom,
+          t('symptoms.additionalSymptoms.namePlaceholder'),
+          'symptoms',
+          handleAddSymptom
+        )}
+        {newSymptom.trim() && (
           <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            value={newSymptom}
-            onChangeText={setNewSymptom}
-            placeholder={t('symptoms.additionalSymptoms.namePlaceholder')}
-            placeholderTextColor={colors.textSecondary}
-          />
-          <TextInput
-            style={[
-              styles.descriptionInput,
-              { backgroundColor: colors.card, color: colors.text },
-            ]}
+            style={[styles.descriptionInput, { backgroundColor: colors.card, color: colors.text }]}
             value={newSymptomDescription}
             onChangeText={setNewSymptomDescription}
             placeholder={t('symptoms.additionalSymptoms.descriptionPlaceholder')}
             placeholderTextColor={colors.textSecondary}
             multiline
           />
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddSymptom}
-          >
-            <Icon name="add" size={24} color={colors.textInverted} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.chipContainer}>
-          {additionalSymptoms.map(symptom => (
-            <View
-              key={symptom.id}
-              style={[styles.chip, { backgroundColor: colors.card }]}
-            >
-              <Text style={[styles.chipText, { color: colors.text }]}>
-                {symptom.name}
-              </Text>
-              {symptom.description && (
-                <Text
-                  style={[styles.description, { color: colors.textSecondary }]}
-                  numberOfLines={2}
-                >
-                  {symptom.description}
-                </Text>
-              )}
-              <TouchableOpacity
-                onPress={() => handleRemoveSymptom(symptom.id)}
-                style={styles.removeButton}
-              >
-                <Icon name="close-circle" size={20} color={colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+        )}
+        {renderChips(additionalSymptoms, handleRemoveSymptom)}
       </View>
-    </View>
+
+      {suggestions.length > 0 && activeField && (
+        <FlatList
+          style={[styles.suggestions, { backgroundColor: colors.card }]}
+          data={suggestions}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[styles.suggestionItem, { borderBottomColor: colors.border }]}
+              onPress={() => {
+                if (activeField === 'complications') {
+                  setNewComplication(item.name);
+                } else {
+                  setNewSymptom(item.name);
+                }
+                setSuggestions([]);
+              }}
+            >
+              <Icon name="add-circle-outline" size={20} color={colors.primary} style={styles.suggestionIcon} />
+              <Text style={[styles.suggestionText, { color: colors.text }]}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
   },
   section: {
-    marginBottom: 24,
+    padding: 16,
+    marginBottom: 8,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 16,
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    marginBottom: 8,
   },
-  inputGroup: {
-    marginBottom: 16,
+  searchIcon: {
+    marginRight: 8,
   },
   input: {
+    flex: 1,
     height: 48,
-    borderRadius: 8,
-    paddingHorizontal: 16,
     fontSize: 16,
-    marginBottom: 8,
   },
   descriptionInput: {
     height: 80,
-    borderRadius: 8,
+    borderRadius: 12,
     paddingHorizontal: 16,
     paddingTop: 12,
     fontSize: 16,
@@ -263,54 +324,80 @@ const styles = StyleSheet.create({
   },
   severityContainer: {
     flexDirection: 'row',
-    marginBottom: 8,
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
   },
   severityButton: {
-    flex: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    marginHorizontal: 4,
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 12,
+    flex: 1,
+    minWidth: 100,
+  },
+  severityIcon: {
+    marginRight: 8,
   },
   severityText: {
     fontSize: 14,
     fontWeight: '500',
   },
   addButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
+    marginLeft: 8,
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: 8,
+  },
+  chipWrapper: {
+    marginVertical: 2,
   },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 16,
-    margin: 4,
+    borderRadius: 20,
   },
   chipText: {
     fontSize: 14,
     marginRight: 4,
+    fontWeight: '500',
   },
   severityIndicator: {
     fontSize: 12,
-    marginRight: 4,
+    opacity: 0.9,
   },
   description: {
     fontSize: 12,
-    marginTop: 2,
-    flex: 1,
+    opacity: 0.9,
   },
   removeButton: {
     padding: 2,
+  },
+  suggestions: {
+    maxHeight: 200,
+    borderRadius: 12,
+    margin: 16,
+  },
+  suggestionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+  },
+  suggestionIcon: {
+    marginRight: 8,
+  },
+  suggestionText: {
+    fontSize: 16,
   },
 }); 

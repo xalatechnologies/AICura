@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Animated,
+  FlatList,
+} from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { getAISuggestions } from '@/services/ai';
 
 interface MedicalHistoryStepProps {
   onDataChange?: (data: any) => void;
@@ -37,6 +47,91 @@ export const MedicalHistoryStep: React.FC<MedicalHistoryStepProps> = ({
   const [newAllergy, setNewAllergy] = useState('');
   const [newMedication, setNewMedication] = useState('');
   const [newMedicationDosage, setNewMedicationDosage] = useState('');
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [activeField, setActiveField] = useState<'conditions' | 'allergies' | 'medications' | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchSuggestions = useCallback(async (input: string, type: 'conditions' | 'allergies' | 'medications') => {
+    if (input.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const results = await getAISuggestions(input, type);
+      setSuggestions(results.map((text, index) => ({
+        id: `${index}-${text}`,
+        name: text,
+      })));
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const renderInputField = (
+    value: string,
+    onChange: (text: string) => void,
+    placeholder: string,
+    type: 'conditions' | 'allergies' | 'medications',
+    onAdd: () => void
+  ) => (
+    <View style={styles.searchContainer}>
+      <Icon name="search-outline" size={20} color={colors.textSecondary} style={styles.searchIcon} />
+      <TextInput
+        style={[styles.input, { color: colors.text }]}
+        value={value}
+        onChangeText={(text) => {
+          onChange(text);
+          setActiveField(type);
+          fetchSuggestions(text, type);
+        }}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textSecondary}
+        onFocus={() => setActiveField(type)}
+      />
+      {value.trim() && (
+        <TouchableOpacity
+          style={[styles.addButton, { backgroundColor: colors.primary }]}
+          onPress={onAdd}
+        >
+          <Icon name="add" size={24} color={colors.textInverted} />
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+
+  const renderChips = (items: any[], onRemove: (id: string) => void) => (
+    <View style={styles.chipContainer}>
+      {items.map(item => (
+        <Animated.View
+          key={item.id}
+          style={[styles.chipWrapper]}
+        >
+          <LinearGradient
+            colors={[colors.primary, colors.primary + 'DD']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.chip}
+          >
+            <Text style={[styles.chipText, { color: colors.textInverted }]}>
+              {item.name}
+              {item.dosage && ` (${item.dosage})`}
+            </Text>
+            <TouchableOpacity
+              onPress={() => onRemove(item.id)}
+              style={styles.removeButton}
+            >
+              <Icon name="close-circle" size={20} color={colors.textInverted} />
+            </TouchableOpacity>
+          </LinearGradient>
+        </Animated.View>
+      ))}
+    </View>
+  );
 
   const handleAddCondition = () => {
     if (newCondition.trim()) {
@@ -116,140 +211,75 @@ export const MedicalHistoryStep: React.FC<MedicalHistoryStepProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('symptoms.medicalHistory.conditions')}
-        </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            value={newCondition}
-            onChangeText={setNewCondition}
-            placeholder={t('symptoms.medicalHistory.conditionPlaceholder')}
-            placeholderTextColor={colors.textSecondary}
-            onSubmitEditing={handleAddCondition}
-          />
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddCondition}
-          >
-            <Icon name="add" size={24} color={colors.textInverted} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.chipContainer}>
-          {conditions.map(condition => (
-            <View
-              key={condition.id}
-              style={[styles.chip, { backgroundColor: colors.card }]}
-            >
-              <Text style={[styles.chipText, { color: colors.text }]}>
-                {condition.name}
-              </Text>
-              <TouchableOpacity
-                onPress={() => handleRemoveCondition(condition.id)}
-                style={styles.removeButton}
-              >
-                <Icon name="close-circle" size={20} color={colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </View>
+      {renderInputField(
+        newCondition,
+        setNewCondition,
+        t('symptoms.medicalHistory.conditionPlaceholder'),
+        'conditions',
+        handleAddCondition
+      )}
+      {renderChips(conditions, handleRemoveCondition)}
 
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('symptoms.medicalHistory.allergies')}
-        </Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
-            value={newAllergy}
-            onChangeText={setNewAllergy}
-            placeholder={t('symptoms.medicalHistory.allergyPlaceholder')}
-            placeholderTextColor={colors.textSecondary}
-            onSubmitEditing={handleAddAllergy}
-          />
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddAllergy}
-          >
-            <Icon name="add" size={24} color={colors.textInverted} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.chipContainer}>
-          {allergies.map(allergy => (
-            <View
-              key={allergy.id}
-              style={[styles.chip, { backgroundColor: colors.card }]}
-            >
-              <Text style={[styles.chipText, { color: colors.text }]}>
-                {allergy.name}
-              </Text>
-              <TouchableOpacity
-                onPress={() => handleRemoveAllergy(allergy.id)}
-                style={styles.removeButton}
-              >
-                <Icon name="close-circle" size={20} color={colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-      </View>
+      {renderInputField(
+        newAllergy,
+        setNewAllergy,
+        t('symptoms.medicalHistory.allergyPlaceholder'),
+        'allergies',
+        handleAddAllergy
+      )}
+      {renderChips(allergies, handleRemoveAllergy)}
 
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>
-          {t('symptoms.medicalHistory.medications')}
-        </Text>
-        <View style={styles.medicationInputContainer}>
-          <View style={styles.medicationInputs}>
-            <TextInput
-              style={[
-                styles.medicationNameInput,
-                { backgroundColor: colors.card, color: colors.text },
-              ]}
-              value={newMedication}
-              onChangeText={setNewMedication}
-              placeholder={t('symptoms.medicalHistory.medicationPlaceholder')}
-              placeholderTextColor={colors.textSecondary}
-            />
-            <TextInput
-              style={[
-                styles.medicationDosageInput,
-                { backgroundColor: colors.card, color: colors.text },
-              ]}
-              value={newMedicationDosage}
-              onChangeText={setNewMedicationDosage}
-              placeholder={t('symptoms.medicalHistory.dosagePlaceholder')}
-              placeholderTextColor={colors.textSecondary}
-            />
-          </View>
-          <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: colors.primary }]}
-            onPress={handleAddMedication}
-          >
-            <Icon name="add" size={24} color={colors.textInverted} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.chipContainer}>
-          {medications.map(medication => (
-            <View
-              key={medication.id}
-              style={[styles.chip, { backgroundColor: colors.card }]}
-            >
-              <Text style={[styles.chipText, { color: colors.text }]}>
-                {medication.name}
-                {medication.dosage && ` (${medication.dosage})`}
-              </Text>
-              <TouchableOpacity
-                onPress={() => handleRemoveMedication(medication.id)}
-                style={styles.removeButton}
-              >
-                <Icon name="close-circle" size={20} color={colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+      <View style={styles.medicationInputContainer}>
+        {renderInputField(
+          newMedication,
+          setNewMedication,
+          t('symptoms.medicalHistory.medicationPlaceholder'),
+          'medications',
+          handleAddMedication
+        )}
+        {newMedication.trim() && (
+          <TextInput
+            style={[styles.dosageInput, { backgroundColor: colors.card, color: colors.text }]}
+            value={newMedicationDosage}
+            onChangeText={setNewMedicationDosage}
+            placeholder={t('symptoms.medicalHistory.dosagePlaceholder')}
+            placeholderTextColor={colors.textSecondary}
+          />
+        )}
       </View>
+      {renderChips(medications, handleRemoveMedication)}
+
+      {suggestions.length > 0 && activeField && (
+        <FlatList
+          style={[styles.suggestions, { backgroundColor: colors.card }]}
+          data={suggestions}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[styles.suggestionItem, { borderBottomColor: colors.border }]}
+              onPress={() => {
+                switch (activeField) {
+                  case 'conditions':
+                    setNewCondition(item.name);
+                    handleAddCondition();
+                    break;
+                  case 'allergies':
+                    setNewAllergy(item.name);
+                    handleAddAllergy();
+                    break;
+                  case 'medications':
+                    setNewMedication(item.name);
+                    break;
+                }
+                setSuggestions([]);
+              }}
+            >
+              <Icon name="add-circle-outline" size={20} color={colors.primary} style={styles.suggestionIcon} />
+              <Text style={[styles.suggestionText, { color: colors.text }]}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
     </View>
   );
 };
@@ -259,72 +289,80 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 16,
-  },
-  inputContainer: {
+  searchContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    paddingHorizontal: 12,
     marginBottom: 8,
+  },
+  searchIcon: {
+    marginRight: 8,
   },
   input: {
     flex: 1,
     height: 48,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginRight: 8,
     fontSize: 16,
   },
-  addButton: {
-    width: 48,
+  dosageInput: {
     height: 48,
-    borderRadius: 8,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    marginTop: 8,
+  },
+  addButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 8,
   },
   chipContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 8,
+    marginBottom: 16,
+    gap: 8,
+  },
+  chipWrapper: {
+    marginVertical: 2,
   },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 16,
-    margin: 4,
+    borderRadius: 20,
   },
   chipText: {
     fontSize: 14,
     marginRight: 4,
+    fontWeight: '500',
   },
   removeButton: {
     padding: 2,
   },
-  medicationInputContainer: {
-    flexDirection: 'row',
-    marginBottom: 8,
+  suggestions: {
+    maxHeight: 200,
+    borderRadius: 12,
+    marginTop: 8,
+    marginBottom: 16,
   },
-  medicationInputs: {
-    flex: 1,
+  suggestionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+  },
+  suggestionIcon: {
     marginRight: 8,
   },
-  medicationNameInput: {
-    height: 48,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginBottom: 8,
+  suggestionText: {
     fontSize: 16,
   },
-  medicationDosageInput: {
-    height: 48,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    fontSize: 16,
+  medicationInputContainer: {
+    marginBottom: 16,
   },
 }); 

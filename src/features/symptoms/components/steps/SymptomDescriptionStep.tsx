@@ -8,11 +8,14 @@ import {
   Platform,
   KeyboardAvoidingView,
   FlatList,
+  Animated,
+  Vibration,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getSymptomSuggestions } from '@/services/ai';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface SymptomDescriptionStepProps {
   onDataChange?: (data: any) => void;
@@ -34,114 +37,190 @@ export const SymptomDescriptionStep: React.FC<SymptomDescriptionStepProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedSymptoms, setSelectedSymptoms] = useState<Suggestion[]>([]);
   const [inputText, setInputText] = useState('');
+  const [pulseAnim] = useState(new Animated.Value(1));
+  const [showEmptyState, setShowEmptyState] = useState(true);
 
-  const fetchSuggestions = useCallback(
-    async (input: string) => {
-      if (input.length < 3) {
-        setSuggestions([]);
-        return;
+  // Pulse animation for the record button
+  const startPulseAnimation = useCallback(() => {
+    Animated.sequence([
+      Animated.timing(pulseAnim, {
+        toValue: 1.2,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(pulseAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      if (isRecording) {
+        startPulseAnimation();
       }
+    });
+  }, [isRecording, pulseAnim]);
 
-      setIsLoading(true);
-      try {
-        const suggestionTexts = await getSymptomSuggestions(input);
-        const newSuggestions = suggestionTexts.map((text, index) => ({
-          id: `${index}-${text}`,
-          text,
-        }));
-        setSuggestions(newSuggestions);
-      } catch (error) {
-        console.error('Error fetching suggestions:', error);
-        setSuggestions([]);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  useEffect(() => {
+    if (isRecording) {
+      startPulseAnimation();
+    } else {
+      pulseAnim.setValue(1);
+    }
+  }, [isRecording]);
+
+  const handleVoiceInput = () => {
+    setIsRecording(!isRecording);
+    Vibration.vibrate(50);
+  };
+
+  const handleDescriptionChange = (text: string) => {
+    setInputText(text);
+    setShowEmptyState(false);
+  };
+
+  const handleSuggestionPress = (suggestion: Suggestion) => {
+    if (!selectedSymptoms.find(s => s.id === suggestion.id)) {
+      setSelectedSymptoms([...selectedSymptoms, suggestion]);
+      setInputText('');
+      Vibration.vibrate(50);
+    }
+  };
+
+  const removeSymptom = (id: string) => {
+    setSelectedSymptoms(selectedSymptoms.filter(s => s.id !== id));
+    Vibration.vibrate(50);
+  };
+
+  const fetchSuggestions = useCallback(async (input: string) => {
+    if (input.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const suggestionTexts = await getSymptomSuggestions(input);
+      const newSuggestions = suggestionTexts.map((text, index) => ({
+        id: `${index}-${text}`,
+        text,
+      }));
+      setSuggestions(newSuggestions);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
       if (inputText) {
         fetchSuggestions(inputText);
       }
-    }, 500);
+    }, 300); // Faster response time
 
     return () => clearTimeout(debounceTimeout);
   }, [inputText, fetchSuggestions]);
 
-  const handleDescriptionChange = (text: string) => {
-    setInputText(text);
-    onDataChange?.({ description: selectedSymptoms.map(s => s.text).join(', ') + (text ? ', ' + text : '') });
-  };
-
-  const handleSuggestionPress = (suggestion: Suggestion) => {
-    if (!selectedSymptoms.some(s => s.id === suggestion.id)) {
-      const newSymptoms = [...selectedSymptoms, suggestion];
-      setSelectedSymptoms(newSymptoms);
-      setInputText('');
-      onDataChange?.({ description: newSymptoms.map(s => s.text).join(', ') });
-    }
-    setSuggestions([]);
-  };
-
-  const removeSymptom = (symptomId: string) => {
-    const newSymptoms = selectedSymptoms.filter(s => s.id !== symptomId);
-    setSelectedSymptoms(newSymptoms);
-    onDataChange?.({ description: newSymptoms.map(s => s.text).join(', ') });
-  };
-
-  const handleVoiceInput = () => {
-    setIsRecording(!isRecording);
-  };
-
   return (
-    <KeyboardAvoidingView 
-      style={styles.container}
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      style={styles.container}
     >
       <View style={styles.contentContainer}>
         <View style={[styles.inputWrapper, { backgroundColor: colors.card }]}>
-          <View style={styles.tagsContainer}>
-            {selectedSymptoms.map((symptom) => (
-              <View key={symptom.id} style={[styles.tagContainer, { backgroundColor: colors.primary }]}>
-                <Text style={[styles.tagText, { color: colors.textInverted }]}>{symptom.text}</Text>
-                <TouchableOpacity onPress={() => removeSymptom(symptom.id)} style={styles.tagRemoveButton}>
-                  <Icon name="close-circle" size={18} color={colors.textInverted} />
-                </TouchableOpacity>
+          {showEmptyState && selectedSymptoms.length === 0 ? (
+            <TouchableOpacity 
+              style={styles.emptyState}
+              onPress={() => {
+                const input = document.querySelector('input');
+                if (input) input.focus();
+              }}
+            >
+              <Icon name="search-outline" size={32} color={colors.primary} style={styles.emptyStateIcon} />
+              <TextInput
+                style={[styles.searchInput, { color: colors.text }]}
+                value={inputText}
+                onChangeText={handleDescriptionChange}
+                placeholder={t('symptoms.description.searchPlaceholder')}
+                placeholderTextColor={colors.textSecondary}
+                autoFocus
+              />
+            </TouchableOpacity>
+          ) : (
+            <>
+              <View style={styles.tagsContainer}>
+                {selectedSymptoms.map((symptom) => (
+                  <Animated.View 
+                    key={symptom.id} 
+                    style={[
+                      styles.tagWrapper,
+                      {
+                        opacity: new Animated.Value(1),
+                        transform: [{ scale: new Animated.Value(1) }],
+                      }
+                    ]}
+                  >
+                    <LinearGradient
+                      colors={[colors.primary, colors.primary + 'DD']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={styles.tagContainer}
+                    >
+                      <Text style={[styles.tagText, { color: colors.textInverted }]}>{symptom.text}</Text>
+                      <TouchableOpacity 
+                        onPress={() => removeSymptom(symptom.id)} 
+                        style={styles.tagRemoveButton}
+                      >
+                        <Icon name="close-circle" size={18} color={colors.textInverted} />
+                      </TouchableOpacity>
+                    </LinearGradient>
+                  </Animated.View>
+                ))}
               </View>
-            ))}
-          </View>
-          <TextInput
-            style={[styles.input, { color: colors.text }]}
-            value={inputText}
-            onChangeText={handleDescriptionChange}
-            placeholder={selectedSymptoms.length === 0 ? t('symptoms.description.placeholder') : t('symptoms.description.addMore')}
-            placeholderTextColor={colors.textSecondary}
-            multiline
-            textAlignVertical="top"
-            autoCapitalize="sentences"
-            autoCorrect
-            blurOnSubmit={false}
-          />
-          <TouchableOpacity
-            style={[
-              styles.voiceButton,
-              { backgroundColor: isRecording ? colors.primary : colors.border },
-            ]}
-            onPress={handleVoiceInput}
-          >
-            <Icon
-              name={isRecording ? 'mic' : 'mic-outline'}
-              size={24}
-              color={isRecording ? colors.textInverted : colors.text}
-            />
-          </TouchableOpacity>
+              <View style={styles.searchContainer}>
+                <Icon name="search-outline" size={20} color={colors.textSecondary} style={styles.searchIcon} />
+                <TextInput
+                  style={[styles.input, { color: colors.text }]}
+                  value={inputText}
+                  onChangeText={handleDescriptionChange}
+                  placeholder={selectedSymptoms.length === 0 ? t('symptoms.description.searchPlaceholder') : t('symptoms.description.addMore')}
+                  placeholderTextColor={colors.textSecondary}
+                />
+                <Animated.View style={{
+                  transform: [{ scale: pulseAnim }]
+                }}>
+                  <TouchableOpacity
+                    style={[
+                      styles.voiceButton,
+                      { backgroundColor: isRecording ? colors.primary : colors.border },
+                    ]}
+                    onPress={handleVoiceInput}
+                  >
+                    <Icon
+                      name={isRecording ? 'mic' : 'mic-outline'}
+                      size={24}
+                      color={isRecording ? colors.textInverted : colors.text}
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
+              </View>
+            </>
+          )}
         </View>
         
         {suggestions.length > 0 && (
-          <View style={[styles.suggestionsContainer, { backgroundColor: colors.card }]}>
+          <Animated.View 
+            style={[
+              styles.suggestionsContainer,
+              { 
+                backgroundColor: colors.card,
+                opacity: new Animated.Value(1),
+                transform: [{ translateY: new Animated.Value(0) }],
+              }
+            ]}
+          >
             <FlatList
               data={suggestions}
               keyExtractor={(item) => item.id}
@@ -150,6 +229,7 @@ export const SymptomDescriptionStep: React.FC<SymptomDescriptionStepProps> = ({
                   style={[styles.suggestionItem, { borderBottomColor: colors.border }]}
                   onPress={() => handleSuggestionPress(item)}
                 >
+                  <Icon name="add-circle-outline" size={20} color={colors.primary} style={styles.suggestionIcon} />
                   <Text style={[styles.suggestionText, { color: colors.text }]}>
                     {item.text}
                   </Text>
@@ -157,14 +237,23 @@ export const SymptomDescriptionStep: React.FC<SymptomDescriptionStepProps> = ({
               )}
               keyboardShouldPersistTaps="always"
             />
-          </View>
+          </Animated.View>
         )}
         
         {isLoading && (
           <View style={styles.loadingContainer}>
-            <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-              {t('symptoms.description.loading')}
-            </Text>
+            <Animated.View 
+              style={[
+                styles.loadingIndicator,
+                { 
+                  borderColor: colors.primary,
+                  transform: [{ rotate: new Animated.Value(0).interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '360deg'],
+                  }) }],
+                }
+              ]}
+            />
           </View>
         )}
       </View>
@@ -180,25 +269,39 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  headerContainer: {
-    marginBottom: 24,
+  inputWrapper: {
+    borderRadius: 16,
+    padding: 16,
+    minHeight: 150,
+    marginBottom: Platform.OS === 'ios' ? 20 : 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  title: {
-    fontSize: 28,
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  emptyStateIcon: {
+    marginBottom: 16,
+    opacity: 0.9,
+  },
+  emptyStateTitle: {
+    fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
-  subtitle: {
-    fontSize: 16,
+  emptyStateSubtitle: {
+    fontSize: 14,
     textAlign: 'center',
-    marginBottom: 16,
-  },
-  inputWrapper: {
-    borderRadius: 12,
-    padding: 16,
-    minHeight: 150,
-    marginBottom: Platform.OS === 'ios' ? 20 : 0,
+    opacity: 0.7,
   },
   input: {
     flex: 1,
@@ -218,16 +321,58 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingBottom: 8,
+    gap: 8,
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  tagText: {
+    fontSize: 14,
+    marginRight: 4,
+    fontWeight: '500',
+  },
+  tagRemoveButton: {
+    padding: 2,
   },
   suggestionsContainer: {
     maxHeight: 200,
-    borderRadius: 12,
+    borderRadius: 16,
     marginTop: 8,
     overflow: 'hidden',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   suggestionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 12,
     borderBottomWidth: 1,
+  },
+  suggestionIcon: {
+    marginRight: 8,
   },
   suggestionText: {
     fontSize: 16,
@@ -236,27 +381,38 @@ const styles = StyleSheet.create({
     padding: 12,
     alignItems: 'center',
   },
+  loadingIndicator: {
+    width: 20,
+    height: 20,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderRightColor: 'transparent',
+    marginBottom: 8,
+    transform: [{ rotate: '45deg' }],
+  },
   loadingText: {
     fontSize: 14,
   },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingBottom: 8,
+  tagWrapper: {
+    marginVertical: 2,
+    marginHorizontal: 2,
   },
-  tagContainer: {
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 16,
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    margin: 4,
+    paddingVertical: 8,
+    backgroundColor: colors.background,
+    borderRadius: 12,
+    marginTop: 8,
   },
-  tagText: {
-    fontSize: 14,
-    marginRight: 4,
+  searchIcon: {
+    marginRight: 8,
   },
-  tagRemoveButton: {
-    padding: 2,
+  searchInput: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '500',
+    paddingVertical: 8,
   },
 });

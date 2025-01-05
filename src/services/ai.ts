@@ -111,3 +111,48 @@ export const getFollowUpQuestions = async (analysis: string): Promise<string[]> 
   const response = await aiManager.getFollowUpQuestions(analysis);
   return response.data;
 };
+
+export const getAISuggestions = async (
+  input: string,
+  type: 'conditions' | 'allergies' | 'medications' | 'symptoms'
+): Promise<string[]> => {
+  // TODO: Replace with actual AI service call
+  // For now, return mock suggestions
+  const mockSuggestions = {
+    conditions: [
+      'Hypertension',
+      'Diabetes Type 2',
+      'Asthma',
+      'Arthritis',
+      'Migraine',
+    ],
+    allergies: [
+      'Pollen',
+      'Dust',
+      'Penicillin',
+      'Peanuts',
+      'Latex',
+    ],
+    medications: [
+      'Metformin',
+      'Lisinopril',
+      'Omeprazole',
+      'Levothyroxine',
+      'Amlodipine',
+    ],
+    symptoms: [
+      'Headache',
+      'Fever',
+      'Cough',
+      'Fatigue',
+      'Nausea',
+      'Dizziness',
+      'Shortness of breath',
+      'Joint pain',
+    ],
+  };
+
+  return mockSuggestions[type].filter(item =>
+    item.toLowerCase().includes(input.toLowerCase())
+  );
+};

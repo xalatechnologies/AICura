@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Vibration } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
 import Slider from '@react-native-community/slider';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Symptom } from '../../types';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface SymptomDetailsStepProps {
   onDataChange?: (data: any) => void;
@@ -26,9 +28,46 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
   const [severity, setSeverity] = useState(5);
   const [duration, setDuration] = useState<Duration>('constant');
   const [triggers, setTriggers] = useState<Trigger[]>([]);
+  const [sliderAnim] = useState(new Animated.Value(5));
+  const [buttonScales] = useState({
+    onset: new Animated.Value(1),
+    duration: new Animated.Value(1),
+    triggers: new Animated.Value(1),
+  });
 
-  const handleOnsetSelect = (value: Onset) => {
-    setOnset(value);
+  useEffect(() => {
+    Animated.spring(sliderAnim, {
+      toValue: severity,
+      tension: 40,
+      friction: 7,
+      useNativeDriver: true,
+    }).start();
+  }, [severity]);
+
+  const animateButton = (type: keyof typeof buttonScales, value: any) => {
+    Animated.sequence([
+      Animated.timing(buttonScales[type], {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(buttonScales[type], {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    
+    Vibration.vibrate(50);
+
+    switch (type) {
+      case 'onset':
+        setOnset(value as Onset);
+        break;
+      case 'duration':
+        setDuration(value as Duration);
+        break;
+    }
     updateData();
   };
 
@@ -37,12 +76,8 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
     updateData();
   };
 
-  const handleDurationSelect = (value: Duration) => {
-    setDuration(value);
-    updateData();
-  };
-
   const handleTriggerToggle = (trigger: Trigger) => {
+    Vibration.vibrate(50);
     setTriggers(prev => {
       const newTriggers = prev.includes(trigger)
         ? prev.filter(t => t !== trigger)
@@ -66,30 +101,50 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
     }
   };
 
+  const getSeverityColor = (value: number) => {
+    if (value <= 3) return colors.success;
+    if (value <= 6) return colors.warning;
+    return colors.error;
+  };
+
   const renderOnsetOptions = () => {
     const options: Onset[] = ['hours', 'days', 'weeks', 'months'];
     return (
       <View style={styles.optionsContainer}>
         {options.map(option => (
-          <TouchableOpacity
+          <Animated.View
             key={option}
-            style={[
-              styles.optionButton,
-              {
-                backgroundColor: onset === option ? colors.primary : colors.card,
-              },
-            ]}
-            onPress={() => handleOnsetSelect(option)}
+            style={{
+              transform: [{ scale: buttonScales.onset }],
+            }}
           >
-            <Text
+            <TouchableOpacity
               style={[
-                styles.optionText,
-                { color: onset === option ? colors.textInverted : colors.text },
+                styles.optionButton,
+                {
+                  backgroundColor: onset === option ? colors.primary : colors.card,
+                  borderWidth: 1,
+                  borderColor: onset === option ? colors.primary : colors.border,
+                },
               ]}
+              onPress={() => animateButton('onset', option)}
             >
-              {t(`symptoms.onset.${option}`)}
-            </Text>
-          </TouchableOpacity>
+              <Icon
+                name={onset === option ? 'checkmark-circle' : 'radio-button-off'}
+                size={18}
+                color={onset === option ? colors.textInverted : colors.text}
+                style={styles.optionIcon}
+              />
+              <Text
+                style={[
+                  styles.optionText,
+                  { color: onset === option ? colors.textInverted : colors.text },
+                ]}
+              >
+                {t(`symptoms.onset.${option}`)}
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         ))}
       </View>
     );
@@ -100,25 +155,39 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
     return (
       <View style={styles.optionsContainer}>
         {options.map(option => (
-          <TouchableOpacity
+          <Animated.View
             key={option}
-            style={[
-              styles.optionButton,
-              {
-                backgroundColor: duration === option ? colors.primary : colors.card,
-              },
-            ]}
-            onPress={() => handleDurationSelect(option)}
+            style={{
+              transform: [{ scale: buttonScales.duration }],
+            }}
           >
-            <Text
+            <TouchableOpacity
               style={[
-                styles.optionText,
-                { color: duration === option ? colors.textInverted : colors.text },
+                styles.optionButton,
+                {
+                  backgroundColor: duration === option ? colors.primary : colors.card,
+                  borderWidth: 1,
+                  borderColor: duration === option ? colors.primary : colors.border,
+                },
               ]}
+              onPress={() => animateButton('duration', option)}
             >
-              {t(`symptoms.duration.${option}`)}
-            </Text>
-          </TouchableOpacity>
+              <Icon
+                name={duration === option ? 'checkmark-circle' : 'radio-button-off'}
+                size={18}
+                color={duration === option ? colors.textInverted : colors.text}
+                style={styles.optionIcon}
+              />
+              <Text
+                style={[
+                  styles.optionText,
+                  { color: duration === option ? colors.textInverted : colors.text },
+                ]}
+              >
+                {t(`symptoms.duration.${option}`)}
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         ))}
       </View>
     );
@@ -132,13 +201,21 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
           <TouchableOpacity
             key={trigger}
             style={[
-              styles.optionButton,
+              styles.triggerButton,
               {
                 backgroundColor: triggers.includes(trigger) ? colors.primary : colors.card,
+                borderWidth: 1,
+                borderColor: triggers.includes(trigger) ? colors.primary : colors.border,
               },
             ]}
             onPress={() => handleTriggerToggle(trigger)}
           >
+            <Icon
+              name={triggers.includes(trigger) ? 'checkmark-circle' : 'add-circle-outline'}
+              size={18}
+              color={triggers.includes(trigger) ? colors.textInverted : colors.text}
+              style={styles.optionIcon}
+            />
             <Text
               style={[
                 styles.optionText,
@@ -174,17 +251,32 @@ export const SymptomDetailsStep: React.FC<SymptomDetailsStepProps> = ({
             step={1}
             value={severity}
             onValueChange={handleSeverityChange}
-            minimumTrackTintColor={colors.primary}
+            minimumTrackTintColor={getSeverityColor(severity)}
             maximumTrackTintColor={colors.border}
-            thumbTintColor={colors.primary}
+            thumbTintColor={getSeverityColor(severity)}
           />
           <View style={styles.sliderLabels}>
             <Text style={[styles.sliderLabel, { color: colors.textSecondary }]}>
               {t('symptoms.severity.mild')}
             </Text>
-            <Text style={[styles.sliderValue, { color: colors.text }]}>
-              {severity}
-            </Text>
+            <Animated.View
+              style={[
+                styles.severityBadge,
+                {
+                  backgroundColor: getSeverityColor(severity),
+                  transform: [
+                    {
+                      scale: sliderAnim.interpolate({
+                        inputRange: [0, 5, 10],
+                        outputRange: [0.8, 1, 1.2],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Text style={styles.severityValue}>{severity}</Text>
+            </Animated.View>
             <Text style={[styles.sliderLabel, { color: colors.textSecondary }]}>
               {t('symptoms.severity.severe')}
             </Text>
@@ -225,13 +317,26 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginHorizontal: -4,
+    gap: 8,
   },
   optionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-    margin: 4,
+    paddingVertical: 10,
+    borderRadius: 12,
+    minWidth: 100,
+  },
+  triggerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  optionIcon: {
+    marginRight: 8,
   },
   optionText: {
     fontSize: 14,
@@ -253,7 +358,23 @@ const styles = StyleSheet.create({
   sliderLabel: {
     fontSize: 12,
   },
-  sliderValue: {
+  severityBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  severityValue: {
+    color: '#fff',
     fontSize: 18,
     fontWeight: '600',
   },
