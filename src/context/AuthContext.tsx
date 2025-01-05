@@ -25,23 +25,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        setIsLoading(true);
-        // Add delay for splash screen
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
+        // Check language selection first
+        const selectedLanguage = await AsyncStorage.getItem('selectedLanguage');
+        if (!selectedLanguage) {
+          setIsAuthenticated(false);
+          setIsLoading(false);
+          return;
+        }
+
+        // Check auth state
         const session = await supabase.auth.getSession();
         const isAuth = !!session?.data?.session;
         setIsAuthenticated(isAuth);
 
         if (isAuth) {
           await checkOnboardingStatus();
-        }
-
-        // Check language selection
-        const selectedLanguage = await AsyncStorage.getItem('selectedLanguage');
-        if (!selectedLanguage) {
-          // Will redirect to language selection in RootNavigator
-          setIsAuthenticated(false);
         }
       } catch (error) {
         console.error('Error in initializeApp:', error);
@@ -69,20 +67,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       subscription.unsubscribe();
     };
   }, []);
-
-  const checkAuthState = async () => {
-    try {
-      setIsLoading(true);
-      // Check auth state logic here
-      const session = await supabase.auth.getSession();
-      setIsAuthenticated(!!session.data.session);
-    } catch (error) {
-      console.error('Error checking auth state:', error);
-      setIsAuthenticated(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const checkOnboardingStatus = async () => {
     try {

@@ -8,7 +8,7 @@ import ar from './translations/ar.json';
 import en from './translations/en.json';
 import es from './translations/es.json';
 import fa from './translations/fa-AF.json';
-import no from './translations/no.json';
+import nb from './translations/nb.json';
 import ps from './translations/ps.json';
 import ur from './translations/ur.json';
 
@@ -17,7 +17,7 @@ const resources = {
   en: { translation: en },
   es: { translation: es },
   fa: { translation: fa },
-  no: { translation: no },
+  nb: { translation: nb },
   ps: { translation: ps },
   ur: { translation: ur },
 };

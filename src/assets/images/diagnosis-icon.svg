@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="30" fill="#5AB19A" opacity="0.1"/>
+  
+  <!-- Main Icon Group -->
+  <g transform="translate(32, 32) scale(0.8)">
+    <!-- Clipboard -->
+    <rect x="-15" y="-25" width="30" height="40" rx="4" fill="#5AB19A"/>
+    <rect x="-12" y="-22" width="24" height="34" rx="2" fill="white"/>
+    
+    <!-- Clipboard Top -->
+    <rect x="-8" y="-28" width="16" height="6" rx="3" fill="#5AB19A"/>
+    
+    <!-- Lines on clipboard -->
+    <line x1="-8" y1="-15" x2="8" y2="-15" stroke="#5AB19A" stroke-width="2"/>
+    <line x1="-8" y1="-8" x2="8" y2="-8" stroke="#5AB19A" stroke-width="2"/>
+    <line x1="-8" y1="-1" x2="8" y2="-1" stroke="#5AB19A" stroke-width="2"/>
+    
+    <!-- Magnifying Glass -->
+    <circle cx="8" cy="8" r="8" stroke="#5AB19A" stroke-width="3" fill="none"/>
+    <line x1="14" y1="14" x2="20" y2="20" stroke="#5AB19A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

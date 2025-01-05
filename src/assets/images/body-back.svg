@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="500" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Back of Head (A) -->
+  <path id="head-back" d="M120,40 Q150,40 180,40 Q180,10 150,10 Q120,10 120,40" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Back of Neck (1) -->
+  <path id="neck-back" d="M135,40 L165,40 L165,60 L135,60 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Back Torso (13) -->
+  <path id="upper-back" d="M120,60 L180,60 L190,150 L110,150 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="lower-back" d="M110,150 L190,150 L185,220 L115,220 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Arms (2) -->
+  <path id="left-upper-arm-back" d="M110,60 L90,60 L80,120 L100,120 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-upper-arm-back" d="M190,60 L210,60 L220,120 L200,120 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Lower Arms (1) -->
+  <path id="left-lower-arm-back" d="M80,120 L100,120 L95,180 L75,180 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-lower-arm-back" d="M200,120 L220,120 L225,180 L205,180 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Hands Back -->
+  <path id="left-hand-back" d="M75,180 L95,180 L90,200 L70,200 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-hand-back" d="M205,180 L225,180 L230,200 L210,200 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Buttocks (2) -->
+  <path id="left-buttock" d="M115,220 L150,220 L145,270 L110,270 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-buttock" d="M150,220 L185,220 L190,270 L155,270 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Back of Legs (B) -->
+  <path id="left-upper-leg-back" d="M110,270 L145,270 L140,350 L105,350 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-upper-leg-back" d="M155,270 L190,270 L195,350 L160,350 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Lower Legs Back (C) -->
+  <path id="left-lower-leg-back" d="M105,350 L140,350 L135,400 L100,400 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-lower-leg-back" d="M160,350 L195,350 L200,400 L165,400 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Feet Back -->
+  <path id="left-foot-back" d="M100,400 L135,400 L140,420 L95,420 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <path id="right-foot-back" d="M165,400 L200,400 L205,420 L160,420 Z" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+</svg>

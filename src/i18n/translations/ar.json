@@ -167,7 +167,33 @@
   "journal": {
     "title": "السجل الطبي",
     "newEntry": "إدخال جديد",
-    "symptoms": "الأعراض",
+    "symptoms": {
+      "bodyMap": {
+        "frontView": "منظر أمامي",
+        "backView": "منظر خلفي",
+        "commonSymptoms": "الأعراض الشائعة",
+        "bodyParts": {
+          "head": "الرأس",
+          "neck": "الرقبة",
+          "chest": "الصدر",
+          "abdomen": "البطن",
+          "leftUpperArm": "الذراع العلوي الأيسر",
+          "rightUpperArm": "الذراع العلوي الأيمن",
+          "leftLowerArm": "الذراع السفلي الأيسر",
+          "rightLowerArm": "الذراع السفلي الأيمن",
+          "leftUpperLeg": "الفخذ الأيسر",
+          "rightUpperLeg": "الفخذ الأيمن",
+          "leftLowerLeg": "الساق اليسرى",
+          "rightLowerLeg": "الساق اليمنى",
+          "headBack": "مؤخرة الرأس",
+          "neckBack": "مؤخرة الرقبة",
+          "upperBack": "أعلى الظهر",
+          "lowerBack": "أسفل الظهر",
+          "leftButtock": "الألية اليسرى",
+          "rightButtock": "الألية اليمنى"
+        }
+      }
+    },
     "medications": "الأدوية",
     "mood": "المزاج",
     "notes": "الملاحظات",

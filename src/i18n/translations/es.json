@@ -330,15 +330,15 @@
       },
       "context": {
         "title": "Factores Contextuales",
-        "description": "Información sobre su estilo de vida y entorno"
+        "description": "Ayúdenos a entender su entorno y estilo de vida"
       },
       "complications": {
         "title": "Complicaciones",
-        "description": "Síntomas adicionales o preocupaciones"
+        "description": "Síntomas adicionales o complicaciones"
       },
       "summary": {
         "title": "Resumen",
-        "description": "Revise la información proporcionada"
+        "description": "Revise su informe de síntomas"
       }
     },
     "bodyPart": {
@@ -380,6 +380,31 @@
       "medication": "Medicación",
       "position": "Cambio de Posición",
       "other": "Otros"
+    },
+    "bodyMap": {
+      "frontView": "Vista Frontal",
+      "backView": "Vista Posterior",
+      "commonSymptoms": "Síntomas comunes",
+      "bodyParts": {
+        "head": "Cabeza",
+        "neck": "Cuello",
+        "chest": "Pecho",
+        "abdomen": "Abdomen",
+        "leftUpperArm": "Brazo Superior Izquierdo",
+        "rightUpperArm": "Brazo Superior Derecho",
+        "leftLowerArm": "Antebrazo Izquierdo",
+        "rightLowerArm": "Antebrazo Derecho",
+        "leftUpperLeg": "Muslo Izquierdo",
+        "rightUpperLeg": "Muslo Derecho",
+        "leftLowerLeg": "Pierna Izquierda",
+        "rightLowerLeg": "Pierna Derecha",
+        "headBack": "Parte Posterior de la Cabeza",
+        "neckBack": "Parte Posterior del Cuello",
+        "upperBack": "Espalda Superior",
+        "lowerBack": "Espalda Inferior",
+        "leftButtock": "Glúteo Izquierdo",
+        "rightButtock": "Glúteo Derecho"
+      }
     }
   },
   "splash": {

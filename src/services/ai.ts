@@ -1,5 +1,59 @@
-import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '@env';
+import { OpenAIService } from './ai/openai.service';
+import { AIResponse, OpenAIModel } from './ai/types';
+
+const DEFAULT_MODEL: OpenAIModel = 'gpt-4';
+
+class AIServiceManager {
+  private service: OpenAIService;
+  private currentModel: OpenAIModel;
+
+  constructor() {
+    this.currentModel = DEFAULT_MODEL;
+    this.service = new OpenAIService({
+      apiKey: OPENAI_API_KEY,
+      model: this.currentModel,
+      maxTokens: 150,
+      temperature: 0.7,
+    });
+  }
+
+  setModel(model: OpenAIModel) {
+    this.currentModel = model;
+    this.service = new OpenAIService({
+      apiKey: OPENAI_API_KEY,
+      model: this.currentModel,
+      maxTokens: 150,
+      temperature: 0.7,
+    });
+  }
+
+  getCurrentModel(): OpenAIModel {
+    return this.currentModel;
+  }
+
+  getAvailableModels(): OpenAIModel[] {
+    return this.service.getAvailableModels();
+  }
+
+  getModelConfig(model: OpenAIModel) {
+    return this.service.getModelConfig(model);
+  }
+
+  async analyzeSymptoms(userMessage: string): Promise<AIResponse<string[]>> {
+    return this.service.analyzeSymptoms(userMessage);
+  }
+
+  async getSymptomSuggestions(partialSymptom: string): Promise<AIResponse<string[]>> {
+    return this.service.generateSuggestions(partialSymptom);
+  }
+
+  async getFollowUpQuestions(analysis: string): Promise<AIResponse<string[]>> {
+    return this.service.getFollowUpQuestions(analysis);
+  }
+}
+
+const aiManager = new AIServiceManager();
 
 const SYSTEM_PROMPT = `You are an AI medical assistant designed to help users analyze their symptoms. Follow these guidelines:
 
@@ -34,74 +88,26 @@ Remember to:
 - Emphasize when emergency care is needed
 - Maintain appropriate medical disclaimers`;
 
-const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-});
+// Public API
+export const setAIModel = (model: OpenAIModel) => aiManager.setModel(model);
+export const getCurrentModel = () => aiManager.getCurrentModel();
+export const getAvailableModels = () => aiManager.getAvailableModels();
+export const getModelConfig = (model: OpenAIModel) => aiManager.getModelConfig(model);
 
-export const analyzeSymptoms = async (userMessage: string): Promise<string> => {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userMessage }
-      ],
-      max_tokens: 1000,
-      temperature: 0.7,
-    });
-
-    return completion.choices[0]?.message?.content || 'Unable to analyze symptoms.';
-  } catch (error) {
-    console.error('Error analyzing symptoms:', error);
-    throw error;
+export const analyzeSymptoms = async (userMessage: string): Promise<string[]> => {
+  const response = await aiManager.analyzeSymptoms(userMessage);
+  if (response.error) {
+    throw new Error(response.error);
   }
+  return response.data;
 };
 
-export const getSuggestions = async (analysis: string): Promise<string[]> => {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        { role: 'system', content: 'Based on the symptom analysis, suggest relevant follow-up questions or additional symptoms to consider.' },
-        { role: 'user', content: analysis }
-      ],
-      max_tokens: 500,
-      temperature: 0.7,
-    });
-
-    const suggestions = completion.choices[0]?.message?.content || '';
-    return suggestions.split('\n').filter((s: string) => s.trim().length > 0);
-  } catch (error) {
-    console.error('Error getting suggestions:', error);
-    return [];
-  }
+export const getSymptomSuggestions = async (partialSymptom: string): Promise<string[]> => {
+  const response = await aiManager.getSymptomSuggestions(partialSymptom);
+  return response.data;
 };
 
-export const getFollowUpQuestion = async (analysis: string): Promise<{ question: string; options: string[] } | null> => {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        { role: 'system', content: 'Generate a follow-up question with multiple choice options based on the symptom analysis.' },
-        { role: 'user', content: analysis }
-      ],
-      max_tokens: 300,
-      temperature: 0.7,
-    });
-
-    const response = completion.choices[0]?.message?.content;
-    if (!response) return null;
-
-    // Parse the response into question and options
-    const [question, ...options] = response.split('\n').filter((s: string) => s.trim().length > 0);
-    return {
-      question,
-      options: options.map((opt: string) => opt.replace(/^[•\-*]\s*/, '').trim())
-    };
-  } catch (error) {
-    console.error('Error getting follow-up question:', error);
-    return null;
-  }
+export const getFollowUpQuestions = async (analysis: string): Promise<string[]> => {
+  const response = await aiManager.getFollowUpQuestions(analysis);
+  return response.data;
 };
-

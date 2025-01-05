@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Header } from '@/components/shared/Header';
 import { Wizard, WizardStep } from '@/components/shared/Wizard';
 import {
-  SymptomLocationStep,
+  SymptomDescriptionStep,
   SymptomDetailsStep,
   MedicalHistoryStep,
   ContextualFactorsStep,
@@ -33,12 +33,12 @@ export const SymptomsScreen = () => {
 
   const steps: WizardStep[] = [
     {
-      key: 'location',
-      title: t('symptoms.steps.location.title'),
-      description: t('symptoms.steps.location.description'),
-      icon: 'body-outline',
-      component: <SymptomLocationStep />,
-      validate: () => true, // Add proper validation
+      key: 'description',
+      title: t('symptoms.description.title'),
+      description: t('symptoms.description.subtitle'),
+      icon: 'chatbox-outline',
+      component: <SymptomDescriptionStep />,
+      validate: () => true,
     },
     {
       key: 'details',

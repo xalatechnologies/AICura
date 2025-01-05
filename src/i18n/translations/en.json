@@ -317,6 +317,10 @@
   },
   "symptoms": {
     "steps": {
+      "description": {
+        "title": "Describe Your Symptoms",
+        "description": "Tell us what's bothering you"
+      },
       "location": {
         "title": "Symptom Location",
         "description": "Select the affected body part and describe your symptoms"
@@ -380,6 +384,39 @@
       "title": "Additional Symptoms",
       "namePlaceholder": "Enter symptom name",
       "descriptionPlaceholder": "Describe the symptom (optional)"
+    },
+    "description": {
+      "title": "What's Bothering You?",
+      "subtitle": "Describe your symptoms in detail. The more information you provide, the better we can help.",
+      "placeholder": "Example: I've been experiencing a dull headache for the past 2 days, mainly in the front of my head. It gets worse when I look at screens for too long...",
+      "voicePrompt": "Tap to start voice input",
+      "voiceRecording": "Listening...",
+      "suggestions": "Suggestions based on your description:"
+    },
+    "bodyMap": {
+      "frontView": "Front View",
+      "backView": "Back View",
+      "commonSymptoms": "Common symptoms",
+      "bodyParts": {
+        "head": "Head",
+        "neck": "Neck",
+        "chest": "Chest",
+        "abdomen": "Abdomen",
+        "leftUpperArm": "Left Upper Arm",
+        "rightUpperArm": "Right Upper Arm",
+        "leftLowerArm": "Left Lower Arm",
+        "rightLowerArm": "Right Lower Arm",
+        "leftUpperLeg": "Left Thigh",
+        "rightUpperLeg": "Right Thigh",
+        "leftLowerLeg": "Left Lower Leg",
+        "rightLowerLeg": "Right Lower Leg",
+        "headBack": "Back of Head",
+        "neckBack": "Back of Neck",
+        "upperBack": "Upper Back",
+        "lowerBack": "Lower Back",
+        "leftButtock": "Left Buttock",
+        "rightButtock": "Right Buttock"
+      }
     }
   },
   "splash": {

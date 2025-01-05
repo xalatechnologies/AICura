@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="30" fill="#5AB19A" opacity="0.1"/>
+  
+  <!-- Main Icon Group -->
+  <g transform="translate(32, 32) scale(0.8)">
+    <!-- Medicine Bottle -->
+    <path d="M-12,-25 h24 v10 h-24 z" fill="#5AB19A"/>
+    <rect x="-15" y="-15" width="30" height="40" rx="4" fill="#5AB19A"/>
+    
+    <!-- Label -->
+    <rect x="-12" y="-8" width="24" height="16" rx="2" fill="white"/>
+    
+    <!-- Cross on Label -->
+    <g transform="translate(0, 0) scale(0.5)">
+      <rect x="-4" y="-12" width="8" height="24" rx="2" fill="#5AB19A"/>
+      <rect x="-12" y="-4" width="24" height="8" rx="2" fill="#5AB19A"/>
+    </g>
+    
+    <!-- Pills -->
+    <circle cx="-8" cy="-20" r="3" fill="white"/>
+    <circle cx="8" cy="-20" r="3" fill="white"/>
+  </g>
+</svg>

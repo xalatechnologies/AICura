@@ -22,6 +22,55 @@
     "info": "Informasjon",
     "tagline": "Fremtidens AI-lege i din hånd"
   },
+  "onboarding": {
+    "steps": {
+      "welcome": {
+        "title": "Velkommen til HealthcareApp",
+        "description": "Din personlige helsepartner for bedre liv"
+      },
+      "userDetails": {
+        "title": "Personlig Informasjon",
+        "description": "Fortell oss litt om deg selv"
+      },
+      "medicalHistory": {
+        "title": "Medisinsk Historie",
+        "description": "Hjelp oss å forstå din helsebakgrunn"
+      },
+      "lifestyle": {
+        "title": "Livsstil",
+        "description": "La oss forstå dine daglige vaner"
+      },
+      "review": {
+        "title": "Gjennomgang",
+        "description": "Vennligst gjennomgå informasjonen din"
+      }
+    },
+    "userDetails": {
+      "name": "Fullt Navn",
+      "namePlaceholder": "Skriv inn fullt navn",
+      "age": "Alder",
+      "agePlaceholder": "Skriv inn alder",
+      "gender": "Kjønn",
+      "genders": {
+        "male": "Mann",
+        "female": "Kvinne",
+        "other": "Annet"
+      }
+    },
+    "medicalHistory": {
+      "medications": {
+        "title": "Medisiner",
+        "placeholder": "Skriv inn medisinnavn",
+        "dosage": "Skriv inn dosering",
+        "add": "Legg til Medisin",
+        "frequencies": {
+          "daily": "Daglig",
+          "weekly": "Ukentlig",
+          "asNeeded": "Ved behov"
+        }
+      }
+    }
+  },
   "auth": {
     "welcome": {
       "title": "Velkommen til AICura™",
@@ -127,5 +176,38 @@
     "time": "Tid",
     "save": "Lagre",
     "delete": "Slett"
+  },
+  "symptoms": {
+    "bodyMap": {
+      "frontView": "Forfra",
+      "backView": "Bakfra",
+      "commonSymptoms": "Vanlige symptomer",
+      "bodyParts": {
+        "head": "Hode",
+        "neck": "Nakke",
+        "chest": "Bryst",
+        "abdomen": "Mage",
+        "leftUpperArm": "Venstre overarm",
+        "rightUpperArm": "Høyre overarm",
+        "leftLowerArm": "Venstre underarm",
+        "rightLowerArm": "Høyre underarm",
+        "leftUpperLeg": "Venstre lår",
+        "rightUpperLeg": "Høyre lår",
+        "leftLowerLeg": "Venstre legg",
+        "rightLowerLeg": "Høyre legg",
+        "headBack": "Bakhode",
+        "neckBack": "Nakke bak",
+        "upperBack": "Øvre rygg",
+        "lowerBack": "Nedre rygg",
+        "leftButtock": "Venstre sete",
+        "rightButtock": "Høyre sete"
+      }
+    },
+    "steps": {
+      "location": {
+        "title": "Symptomsted",
+        "description": "Velg berørt kroppsdel og beskriv symptomene dine"
+      }
+    }
   }
-} 
+}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Animated,
+  PanResponder,
+  Dimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/theme/ThemeContext';
@@ -46,6 +48,40 @@ export const Wizard: React.FC<WizardProps> = ({
   const [slideAnim] = useState(new Animated.Value(0));
   const [fadeAnim] = useState(new Animated.Value(1));
   const [buttonScale] = useState(new Animated.Value(1));
+  const screenWidth = Dimensions.get('window').width;
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: (_, gestureState) => {
+          const { dx, dy } = gestureState;
+          return Math.abs(dx) > Math.abs(dy * 2);
+        },
+        onPanResponderMove: (_, gestureState) => {
+          const { dx } = gestureState;
+          slideAnim.setValue(dx / screenWidth);
+        },
+        onPanResponderRelease: (_, gestureState) => {
+          const { dx, vx } = gestureState;
+          const isSwipeLeft = dx < -screenWidth * 0.2 || vx < -0.5;
+          const isSwipeRight = dx > screenWidth * 0.2 || vx > 0.5;
+
+          if (isSwipeLeft && currentStep < steps.length - 1) {
+            handleStepChange(currentStep + 1);
+          } else if (isSwipeRight && currentStep > 0) {
+            handleStepChange(currentStep - 1);
+          } else {
+            // Reset position if swipe wasn't far enough
+            Animated.spring(slideAnim, {
+              toValue: 0,
+              useNativeDriver: true,
+            }).start();
+          }
+        },
+      }),
+    [currentStep, steps.length]
+  );
 
   const animateTransition = useCallback((forward: boolean) => {
     Animated.sequence([
@@ -138,6 +174,7 @@ export const Wizard: React.FC<WizardProps> = ({
       </View>
 
       <Animated.View 
+        {...panResponder.panHandlers}
         style={[
           styles.content,
           {
@@ -208,7 +245,7 @@ export const Wizard: React.FC<WizardProps> = ({
             disabled={loading || !validateStep()}
           >
             <Text style={styles.buttonText}>
-              {currentStep === steps.length - 1 
+              {currentStep === steps.length - 1
                 ? t('common.finish')
                 : t('common.next')
               }
