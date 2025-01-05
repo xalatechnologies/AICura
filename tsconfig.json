@@ -1,32 +1,36 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
+    "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@features/*": ["src/features/*"],
-      "@symptoms/*": ["src/features/symptoms/*"],
-      "@symptoms/components/*": ["src/features/symptoms/components/*"],
-      "@symptoms/hooks/*": ["src/features/symptoms/hooks/*"],
-      "@symptoms/types/*": ["src/features/symptoms/types/*"],
-      "@symptoms/constants/*": ["src/features/symptoms/constants/*"],
-      "@home/*": ["src/features/home/*"],
-      "@home/components/*": ["src/features/home/components/*"],
-      "@home/hooks/*": ["src/features/home/hooks/*"],
-      "@home/types/*": ["src/features/home/types/*"],
-      "@home/screens/*": ["src/features/home/screens/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@screens/*": ["src/screens/*"],
-      "@theme/*": ["src/theme/*"],
-      "@services/*": ["src/services/*"],
-      "@utils/*": ["src/utils/*"],
-      "@assets/*": ["src/assets/*"],
-      "@lib/*": ["src/lib/*"],
-      "@i18n/*": ["src/i18n/*"],
-      "@styles/*": ["src/styles/*"],
-      "@context/*": ["src/context/*"],
-      "@navigation/*": ["src/navigation/*"]
-    }
-  }
+      "@/*": ["src/*"]
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "react-native",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*",
+    "index.tsx",
+    "App.tsx",
+    "src/index.web.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }

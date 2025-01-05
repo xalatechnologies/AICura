@@ -3,10 +3,24 @@ module.exports = function(api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      'react-native-reanimated/plugin',
       [
         'module-resolver',
         {
           root: ['./src'],
+          extensions: [
+            '.ios.ts',
+            '.android.ts',
+            '.web.ts',
+            '.ts',
+            '.ios.tsx',
+            '.android.tsx',
+            '.web.tsx',
+            '.tsx',
+            '.jsx',
+            '.js',
+            '.json',
+          ],
           alias: {
             '@': './src',
             '@components': './src/components',
@@ -27,8 +41,8 @@ module.exports = function(api) {
             '@styles': './src/styles',
             '@context': './src/context',
             '@navigation': './src/navigation'
-          }
-        }
+          },
+        },
       ],
       [
         'module:react-native-dotenv',
